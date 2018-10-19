@@ -1,10 +1,10 @@
 import java.util.List;
 
-public class Kunde {
+public abstract class Kunde {
 
     private List<Konto> konto;
 
-    private Kunde(Kunde... konto) {
+    private Kunde(Konto... konto) {
 	this.konto.addAll(konto);
     }
 }

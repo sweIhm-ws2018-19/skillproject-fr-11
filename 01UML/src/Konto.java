@@ -9,11 +9,11 @@ public class Konto {
 	this.zeichnungsberechtigter.addAll(zeichnungsberechtigter);
     }
 
-    public Geldbetrag saldo(){
+    public GeldBetrag saldo(){
 
     }
 
-    public void einzahlen(Geldbetrag eingBetrag){
+    public void einzahlen(GeldBetrag eingBetrag){
 
     }
 
