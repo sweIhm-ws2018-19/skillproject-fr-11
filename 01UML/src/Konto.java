@@ -6,7 +6,7 @@ public class Konto {
     private List<Kunde> zeichnungsberechtigter;
 
     private Konto(Kunde... zeichnungsberechtigter) throws IllegalArgumentException {
-        if(zeichnungsberechtigter.length < 1) {
+        if(zeichnungsberechtigter == null || zeichnungsberechtigter.length < 1) {
             throw new IllegalArgumentException("at least one zeichnungsberechtigter has to be supplied");
         }
 	    this.zeichnungsberechtigter.addAll(zeichnungsberechtigter);
