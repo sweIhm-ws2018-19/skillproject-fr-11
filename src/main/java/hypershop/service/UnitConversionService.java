@@ -25,7 +25,7 @@ public class UnitConversionService {
         return null;
     }
 
-    public Unit getINtelligentUnit(Unit unit, int amount){
+    public Unit getIntelligentUnit(Unit unit, int amount){
         return null;
     }
 

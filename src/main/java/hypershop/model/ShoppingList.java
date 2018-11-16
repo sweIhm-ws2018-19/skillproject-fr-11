@@ -6,6 +6,7 @@ import java.util.Set;
 public class ShoppingList {
 
     private Set<IngredientAmount> ingredients;
+    private List<Recipe> recipes;
 
     public List<Recipe> getRecipes() {
         return recipes;
@@ -14,8 +15,6 @@ public class ShoppingList {
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
-
-    private List<Recipe> recipes;
 
     public Set<IngredientAmount> getIngredients() {
         return ingredients;
