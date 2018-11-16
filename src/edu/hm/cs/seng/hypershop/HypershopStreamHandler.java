@@ -11,37 +11,35 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package main.java.colorpicker;
+package edu.hm.cs.seng.hypershop;
 
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
-import main.java.colorpicker.handlers.FallbackIntentHandler;
-import main.java.colorpicker.handlers.HelpIntentHandler;
-import main.java.colorpicker.handlers.LaunchRequestHandler;
-import main.java.colorpicker.handlers.SessionEndedRequestHandler;
-import main.java.colorpicker.handlers.WhatsMyColorIntentHandler;
-import main.java.colorpicker.handlers.CancelandStopIntentHandler;
-import main.java.colorpicker.handlers.MyColorIsIntentHandler;
+import edu.hm.cs.seng.hypershop.handlers.HelpIntentHandler;
+import edu.hm.cs.seng.hypershop.handlers.FallbackIntentHandler;
+import edu.hm.cs.seng.hypershop.handlers.LaunchRequestHandler;
+import edu.hm.cs.seng.hypershop.handlers.SessionEndedRequestHandler;
+import edu.hm.cs.seng.hypershop.handlers.CancelandStopIntentHandler;
+import edu.hm.cs.seng.hypershop.handlers.AddIngredientIntentHandler;
 
-public class ColorPickerStreamHandler extends SkillStreamHandler {
+@SuppressWarnings("unused")
+public class HypershopStreamHandler extends SkillStreamHandler {
 
     private static Skill getSkill() {
         return Skills.standard()
                 .addRequestHandlers(
-                        new WhatsMyColorIntentHandler(),
-                        new MyColorIsIntentHandler(),
+                        new AddIngredientIntentHandler(),
                         new LaunchRequestHandler(),
                         new CancelandStopIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new HelpIntentHandler(),
                         new FallbackIntentHandler())
-                // Add your skill id below
-                //.withSkillId("")
+                .withSkillId("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85")
                 .build();
     }
 
-    public ColorPickerStreamHandler() {
+    public HypershopStreamHandler() {
         super(getSkill());
     }
 
