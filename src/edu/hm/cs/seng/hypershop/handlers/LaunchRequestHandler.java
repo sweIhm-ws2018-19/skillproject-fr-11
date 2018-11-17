@@ -17,10 +17,12 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
+import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.requestType;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LAUNCH_TEXT;
 
 public class LaunchRequestHandler implements RequestHandler {
     @Override
@@ -30,8 +32,8 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "Willkommen bei Hypershop.";
-        String repromptText = "Was willst du tun?";
+        String speechText = LAUNCH_TEXT;
+        String repromptText = SpeechTextConstants.LAUNCH_REPROMPT;
         return input.getResponseBuilder()
                 .withSimpleCard("HypershopSession", speechText)
                 .withSpeech(speechText)

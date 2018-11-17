@@ -15,11 +15,7 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.Intent;
-import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.Request;
-import com.amazon.ask.model.Response;
-import com.amazon.ask.model.Slot;
+import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 
@@ -28,6 +24,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.Constants.SESSION_KEY_TEST;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
     @Override
@@ -51,14 +49,14 @@ public class AddIngredientIntentHandler implements RequestHandler {
         if (ingredientSlot != null) {
             final String ingredient = ingredientSlot.getValue();
 
-            input.getAttributesManager().setSessionAttributes(Collections.singletonMap(Constants.SESSION_KEY_TEST, ingredient));
+            input.getAttributesManager().setSessionAttributes(Collections.singletonMap(SESSION_KEY_TEST, ingredient));
 
-            speechText = String.format("%s wurde zu deiner Einkaufsliste hinzugefügt.", ingredient);
+            speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
 
         } else {
-            speechText = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
+            speechText = INGREDIENTS_ADD_ERROR;
             responseBuilder.withShouldEndSession(false)
-                    .withReprompt("Test");
+                    .withReprompt(INGREDIENTS_ADD_REPROMPT);
         }
 
         responseBuilder.withSimpleCard("HypershopSession", speechText)
