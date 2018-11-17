@@ -11,15 +11,17 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package main.java.colorpicker.handlers;
+package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
+import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.HELP_TEXT;
 
 public class HelpIntentHandler implements RequestHandler {
     @Override
@@ -29,10 +31,10 @@ public class HelpIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "Du kannst mir Deine Lieblingsfarbe sagen. Sage zum Beispiel, meine Lieblingsfarbe ist rot.";
-        String repromptText = "Bitte sage mir Deine Lieblingsfarbe.";
+        String speechText = HELP_TEXT;
+        String repromptText = SpeechTextConstants.HELP_REPROMPT;
         return input.getResponseBuilder()
-                .withSimpleCard("ColorSession", speechText)
+                .withSimpleCard("HypershopSession", speechText)
                 .withSpeech(speechText)
                 .withReprompt(repromptText)
                 .withShouldEndSession(false)

@@ -11,7 +11,7 @@
      the specific language governing permissions and limitations under the License.
 */
 
-package main.java.colorpicker.handlers;
+package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
@@ -20,6 +20,7 @@ import com.amazon.ask.model.Response;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.STOP_TEXT;
 
 public class CancelandStopIntentHandler implements RequestHandler {
     @Override
@@ -30,8 +31,8 @@ public class CancelandStopIntentHandler implements RequestHandler {
     @Override
     public Optional<Response> handle(HandlerInput input) {
         return input.getResponseBuilder()
-                .withSpeech("Auf Wiedersehen")
-                .withSimpleCard("ColorSession", "Auf Wiedersehen")
+                .withSpeech(STOP_TEXT)
+                .withSimpleCard("HypershopSession", STOP_TEXT)
                 .build();
     }
 }

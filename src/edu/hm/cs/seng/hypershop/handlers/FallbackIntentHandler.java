@@ -1,4 +1,4 @@
-package main.java.colorpicker.handlers;
+package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
@@ -7,6 +7,7 @@ import com.amazon.ask.model.Response;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.FALLBACK_TEXT;
 
 // 2018-July-09: AMAZON.FallackIntent is only currently available in en-US locale.
 //              This handler will not be triggered except in that locale, so it can be
@@ -20,10 +21,10 @@ public class FallbackIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "Tut mir leid, das weiss ich nicht. Sage einfach Hilfe.";
+        String speechText = FALLBACK_TEXT;
         return input.getResponseBuilder()
                 .withSpeech(speechText)
-                .withSimpleCard("ColorSession", speechText)
+                .withSimpleCard("HypershopSession", speechText)
                 .withReprompt(speechText)
                 .build();
     }

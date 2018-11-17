@@ -1,31 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>alexa-skills-kit-samples</groupId>
-  <artifactId>colorpicker</artifactId>
+  <groupId>edu.hm.cs.seng</groupId>
+  <artifactId>hypershop</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
-  <name>colorpicker</name>
-  <url>http://developer.amazon.com/ask</url>
-  <licenses>
-    <license>
-      <name>The Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
+  <version>0.1</version>
+  <name>hypershop</name>
   <developers>
     <developer>
-      <name>Alexa Skills Kit</name>
-      <email>ask-sdk-java@amazon.com</email>
-      <organization>Alexa</organization>
-      <organizationUrl>http://developer.amazon.com/ask</organizationUrl>
+      <name>Fr-11</name>
     </developer>
   </developers>
-  <scm>
-    <connection>scm:git:https://github.com/amzn/alexa-skills-kit-java.git</connection>
-    <developerConnection>scm:git:https://github.com/amzn/alexa-skills-kit-java.git</developerConnection>
-    <url>https://github.com/amzn/alexa-skills-kit-java.git</url>
-  </scm>
 
   <dependencies>
     <dependency>
@@ -34,6 +19,8 @@
       <version>2.5.5</version>
     </dependency>
   </dependencies>
+
+  <!--build release with: "mvn assembly:assembly -DdescriptorId=jar-with-dependencies package"-->
 
   <build>
     <sourceDirectory>src</sourceDirectory>
