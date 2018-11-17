@@ -1,4 +1,4 @@
-package main.java.hypershop.model;
+package edu.hm.cs.seng.hypershop.model;
 
 import java.util.List;
 import java.util.Set;

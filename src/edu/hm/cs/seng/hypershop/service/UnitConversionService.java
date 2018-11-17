@@ -1,7 +1,7 @@
-package main.java.hypershop.service;
+package edu.hm.cs.seng.hypershop.service;
 
-import main.java.hypershop.model.IngredientAmount;
-import main.java.hypershop.model.Unit;
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Unit;
 
 public class UnitConversionService {
 

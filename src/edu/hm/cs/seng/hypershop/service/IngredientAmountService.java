@@ -1,7 +1,7 @@
-package main.java.hypershop.service;
+package edu.hm.cs.seng.hypershop.service;
 
-import main.java.hypershop.model.IngredientAmount;
-import main.java.hypershop.model.Recipe;
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

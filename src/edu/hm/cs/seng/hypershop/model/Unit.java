@@ -1,4 +1,4 @@
-package main.java.hypershop.model;
+package edu.hm.cs.seng.hypershop.model;
 
 public class Unit {
 
