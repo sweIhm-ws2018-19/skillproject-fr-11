@@ -16,12 +16,7 @@ package edu.hm.cs.seng.hypershop;
 import com.amazon.ask.Skill;
 import com.amazon.ask.SkillStreamHandler;
 import com.amazon.ask.Skills;
-import edu.hm.cs.seng.hypershop.handlers.HelpIntentHandler;
-import edu.hm.cs.seng.hypershop.handlers.FallbackIntentHandler;
-import edu.hm.cs.seng.hypershop.handlers.LaunchRequestHandler;
-import edu.hm.cs.seng.hypershop.handlers.SessionEndedRequestHandler;
-import edu.hm.cs.seng.hypershop.handlers.CancelandStopIntentHandler;
-import edu.hm.cs.seng.hypershop.handlers.AddIngredientIntentHandler;
+import edu.hm.cs.seng.hypershop.handlers.*;
 
 @SuppressWarnings("unused")
 public class HypershopStreamHandler extends SkillStreamHandler {
