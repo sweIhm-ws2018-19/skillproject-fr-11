@@ -1,4 +1,9 @@
-﻿# Alexa Skills Kit SDK Sample - Color Picker - Lieblingsfarbe (deutsche Übersetzung)
+﻿# Hypershop
+
+## Travis CI Setup
+Die `pom.xml` Datei wurde so konfiguriert, dass das Testverzeichnis und das Quellcodeverzeichnis gefunden wird und alle Tests automatisch mit dem goal `test` ausgeführt wreden können. Es wurde eine neue Datei `.travis.yml` angelegt, welche einen Befehl enthält um das gesamte Projekt zu testen und zu kompilieren. Dies wird durch das Maven goal `assembly` erreicht.
+
+# Alexa Skills Kit SDK Sample - Color Picker - Lieblingsfarbe (deutsche Übersetzung)
 A simple [AWS Lambda](http://aws.amazon.com/lambda) function that demonstrates how to write a color picker skill for the Amazon Echo using the Alexa SDK.
 
 ## Concepts
