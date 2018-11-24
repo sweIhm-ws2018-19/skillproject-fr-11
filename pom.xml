@@ -24,6 +24,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+            <version>5.0.0-RC1</version>
+        </dependency>
     </dependencies>
 
     <!--build release with: "mvn assembly:assembly -DdescriptorId=jar-with-dependencies package"-->

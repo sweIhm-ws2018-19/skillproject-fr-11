@@ -6,4 +6,5 @@ public class Constants {
     public static final String SLOT_INGREDIENT = "ingredient";
 
     public static final String SESSION_KEY_TEST = "test";
+    public static final String KEY_SHOPPING_LIST = "shopping_list";
 }

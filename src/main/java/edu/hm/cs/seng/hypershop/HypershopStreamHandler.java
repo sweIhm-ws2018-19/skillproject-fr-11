@@ -25,11 +25,13 @@ public class HypershopStreamHandler extends SkillStreamHandler {
         return Skills.standard()
                 .addRequestHandlers(
                         new AddIngredientIntentHandler(),
+                        new ListIngredientsIntentHandler(),
                         new LaunchRequestHandler(),
                         new CancelandStopIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new HelpIntentHandler(),
                         new FallbackIntentHandler())
+                .withTableName("hypershopData")
                 .withSkillId("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85")
                 .build();
     }

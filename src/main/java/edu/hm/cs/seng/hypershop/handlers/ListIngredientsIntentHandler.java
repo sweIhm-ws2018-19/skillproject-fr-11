@@ -22,53 +22,36 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.Constants.SESSION_KEY_TEST;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
-public class AddIngredientIntentHandler implements RequestHandler {
+public class ListIngredientsIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AddIngredientIntent"));
+        return input.matches(intentName("ListIngredientsIntent"));
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        final Request request = input.getRequestEnvelope().getRequest();
-        final IntentRequest intentRequest = (IntentRequest) request;
-        final Intent intent = intentRequest.getIntent();
-        final Map<String, Slot> slots = intent.getSlots();
+        final AttributesManager attributesManager = input.getAttributesManager();
+        final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
-        final Slot ingredientSlot = slots.get(Constants.SLOT_INGREDIENT);
+        final ShoppingList shoppingList = ShoppingList.fromBinary(pam.get(Constants.KEY_SHOPPING_LIST));
 
-        final String speechText;
+        final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste: ", shoppingList.getIngredients().size()));
+        for(IngredientAmount ia : shoppingList.getIngredients()) {
+            sb.append(ia.getName());
+            sb.append(", ");
+        }
+
+        final String speechText = sb.toString();
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
-
-        if (ingredientSlot != null) {
-            final String ingredient = ingredientSlot.getValue();
-
-            final AttributesManager attributesManager = input.getAttributesManager();
-            final Map<String, Object> pam = attributesManager.getPersistentAttributes();
-
-            final ShoppingList shoppingList = ShoppingList.fromBinary(pam.get(Constants.KEY_SHOPPING_LIST));
-            final IngredientAmount ingredientAmount = new IngredientAmount();
-            ingredientAmount.setName(ingredient);
-            shoppingList.addIngredient(ingredientAmount);
-            pam.put(Constants.KEY_SHOPPING_LIST, shoppingList.toBinary());
-            attributesManager.setPersistentAttributes(pam);
-            attributesManager.savePersistentAttributes();
-
-
-            speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
-
-        } else {
-            speechText = INGREDIENTS_ADD_ERROR;
-            responseBuilder.withShouldEndSession(false)
-                    .withReprompt(INGREDIENTS_ADD_REPROMPT);
-        }
 
         responseBuilder.withSimpleCard("HypershopSession", speechText)
                 .withSpeech(speechText)
