@@ -4,6 +4,9 @@ Diese Alexa Skill Applikation erlaubt es Zutaten für Ihre Gerichte einer Einkau
 Um Ihnen die Pflege zu erleichtern, können Sie ihre Lieblingsrezepte abspeichern und diese mit den benötigten Zutaten direkt in den Warenkorb legen.
 Während dem Einkauf können Sie sich Ihre Einkaufsliste ausgeben lassen und die Zutaten abhaken.
 
+Eine Übersicht der Funktionen finden Sie hier:
+https://github.com/sweIhm-ws2018-19/skillproject-fr-11/wiki/Anwendungsfallbeschreibungen
+
 ## Travis CI Setup
 Die `pom.xml` Datei wurde so konfiguriert, dass das Testverzeichnis und das Quellcodeverzeichnis gefunden wird und alle Tests automatisch mit dem goal `test` ausgeführt werden können. Es wurde eine neue Datei `.travis.yml` angelegt, welche einen Befehl enthält um das gesamte Projekt zu testen und zu kompilieren. Dies wird durch das Maven goal `assembly` erreicht. Außerdem wurde die Integration für Sonarqube in der `.travis.yml` eingerichtet, wodurch der Code automatisch auf "Code Smells" und häufige Fehler überprüft wird.
 
