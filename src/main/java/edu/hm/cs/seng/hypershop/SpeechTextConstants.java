@@ -6,7 +6,7 @@ public class SpeechTextConstants {
     public static final String INGREDIENTS_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
     public static final String INGREDIENTS_ADD_REPROMPT = "Test";
 
-    public static final String STOP_TEXT = "Auf Wiedersehen";
+    public static final String STOP_TEXT = "Bis bald.";
 
     public static final String FALLBACK_TEXT = "Tut mir leid, das weiss ich nicht. Sage einfach Hilfe.";
 
