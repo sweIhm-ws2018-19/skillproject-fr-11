@@ -22,13 +22,10 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static edu.hm.cs.seng.hypershop.Constants.SESSION_KEY_TEST;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class ListIngredientsIntentHandler implements RequestHandler {
     @Override
