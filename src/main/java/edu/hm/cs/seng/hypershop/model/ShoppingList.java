@@ -7,10 +7,7 @@ import com.esotericsoftware.kryo.io.Output;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ShoppingList {
 
@@ -63,5 +60,19 @@ public class ShoppingList {
         kryo.writeObject(output, this);
         output.close();
         return baos.toByteArray();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingList that = (ShoppingList) o;
+        return Objects.equals(ingredients, that.ingredients) &&
+                Objects.equals(recipes, that.recipes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ingredients, recipes);
     }
 }

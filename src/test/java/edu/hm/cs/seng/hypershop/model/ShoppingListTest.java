@@ -12,4 +12,15 @@ public class ShoppingListTest {
         assertEquals(0, shoppingList.getIngredients().size());
         assertNull(shoppingList.getRecipes());
     }
+
+    @Test
+    public void listToByteFromByteEquals() {
+        final ShoppingList shoppingList = new ShoppingList();
+
+        byte[] shoppingListAsBytes = shoppingList.toBinary();
+
+        final ShoppingList actual = ShoppingList.fromBinary(shoppingListAsBytes);
+
+        assertEquals(shoppingList, actual);
+    }
 }
