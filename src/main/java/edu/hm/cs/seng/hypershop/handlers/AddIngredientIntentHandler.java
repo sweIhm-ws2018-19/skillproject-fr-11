@@ -13,18 +13,19 @@
 
 package edu.hm.cs.seng.hypershop.handlers;
 
+import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static edu.hm.cs.seng.hypershop.Constants.SESSION_KEY_TEST;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
@@ -49,7 +50,17 @@ public class AddIngredientIntentHandler implements RequestHandler {
         if (ingredientSlot != null) {
             final String ingredient = ingredientSlot.getValue();
 
-            input.getAttributesManager().setSessionAttributes(Collections.singletonMap(SESSION_KEY_TEST, ingredient));
+            final AttributesManager attributesManager = input.getAttributesManager();
+            final Map<String, Object> pam = attributesManager.getPersistentAttributes();
+
+            final ShoppingList shoppingList = ShoppingList.fromBinary(pam.get(Constants.KEY_SHOPPING_LIST));
+            final IngredientAmount ingredientAmount = new IngredientAmount();
+            ingredientAmount.setName(ingredient);
+            shoppingList.addIngredient(ingredientAmount);
+            pam.put(Constants.KEY_SHOPPING_LIST, shoppingList.toBinary());
+            attributesManager.setPersistentAttributes(pam);
+            attributesManager.savePersistentAttributes();
+
 
             speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
 

@@ -4,7 +4,7 @@ public class SpeechTextConstants {
 
     public static final String INGREDIENTS_ADD_SUCCESS = "%s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String INGREDIENTS_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
-    public static final String INGREDIENTS_ADD_REPROMPT = "Test";
+    public static final String INGREDIENTS_ADD_REPROMPT = "Was willst du hinzufügen?";
 
     public static final String STOP_TEXT = "Bis bald.";
 
