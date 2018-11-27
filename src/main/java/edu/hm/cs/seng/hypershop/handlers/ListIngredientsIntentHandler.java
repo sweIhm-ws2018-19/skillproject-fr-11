@@ -41,7 +41,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
         ModelService modelService = new ModelService(input);
 
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST);
+        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST,ShoppingList.class);
 
         final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste: ", shoppingList.getIngredients().size()));
         for (IngredientAmount ia : shoppingList.getIngredients()) {

@@ -32,30 +32,37 @@ public class ModelService {
         }
     }
 
-    public Object get(String key) {
+    public Object get(String key, Class clazz) {
         final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
         if (convertClasses.contains(key)) {
-            return fromBinary(pam.get(key));
+            return fromBinary(pam.get(key), clazz);
         }
         return null;
     }
 
-    public static Object fromBinary(Object o) {
+    public static Object fromBinary(Object o, Class clazz) {
         try {
             final byte[] data = (byte[]) o;
-            final Kryo kryo = getCryo();
+            final Kryo kryo = getCryo(clazz);
             Input input = new Input(new ByteArrayInputStream(data));
-            final ShoppingList ret = kryo.readObject(input, ShoppingList.class);
+            final Object ret = kryo.readObject(input, clazz);
             input.close();
             return ret;
         } catch (Exception e) {
-            return new ShoppingList();
+            try {
+                return clazz.newInstance();
+            } catch (InstantiationException e1) {
+                e1.printStackTrace();
+            } catch (IllegalAccessException e1) {
+                e1.printStackTrace();
+            }
         }
+        return null;
     }
 
     public static byte[] toBinary(Object o) {
-        final Kryo kryo = getCryo();
+        final Kryo kryo = getCryo(o.getClass());
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
         kryo.writeObject(output, o);
@@ -63,13 +70,13 @@ public class ModelService {
         return baos.toByteArray();
     }
 
-    private static Kryo getCryo() {
+    private static Kryo getCryo(Class clazz) {
         Kryo kryo = new Kryo();
-        kryo.register(ShoppingList.class);
         kryo.register(IngredientAmount.class);
         kryo.register(Unit.class);
         kryo.register(HashSet.class);
         kryo.register(ArrayList.class);
+        kryo.register(clazz);
         return kryo;
     }
 

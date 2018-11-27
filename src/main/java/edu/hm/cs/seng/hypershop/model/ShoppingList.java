@@ -7,6 +7,10 @@ public class ShoppingList {
     private final Set<IngredientAmount> ingredients = new HashSet<>();
     private List<Recipe> recipes;
 
+    public ShoppingList(){
+
+    }
+
     public List<Recipe> getRecipes() {
         return recipes;
     }

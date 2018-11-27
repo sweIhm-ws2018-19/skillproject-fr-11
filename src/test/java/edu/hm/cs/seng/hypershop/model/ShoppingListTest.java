@@ -20,7 +20,7 @@ public class ShoppingListTest {
 
         byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
 
-        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes);
+        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes, ShoppingList.class);
 
         assertEquals(shoppingList, actual);
     }

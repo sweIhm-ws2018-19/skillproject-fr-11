@@ -62,7 +62,7 @@ public class AddIngredientIntentHandler implements RequestHandler {
             try {
 
                 ModelService modelService = new ModelService(input);
-                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST);
+                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
 
                 final String ingredient = ingredientSlot.getValue();
                 final String unit = unitSlot.getValue();
