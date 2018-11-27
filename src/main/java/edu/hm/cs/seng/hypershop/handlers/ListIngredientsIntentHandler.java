@@ -21,6 +21,7 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import edu.hm.cs.seng.hypershop.service.ModelService;
 
 import java.util.Map;
 import java.util.Optional;
@@ -38,10 +39,12 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         final AttributesManager attributesManager = input.getAttributesManager();
         final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
-        final ShoppingList shoppingList = ShoppingList.fromBinary(pam.get(Constants.KEY_SHOPPING_LIST));
+        ModelService modelService = new ModelService(input);
+
+        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST);
 
         final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste: ", shoppingList.getIngredients().size()));
-        for(IngredientAmount ia : shoppingList.getIngredients()) {
+        for (IngredientAmount ia : shoppingList.getIngredients()) {
             sb.append(ia.getName());
             sb.append(", ");
         }

@@ -1,5 +1,6 @@
 package edu.hm.cs.seng.hypershop.model;
 
+import edu.hm.cs.seng.hypershop.service.ModelService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,9 +18,9 @@ public class ShoppingListTest {
     public void listToByteFromByteEquals() {
         final ShoppingList shoppingList = new ShoppingList();
 
-        byte[] shoppingListAsBytes = shoppingList.toBinary();
+        byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
 
-        final ShoppingList actual = ShoppingList.fromBinary(shoppingListAsBytes);
+        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes);
 
         assertEquals(shoppingList, actual);
     }
