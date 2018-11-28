@@ -22,7 +22,8 @@ public class UnitConversionService {
     }
 
     public Unit getUnit(String unitName){
-        return null;
+        //TODO: get Unit by name (Map)
+        return new Unit(unitName);
     }
 
     public Unit getIntelligentUnit(Unit unit, int amount){

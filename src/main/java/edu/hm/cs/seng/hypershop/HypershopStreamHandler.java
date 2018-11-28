@@ -32,7 +32,7 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new HelpIntentHandler(),
                         new FallbackIntentHandler())
                 .withTableName("hypershopData")
-                .withSkillId("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85")
+                .withSkillId("amzn1.ask.skill.8c7a9786-c97e-4c48-a685-37a80ddd262e")
                 .build();
     }
 

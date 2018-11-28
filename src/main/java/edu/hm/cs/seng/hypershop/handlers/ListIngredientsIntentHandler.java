@@ -36,8 +36,6 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        final AttributesManager attributesManager = input.getAttributesManager();
-        final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
         ModelService modelService = new ModelService(input);
 
@@ -45,6 +43,10 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
         final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste: ", shoppingList.getIngredients().size()));
         for (IngredientAmount ia : shoppingList.getIngredients()) {
+            sb.append(ia.getAmount());
+            sb.append(" ");
+            sb.append(ia.getUnit().getName());
+            sb.append(" ");
             sb.append(ia.getName());
             sb.append(", ");
         }

@@ -34,8 +34,8 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
 
-    @Resource
-    private ShoppingListService shoppingListService;
+
+    private ShoppingListService shoppingListService = new ShoppingListService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
