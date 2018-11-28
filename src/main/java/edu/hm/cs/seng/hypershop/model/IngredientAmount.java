@@ -1,5 +1,7 @@
 package edu.hm.cs.seng.hypershop.model;
 
+import java.util.Objects;
+
 public class IngredientAmount {
 
     private String name;
@@ -30,4 +32,18 @@ public class IngredientAmount {
         this.amount = amount;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IngredientAmount)) return false;
+        IngredientAmount that = (IngredientAmount) o;
+        return getAmount() == that.getAmount() &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getUnit(), that.getUnit());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getUnit(), getAmount());
+    }
 }

@@ -13,19 +13,15 @@
 
 package edu.hm.cs.seng.hypershop.handlers;
 
-import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import edu.hm.cs.seng.hypershop.service.IngredientAmountService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
-import javax.annotation.Resource;
 import java.util.Map;
 import java.util.Optional;
 
@@ -56,7 +52,6 @@ public class AddIngredientIntentHandler implements RequestHandler {
         String speechText;
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
-
 
         if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
             try {

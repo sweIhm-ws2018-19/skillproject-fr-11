@@ -27,14 +27,13 @@ public class ShoppingList {
         ingredients.add(ingredient);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ShoppingList)) return false;
         ShoppingList that = (ShoppingList) o;
-        return Objects.equals(ingredients, that.ingredients) &&
-                Objects.equals(recipes, that.recipes);
+        return Objects.equals(getIngredients(), that.getIngredients()) &&
+                Objects.equals(getRecipes(), that.getRecipes());
     }
 
     @Override

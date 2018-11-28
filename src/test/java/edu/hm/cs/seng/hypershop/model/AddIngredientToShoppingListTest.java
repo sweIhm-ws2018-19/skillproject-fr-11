@@ -3,14 +3,12 @@ package edu.hm.cs.seng.hypershop.model;
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.attributes.persistence.PersistenceAdapter;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.exception.PersistenceException;
-import com.amazon.ask.model.*;
+import com.amazon.ask.model.RequestEnvelope;
+import com.amazon.ask.model.Response;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
 import com.amazon.ask.response.ResponseBuilder;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.handlers.AddIngredientIntentHandler;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -18,14 +16,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
@@ -34,9 +28,9 @@ import static org.junit.Assert.*;
 public class AddIngredientToShoppingListTest {
 
     @InjectMocks
-    private ModelService modelService = Mockito.mock(ModelService.class);
+    private ModelService modelService;
     @InjectMocks
-    private ShoppingListService shoppingListService = Mockito.mock(ShoppingListService.class);
+    private ShoppingListService shoppingListService;
 
     private HandlerInput input = Mockito.mock(HandlerInput.class);
     private HandlerInput input2 = Mockito.mock(HandlerInput.class);
@@ -54,6 +48,7 @@ public class AddIngredientToShoppingListTest {
         RequestEnvelope requestEnvelope2=null;
         try {
             objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
+            //TODO: move to ressources folder
             requestEnvelope = objectMapper.readValue(new File(System.getProperty("user.dir") +
                     "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients.json"), RequestEnvelope.class);
             requestEnvelope2 = objectMapper.readValue(new File(System.getProperty("user.dir") +
@@ -77,7 +72,7 @@ public class AddIngredientToShoppingListTest {
     }
 
     @Test
-    public void addIngredient() {
+    public void addIngredients() {
         ShoppingListService listService = new ShoppingListService();
 
         for(int index=0; index < 10; index++){
@@ -87,12 +82,18 @@ public class AddIngredientToShoppingListTest {
             shoppingList = listService.addIngredient(ingredientName,amount,unitName,shoppingList);
         }
 
+        byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
+
+        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes, ShoppingList.class);
+
+        assertEquals(shoppingList, actual);
+
         assertEquals(10,shoppingList.getIngredients().size());
         assertNull(shoppingList.getRecipes());
     }
 
     @Test
-    public void addIngredients(){
+    public void testIngredientHandler(){
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Optional<Response> responseOptional = handler.handle(input);
 
@@ -105,4 +106,5 @@ public class AddIngredientToShoppingListTest {
         final Card card2 = responseOptional2.get().getCard();
         Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard)card2).getContent().contains("wasser"));
     }
+
 }
