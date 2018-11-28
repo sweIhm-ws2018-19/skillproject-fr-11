@@ -39,6 +39,7 @@ public class AddIngredientToShoppingListTest {
     private ShoppingListService shoppingListService = Mockito.mock(ShoppingListService.class);
 
     private HandlerInput input = Mockito.mock(HandlerInput.class);
+    private HandlerInput input2 = Mockito.mock(HandlerInput.class);
 
     private ShoppingList shoppingList;
 
@@ -50,12 +51,22 @@ public class AddIngredientToShoppingListTest {
 
         ObjectMapper objectMapper = new ObjectMapper();
         RequestEnvelope requestEnvelope=null;
+        RequestEnvelope requestEnvelope2=null;
         try {
             objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-            requestEnvelope = objectMapper.readValue(new File(System.getProperty("user.dir") + "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients.json"), RequestEnvelope.class);
+            requestEnvelope = objectMapper.readValue(new File(System.getProperty("user.dir") +
+                    "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients.json"), RequestEnvelope.class);
+            requestEnvelope2 = objectMapper.readValue(new File(System.getProperty("user.dir") +
+                    "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients2.json"), RequestEnvelope.class);
         } catch (IOException e) {
+            System.out.println(e);
             Assert.fail();
         }
+        buildInput(requestEnvelope,input);
+        buildInput(requestEnvelope2,input2);
+    }
+
+    private void buildInput(RequestEnvelope requestEnvelope, HandlerInput input){
         Mockito.when(input.getRequestEnvelope()).thenReturn(requestEnvelope);
         AttributesManager.Builder b = AttributesManager.builder();
 
@@ -67,11 +78,13 @@ public class AddIngredientToShoppingListTest {
 
     @Test
     public void addIngredient() {
+        ShoppingListService listService = new ShoppingListService();
+
         for(int index=0; index < 10; index++){
             String ingredientName = "ingredient"+index;
             int amount = 10+index;
             String unitName = "kg";
-            shoppingList = shoppingListService.addIngredient(ingredientName,amount,unitName,shoppingList);
+            shoppingList = listService.addIngredient(ingredientName,amount,unitName,shoppingList);
         }
 
         assertEquals(10,shoppingList.getIngredients().size());
@@ -86,6 +99,10 @@ public class AddIngredientToShoppingListTest {
         assertTrue(responseOptional.isPresent());
         final Card card = responseOptional.get().getCard();
         Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard)card).getContent().contains("Brot"));
-        Assert.assertTrue(((SimpleCard)card).getContent().contains("kg"));
+
+        Optional<Response> responseOptional2 = handler.handle(input2);
+        assertTrue(responseOptional2.isPresent());
+        final Card card2 = responseOptional2.get().getCard();
+        Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard)card2).getContent().contains("wasser"));
     }
 }
