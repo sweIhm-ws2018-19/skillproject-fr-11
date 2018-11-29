@@ -93,6 +93,10 @@ public class ListIngredientShoppingListTest {
         Assert.assertTrue(card.getContent().contains("ingredient9"));
         Assert.assertFalse(card.getContent().endsWith(", "));
     }
-
+    @Test
+    public void canHandle() {
+        when(input.matches(any())).thenReturn(true);
+        Assert.assertTrue(listIngredientsIntentHandler.canHandle(input));
+    }
 
 }

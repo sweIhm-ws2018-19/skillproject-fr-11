@@ -17,7 +17,9 @@ import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class CancelandStopIntentHandlerTest {
 
@@ -48,5 +50,12 @@ public class CancelandStopIntentHandlerTest {
         Assert.assertTrue(responseOptional.isPresent());
         SimpleCard card = (SimpleCard) responseOptional.get().getCard();
         Assert.assertEquals(SpeechTextConstants.STOP_TEXT, card.getContent());
+    }
+
+    @Test
+    public void canHandle() {
+        CancelandStopIntentHandler handler = new CancelandStopIntentHandler();
+        when(input.matches(any())).thenReturn(true);
+        Assert.assertTrue(handler.canHandle(input));
     }
 }

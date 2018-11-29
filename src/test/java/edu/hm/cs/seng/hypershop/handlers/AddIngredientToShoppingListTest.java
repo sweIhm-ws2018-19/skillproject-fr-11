@@ -1,11 +1,14 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -23,7 +26,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AddIngredientToShoppingListTest {
@@ -98,4 +106,33 @@ public class AddIngredientToShoppingListTest {
         Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard) card2).getContent().contains("wasser"));
     }
 
+    @Test
+    public void testIngredientSlotEmpty() {
+        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT,null);
+        Optional<Response> responseOptional = handler.handle(input);
+
+        assertTrue(responseOptional.isPresent());
+        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
+        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_ERROR);
+    }
+
+    @Test
+    public void testAmountNoNumber() {
+        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+        Slot slot = Slot.builder().withName(SLOT_AMOUNT).withValue("test").build();
+        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_AMOUNT,slot);
+        Optional<Response> responseOptional = handler.handle(input);
+
+        assertTrue(responseOptional.isPresent());
+        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
+        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_NUMBER_ERROR);
+    }
+
+    @Test
+    public void canHandle() {
+        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+        when(input.matches(any())).thenReturn(true);
+        Assert.assertTrue(handler.canHandle(input));
+    }
 }

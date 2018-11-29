@@ -16,7 +16,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class LaunchRequestHandlerTest {
 
@@ -49,5 +51,12 @@ public class LaunchRequestHandlerTest {
         Assert.assertTrue(responseOptional.isPresent());
         SimpleCard card = (SimpleCard) responseOptional.get().getCard();
         Assert.assertEquals(SpeechTextConstants.LAUNCH_TEXT, card.getContent());
+    }
+
+    @Test
+    public void canHandle() {
+        LaunchRequestHandler handler = new LaunchRequestHandler();
+        when(input.matches(any())).thenReturn(true);
+        Assert.assertTrue(handler.canHandle(input));
     }
 }
