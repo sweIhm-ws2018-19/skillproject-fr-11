@@ -13,14 +13,14 @@
 
 package edu.hm.cs.seng.hypershop.handlers;
 
-import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +29,10 @@ import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
+
+
+    private ShoppingListService shoppingListService = new ShoppingListService();
+
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName("AddIngredientIntent"));
@@ -42,37 +46,36 @@ public class AddIngredientIntentHandler implements RequestHandler {
         final Map<String, Slot> slots = intent.getSlots();
 
         final Slot ingredientSlot = slots.get(Constants.SLOT_INGREDIENT);
+        final Slot unitSlot = slots.get(Constants.SLOT_UNIT);
+        final Slot amountSlot = slots.get(Constants.SLOT_AMOUNT);
 
-        final String speechText;
+        String speechText;
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
 
-        if (ingredientSlot != null) {
-            final String ingredient = ingredientSlot.getValue();
+        if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
+            try {
 
-            final AttributesManager attributesManager = input.getAttributesManager();
-            final Map<String, Object> pam = attributesManager.getPersistentAttributes();
+                ModelService modelService = new ModelService(input);
+                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
 
-            final ShoppingList shoppingList = ShoppingList.fromBinary(pam.get(Constants.KEY_SHOPPING_LIST));
-            final IngredientAmount ingredientAmount = new IngredientAmount();
-            ingredientAmount.setName(ingredient);
-            shoppingList.addIngredient(ingredientAmount);
-            pam.put(Constants.KEY_SHOPPING_LIST, shoppingList.toBinary());
-            attributesManager.setPersistentAttributes(pam);
-            attributesManager.savePersistentAttributes();
+                final String ingredient = ingredientSlot.getValue();
+                final String unit = unitSlot.getValue();
+                final String amount = amountSlot.getValue();
+                int amountNumber = Integer.parseInt(amount);
 
-
-            speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
-
+                ShoppingList newShoppingList = shoppingListService.addIngredient(ingredient, amountNumber, unit, shoppingList);
+                modelService.save(newShoppingList);
+                speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
+            } catch (NumberFormatException ex) {
+                speechText = INGREDIENTS_ADD_NUMBER_ERROR;
+                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
+            }
         } else {
             speechText = INGREDIENTS_ADD_ERROR;
-            responseBuilder.withShouldEndSession(false)
-                    .withReprompt(INGREDIENTS_ADD_REPROMPT);
+            responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
         }
-
-        responseBuilder.withSimpleCard("HypershopSession", speechText)
-                .withSpeech(speechText)
-                .withShouldEndSession(false);
+        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
 
         return responseBuilder.build();
     }
