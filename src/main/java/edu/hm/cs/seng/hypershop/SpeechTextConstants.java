@@ -12,9 +12,11 @@ public class SpeechTextConstants {
 
     public static final String FALLBACK_TEXT = "Tut mir leid, das weiss ich nicht. Sage einfach Hilfe.";
 
-    public static final String HELP_TEXT = "Ich bin dein smarter Einkaufszettel, du kannst Zutaten hinzufügen.";
+    public static final String HELP_TEXT = "Ich bin dein smarter Einkaufszettel, du kannst Zutaten hinzufügen. " +
+            "Sage zum Beispiel: <s>Füge ein Killogramm Kartoffeln hinzu.</s> " +
+            "Zur Ausgabe deines Einkaufszettels, sage einfach: <s>Liste Zutaten auf!</s>";
     public static final String HELP_REPROMPT = "Hilfe Nachfrage";
 
-    public static final String LAUNCH_TEXT = "Willkommen bei Hypershop.";
+    public static final String LAUNCH_TEXT = "Willkommen bei <lang xml:lang=\"en-US\">Hypershop</lang>.";
     public static final String LAUNCH_REPROMPT = "Was willst du tun?";
 }
