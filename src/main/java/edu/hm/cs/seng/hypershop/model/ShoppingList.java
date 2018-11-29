@@ -1,6 +1,9 @@
 package edu.hm.cs.seng.hypershop.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class ShoppingList {
 

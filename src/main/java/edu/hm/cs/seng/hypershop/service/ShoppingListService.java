@@ -1,15 +1,14 @@
 package edu.hm.cs.seng.hypershop.service;
 
-import com.amazon.ask.attributes.AttributesManager;
-import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.model.Unit;
 
-import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class ShoppingListService {
