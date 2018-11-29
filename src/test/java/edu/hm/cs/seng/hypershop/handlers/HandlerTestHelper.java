@@ -1,4 +1,4 @@
-package edu.hm.cs.seng.hypershop.model;
+package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.attributes.persistence.PersistenceAdapter;

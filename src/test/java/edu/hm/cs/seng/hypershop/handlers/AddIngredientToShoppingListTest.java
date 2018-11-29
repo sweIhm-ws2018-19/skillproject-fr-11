@@ -1,15 +1,12 @@
-package edu.hm.cs.seng.hypershop.model;
+package edu.hm.cs.seng.hypershop.handlers;
 
-import com.amazon.ask.attributes.AttributesManager;
-import com.amazon.ask.attributes.persistence.PersistenceAdapter;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
-import com.amazon.ask.response.ResponseBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.hm.cs.seng.hypershop.handlers.AddIngredientIntentHandler;
+import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
