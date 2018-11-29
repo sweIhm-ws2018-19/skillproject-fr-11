@@ -19,6 +19,10 @@ public class ModelService {
     private AttributesManager attributesManager;
     private Set<String> convertClasses = new HashSet<>(Arrays.asList(Constants.KEY_SHOPPING_LIST));
 
+    public ModelService() {
+
+    }
+
     public ModelService(HandlerInput input) {
         attributesManager = input.getAttributesManager();
     }
@@ -33,10 +37,12 @@ public class ModelService {
     }
 
     public Object get(String key, Class clazz) {
-        final Map<String, Object> pam = attributesManager.getPersistentAttributes();
+        if (attributesManager != null) {
+            final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
-        if (convertClasses.contains(key)) {
-            return fromBinary(pam.get(key), clazz);
+            if (convertClasses.contains(key)) {
+                return fromBinary(pam.get(key), clazz);
+            }
         }
         return null;
     }
