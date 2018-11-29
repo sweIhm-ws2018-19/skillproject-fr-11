@@ -1,0 +1,192 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "hypershop",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "abbrechen"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "hilfe",
+            "was kann ich machen"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "stop",
+            "aus",
+            "aufhören"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "nach hause"
+          ]
+        },
+        {
+          "name": "AddIngredientIntent",
+          "slots": [
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER",
+              "samples": [
+                "{amount} {unit} "
+              ]
+            },
+            {
+              "name": "unit",
+              "type": "ingredientUnit",
+              "samples": [
+                "{unit}"
+              ]
+            },
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "samples": [
+                "Die Zutat ist {ingredient}",
+                "{ingredient}"
+              ]
+            }
+          ],
+          "samples": [
+            "füge {amount} {unit} {ingredient} dazu",
+            "füge {amount} {unit} {ingredient} hinzu"
+          ]
+        },
+        {
+          "name": "ListIngredientsIntent",
+          "slots": [],
+          "samples": [
+            "liste",
+            "Welche Zutaten habe ich in meiner Einkaufsliste",
+            "Liste Zutaten auf"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "name": "ingredientUnit",
+          "values": [
+            {
+              "name": {
+                "value": "becher"
+              }
+            },
+            {
+              "name": {
+                "value": "glas"
+              }
+            },
+            {
+              "name": {
+                "value": "g",
+                "synonyms": [
+                  "gramm"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "l",
+                "synonyms": [
+                  "liter"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "ml",
+                "synonyms": [
+                  "milliliter"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "kg",
+                "synonyms": [
+                  "kilogramm"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "AddIngredientIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.132907687670.376389611432"
+              }
+            },
+            {
+              "name": "unit",
+              "type": "ingredientUnit",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.132907687670.1148571877783"
+              }
+            },
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.111556251765.1453468125183"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.111556251765.1453468125183",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.132907687670.376389611432",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Wie viel davon willst du hinzufügen?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.132907687670.1148571877783",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welche Einheit sagtest du?"
+          }
+        ]
+      }
+    ]
+  }
+}
