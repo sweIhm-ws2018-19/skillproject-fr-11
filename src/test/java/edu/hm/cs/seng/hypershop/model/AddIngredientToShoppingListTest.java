@@ -15,16 +15,20 @@ import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AddIngredientToShoppingListTest {
 
     @InjectMocks
@@ -38,48 +42,38 @@ public class AddIngredientToShoppingListTest {
     private ShoppingList shoppingList;
 
 
-
     @Before
     public void before() {
         this.shoppingList = new ShoppingList();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        RequestEnvelope requestEnvelope=null;
-        RequestEnvelope requestEnvelope2=null;
+        RequestEnvelope requestEnvelope = null;
+        RequestEnvelope requestEnvelope2 = null;
         try {
             objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-            //TODO: move to ressources folder
-            requestEnvelope = objectMapper.readValue(new File(System.getProperty("user.dir") +
-                    "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients.json"), RequestEnvelope.class);
-            requestEnvelope2 = objectMapper.readValue(new File(System.getProperty("user.dir") +
-                    "/src/test/java/edu/hm/cs/seng/hypershop/model/addingredients2.json"), RequestEnvelope.class);
+            ClassLoader classLoader = getClass().getClassLoader();
+            String file1 = Objects.requireNonNull(classLoader.getResource("addingredients.json")).getFile();
+            String file2 = Objects.requireNonNull(classLoader.getResource("addingredients2.json")).getFile();
+            requestEnvelope = objectMapper.readValue(new FileReader(file1), RequestEnvelope.class);
+            requestEnvelope2 = objectMapper.readValue(new FileReader(file2), RequestEnvelope.class);
         } catch (IOException e) {
             System.out.println(e);
             Assert.fail();
         }
-        buildInput(requestEnvelope,input);
-        buildInput(requestEnvelope2,input2);
+        HandlerTestHelper.buildInput(requestEnvelope, input);
+        HandlerTestHelper.buildInput(requestEnvelope2, input2);
     }
 
-    private void buildInput(RequestEnvelope requestEnvelope, HandlerInput input){
-        Mockito.when(input.getRequestEnvelope()).thenReturn(requestEnvelope);
-        AttributesManager.Builder b = AttributesManager.builder();
-
-        PersistenceAdapter pa = Mockito.mock(PersistenceAdapter.class);
-        AttributesManager am = b.withPersistenceAdapter(pa).withRequestEnvelope(requestEnvelope).build();
-        Mockito.when(input.getAttributesManager()).thenReturn(am);
-        Mockito.when(input.getResponseBuilder()).thenReturn(new ResponseBuilder());
-    }
 
     @Test
     public void addIngredients() {
         ShoppingListService listService = new ShoppingListService();
 
-        for(int index=0; index < 10; index++){
-            String ingredientName = "ingredient"+index;
-            int amount = 10+index;
+        for (int index = 0; index < 10; index++) {
+            String ingredientName = "ingredient" + index;
+            int amount = 10 + index;
             String unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName,amount,unitName,shoppingList);
+            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         }
 
         byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
@@ -88,23 +82,23 @@ public class AddIngredientToShoppingListTest {
 
         assertEquals(shoppingList, actual);
 
-        assertEquals(10,shoppingList.getIngredients().size());
+        assertEquals(10, shoppingList.getIngredients().size());
         assertNull(shoppingList.getRecipes());
     }
 
     @Test
-    public void testIngredientHandler(){
+    public void testIngredientHandler() {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
         final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard)card).getContent().contains("Brot"));
+        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("Brot"));
 
         Optional<Response> responseOptional2 = handler.handle(input2);
         assertTrue(responseOptional2.isPresent());
         final Card card2 = responseOptional2.get().getCard();
-        Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard)card2).getContent().contains("wasser"));
+        Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard) card2).getContent().contains("wasser"));
     }
 
 }
