@@ -47,7 +47,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         if (listSize == 0) {
             sb.append(".");
         } else {
-            sb.append(":");
+            sb.append(": ");
         }
         for (IngredientAmount ie : shoppingList.getIngredients()) {
             Optional<IngredientAmount> firstIngredient = shoppingList.getIngredients().stream().findFirst();
