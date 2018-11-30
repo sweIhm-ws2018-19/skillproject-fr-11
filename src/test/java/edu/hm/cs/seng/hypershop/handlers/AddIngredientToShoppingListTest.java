@@ -29,7 +29,8 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -88,7 +89,7 @@ public class AddIngredientToShoppingListTest {
         assertEquals(shoppingList, actual);
 
         assertEquals(10, shoppingList.getIngredients().size());
-        assertNull(shoppingList.getRecipes());
+        assertEquals(0, shoppingList.getRecipes().size());
     }
 
     @Test

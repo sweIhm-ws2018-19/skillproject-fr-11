@@ -27,6 +27,11 @@ public class ContextStackService {
 
     public static boolean isCurrentContext(HandlerInput input, String contextName) {
         final int sp = getStackPointer(input.getAttributesManager().getSessionAttributes());
+
+        if(contextName == null) {
+            return sp < 0;
+        }
+
         if(sp < 0) {
             return false;
         }

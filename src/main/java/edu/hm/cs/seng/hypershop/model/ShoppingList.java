@@ -1,14 +1,11 @@
 package edu.hm.cs.seng.hypershop.model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class ShoppingList {
 
     private final Set<IngredientAmount> ingredients = new HashSet<>();
-    private List<Recipe> recipes;
+    private final List<Recipe> recipes = new ArrayList<>();
 
     public ShoppingList(){
 
@@ -16,10 +13,6 @@ public class ShoppingList {
 
     public List<Recipe> getRecipes() {
         return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
     }
 
     public Set<IngredientAmount> getIngredients() {

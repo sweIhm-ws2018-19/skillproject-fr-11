@@ -40,8 +40,8 @@ public class ShoppingListService {
 
     }
 
-    public void addRecipe(String recipeName){
-
+    public void addRecipe(String recipeName, ShoppingList shoppingList){
+        shoppingList.getRecipes().add(new Recipe(recipeName));
     }
 
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList){

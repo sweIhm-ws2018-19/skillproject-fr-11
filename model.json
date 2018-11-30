@@ -69,6 +69,20 @@
             "Welche Zutaten habe ich in meiner Einkaufsliste",
             "Liste Zutaten auf"
           ]
+        },
+        {
+          "name": "AddRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "erstelle das rezept {recipe}",
+            "erstelle {recipe}",
+            "erstelle rezept {recipe}"
+          ]
         }
       ],
       "types": [
