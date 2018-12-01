@@ -46,7 +46,7 @@ public class HandlerTestHelper {
         RequestEnvelope requestEnvelope = null;
         try {
             objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-            final ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+            final ClassLoader classLoader = HandlerTestHelper.class.getClassLoader();
             String fileContent = Objects.requireNonNull(classLoader.getResource(filename)).getFile();
             requestEnvelope = objectMapper.readValue(new FileReader(fileContent), RequestEnvelope.class);
         } catch (IOException e) {
