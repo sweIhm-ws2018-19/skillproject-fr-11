@@ -6,6 +6,11 @@ import edu.hm.cs.seng.hypershop.Constants;
 import java.util.Map;
 
 public class ContextStackService {
+
+    private ContextStackService() {
+        // hide public ctor
+    }
+
     private static int getStackPointer(Map<String, Object> sessionMap) {
         final Object o = sessionMap.get(Constants.KEY_STACK_POINTER);
         int sp;

@@ -8,7 +8,7 @@ public class UnitConversion {
     private Unit unitConversionFrom;
     private Unit unitConversionTo;
     private double conversionFactor;
-    private final static Set<UnitConversion> conversions = new HashSet<>();
+    private static final Set<UnitConversion> conversions = new HashSet<>();
 
 
     public Unit getUnitConversionFrom() {

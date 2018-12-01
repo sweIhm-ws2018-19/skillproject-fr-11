@@ -9,7 +9,7 @@ public class ShoppingList {
     private final List<Recipe> recipes = new ArrayList<>();
 
     public ShoppingList(){
-
+        // nothing to do
     }
 
     public List<Recipe> getRecipes() {
@@ -26,7 +26,7 @@ public class ShoppingList {
 
     public Set<IngredientAmount> getIngredients(String nameSearchString) {
         return ingredients.stream()
-                .filter(ingredientAmount -> ingredientAmount.getName().toLowerCase().equals(nameSearchString.toLowerCase()))
+                .filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(nameSearchString.toLowerCase()))
                 .collect(Collectors.toSet());
     }
 

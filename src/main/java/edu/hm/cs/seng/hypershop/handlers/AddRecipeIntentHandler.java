@@ -30,7 +30,7 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddRecipeIntentHandler implements RequestHandler {
 
-    private final static Set<String> contextualIntents = new HashSet<>(Arrays.asList(
+    private static final Set<String> contextualIntents = new HashSet<>(Arrays.asList(
             Constants.INTENT_ADD_INGREDIENT,
             Constants.INTENT_REMOVE_INGREDIENT
     ));

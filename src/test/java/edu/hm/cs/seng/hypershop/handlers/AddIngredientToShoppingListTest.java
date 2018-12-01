@@ -2,12 +2,10 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
@@ -19,12 +17,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
@@ -44,22 +38,8 @@ public class AddIngredientToShoppingListTest {
     public void before() {
         this.shoppingList = new ShoppingList();
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        RequestEnvelope requestEnvelope = null;
-        RequestEnvelope requestEnvelope2 = null;
-        try {
-            objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-            ClassLoader classLoader = getClass().getClassLoader();
-            String file1 = Objects.requireNonNull(classLoader.getResource("addingredients.json")).getFile();
-            String file2 = Objects.requireNonNull(classLoader.getResource("addingredients2.json")).getFile();
-            requestEnvelope = objectMapper.readValue(new FileReader(file1), RequestEnvelope.class);
-            requestEnvelope2 = objectMapper.readValue(new FileReader(file2), RequestEnvelope.class);
-        } catch (IOException e) {
-            System.out.println(e);
-            Assert.fail();
-        }
-        HandlerTestHelper.buildInput(requestEnvelope, input);
-        HandlerTestHelper.buildInput(requestEnvelope2, input2);
+        HandlerTestHelper.buildInput("addingredients.json", input);
+        HandlerTestHelper.buildInput("addingredients2.json", input2);
     }
 
 
@@ -107,7 +87,7 @@ public class AddIngredientToShoppingListTest {
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_ERROR);
+        Assert.assertEquals(INGREDIENTS_ADD_ERROR, card.getContent());
     }
 
     @Test
@@ -119,7 +99,7 @@ public class AddIngredientToShoppingListTest {
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_NUMBER_ERROR);
+        Assert.assertEquals(INGREDIENTS_ADD_NUMBER_ERROR, card.getContent());
     }
 
     @Test

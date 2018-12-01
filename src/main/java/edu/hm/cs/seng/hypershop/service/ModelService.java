@@ -59,9 +59,7 @@ public class ModelService {
         } catch (Exception e) {
             try {
                 return clazz.newInstance();
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
+            } catch (InstantiationException | IllegalAccessException e1) {
                 e1.printStackTrace();
             }
         }

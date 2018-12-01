@@ -2,6 +2,10 @@ package edu.hm.cs.seng.hypershop;
 
 public class SpeechTextConstants {
 
+    private SpeechTextConstants() {
+        // hide public ctor
+    }
+
     public static final String INGREDIENTS_ADD_SUCCESS = "%s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String INGREDIENTS_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
     public static final String INGREDIENTS_ADD_NUMBER_ERROR = "Tut mir leid, ich habe die angegebene Zutatenmenge nicht verstanden, kannst du sie wiederholen?";

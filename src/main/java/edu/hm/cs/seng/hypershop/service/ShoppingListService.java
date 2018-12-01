@@ -16,7 +16,7 @@ public class ShoppingListService {
     private UnitConversionService unitConversionService = new UnitConversionService();
 
     public void addIngredient(IngredientAmount ingredientAmount){
-
+        throw new UnsupportedOperationException("not implemented");
     }
 
     private Set<IngredientAmount> summarizeIngredients(){
@@ -37,11 +37,11 @@ public class ShoppingListService {
     }
 
     public void removeRecipe(String recipeName, ShoppingList shoppingList){
-
+        throw new UnsupportedOperationException("not implemented");
     }
 
     private void removeRecipe(Recipe recipe){
-
+        throw new UnsupportedOperationException("not implemented");
     }
 
     public void addRecipe(String recipeName, ShoppingList shoppingList){
