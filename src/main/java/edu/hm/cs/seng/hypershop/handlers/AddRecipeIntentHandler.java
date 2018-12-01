@@ -66,7 +66,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
             ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
         } else {
             speechText = RECIPE_ADD_ERROR;
-            responseBuilder.withReprompt(INGREDIENTS_ADD_REPROMPT);
+            responseBuilder.withReprompt(RECIPE_ADD_REPROMPT);
         }
         responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
 

@@ -34,8 +34,8 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new HelpIntentHandler(),
                         new FallbackIntentHandler(),
                         new FallbackRecipeHandler())
-                .withTableName("hypershopbastiData")
-                .withSkillId("amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2")
+                .withTableName(Constants.DYNAMO_TABLE_NAME)
+                .withSkillId(Constants.SKILL_ID)
                 .build();
     }
 

@@ -22,7 +22,7 @@ public class ContextStackService {
     }
 
     private static void saveSession(HandlerInput input, Map<String, Object> sessionMap) {
-        input.getAttributesManager().setPersistentAttributes(sessionMap);
+        input.getAttributesManager().setSessionAttributes(sessionMap);
     }
 
     public static boolean isCurrentContext(HandlerInput input, String contextName) {
@@ -48,16 +48,15 @@ public class ContextStackService {
         final Map<String, Object> sessionMap = input.getAttributesManager().getSessionAttributes();
         final int sp = getStackPointer(sessionMap) + 1;
         setStackPointer(sessionMap, sp);
-        sessionMap.put(Constants.STACK_BASE_POINTER_PREFIX + (sp + 1), contextName);
+        sessionMap.put(Constants.STACK_BASE_POINTER_PREFIX + sp, contextName);
         saveSession(input, sessionMap);
     }
 
     public static void popContext(HandlerInput input) {
         final Map<String, Object> sessionMap = input.getAttributesManager().getSessionAttributes();
         final int sp = getStackPointer(sessionMap);
-        final int newSp = sp < 0 ? -1 : sp - 1;
-        setStackPointer(sessionMap, sp);
-        sessionMap.remove(Constants.STACK_BASE_POINTER_PREFIX + (sp + 1));
+        setStackPointer(sessionMap, sp < 0 ? -1 : sp - 1);
+        sessionMap.remove(Constants.STACK_BASE_POINTER_PREFIX + sp);
         saveSession(input, sessionMap);
     }
 }
