@@ -8,18 +8,21 @@ import edu.hm.cs.seng.hypershop.service.ContextStackService;
 
 import java.util.Optional;
 
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_FALLBACK;
+import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.BACK_OK;
 
-public class FallbackRecipeHandler implements RequestHandler {
+public class BackIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE);
+        return input.matches(intentName(Constants.INTENT_BACK));
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = RECIPE_FALLBACK;
+        ContextStackService.popContext(input);
+
+        String speechText = BACK_OK;
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("HypershopSession", speechText)

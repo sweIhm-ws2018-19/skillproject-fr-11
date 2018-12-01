@@ -16,7 +16,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -31,16 +30,9 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AddIngredientToShoppingListTest {
-
-    @InjectMocks
-    private ModelService modelService;
-    @InjectMocks
-    private ShoppingListService shoppingListService;
 
     private HandlerInput input = Mockito.mock(HandlerInput.class);
     private HandlerInput input2 = Mockito.mock(HandlerInput.class);
@@ -133,7 +125,6 @@ public class AddIngredientToShoppingListTest {
     @Test
     public void canHandle() {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        when(input.matches(any())).thenReturn(true);
         Assert.assertTrue(handler.canHandle(input));
     }
 }

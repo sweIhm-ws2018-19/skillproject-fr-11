@@ -95,7 +95,6 @@ public class ListIngredientShoppingListTest {
     }
     @Test
     public void canHandle() {
-        when(input.matches(any())).thenReturn(true);
         Assert.assertTrue(listIngredientsIntentHandler.canHandle(input));
     }
 

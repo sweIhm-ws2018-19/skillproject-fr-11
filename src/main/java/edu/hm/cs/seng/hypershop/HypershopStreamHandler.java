@@ -32,8 +32,7 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new CancelandStopIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new HelpIntentHandler(),
-                        new FallbackIntentHandler(),
-                        new FallbackRecipeHandler())
+                        new FallbackIntentHandler())
                 .withTableName(Constants.DYNAMO_TABLE_NAME)
                 .withSkillId(Constants.SKILL_ID)
                 .build();

@@ -1,8 +1,6 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.Intent;
-import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.ui.SimpleCard;
@@ -17,12 +15,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.amazon.ask.request.Predicates.intentName;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class HelpIntentHandlerTest {
     private HandlerInput input = mock(HandlerInput.class);
@@ -58,7 +52,6 @@ public class HelpIntentHandlerTest {
     @Test
     public void canHandle() {
         HelpIntentHandler handler = new HelpIntentHandler();
-        when(input.matches(any())).thenReturn(true);
         Assert.assertTrue(handler.canHandle(input));
     }
 }

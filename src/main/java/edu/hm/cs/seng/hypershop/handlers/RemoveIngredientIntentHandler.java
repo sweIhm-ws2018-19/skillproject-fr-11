@@ -19,6 +19,7 @@ import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
@@ -31,7 +32,7 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 public class RemoveIngredientIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("RemoveIngredientIntent"));
+        return input.matches(intentName(Constants.INTENT_REMOVE_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override

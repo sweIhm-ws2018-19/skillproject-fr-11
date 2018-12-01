@@ -20,6 +20,7 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("ListIngredientsIntent"));
+        return input.matches(intentName(Constants.INTENT_LIST_INGREDIENTS)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
