@@ -31,9 +31,10 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new CancelandStopIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new HelpIntentHandler(),
-                        new FallbackIntentHandler())
-                .withTableName("hypershopData")
-                .withSkillId("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85")
+                        new FallbackIntentHandler(),
+                        new FallbackRecipeHandler())
+                .withTableName("hypershopbastiData")
+                .withSkillId("amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2")
                 .build();
     }
 

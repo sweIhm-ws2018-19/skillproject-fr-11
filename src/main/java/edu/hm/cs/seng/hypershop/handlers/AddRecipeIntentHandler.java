@@ -56,7 +56,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
             ModelService modelService = new ModelService(input);
             final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
 
-            final String recipeName = recipeSlot.getName();
+            final String recipeName = recipeSlot.getValue();
 
             shoppingListService.addRecipe(recipeName, shoppingList);
 
