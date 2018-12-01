@@ -83,6 +83,23 @@
             "erstelle {recipe}",
             "erstelle rezept {recipe}"
           ]
+        },
+        {
+          "name": "RemoveIngredientIntent",
+          "slots": [
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "samples": [
+                "{ingredient}",
+                "Die Zutat ist {ingredient}"
+              ]
+            }
+          ],
+          "samples": [
+            "entferne {ingredient}",
+            "lösche {ingredient}"
+          ]
         }
       ],
       "types": [
@@ -170,6 +187,22 @@
               }
             }
           ]
+        },
+        {
+          "name": "RemoveIngredientIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.617425659085.1478882763140"
+              }
+            }
+          ]
         }
       ]
     },
@@ -198,6 +231,15 @@
           {
             "type": "PlainText",
             "value": "Welche Einheit sagtest du?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.617425659085.1478882763140",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?"
           }
         ]
       }
