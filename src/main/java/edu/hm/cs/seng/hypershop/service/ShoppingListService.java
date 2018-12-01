@@ -13,7 +13,6 @@ import java.util.Set;
 
 public class ShoppingListService {
 
-
     private UnitConversionService unitConversionService = new UnitConversionService();
 
     public void addIngredient(IngredientAmount ingredientAmount){
@@ -24,15 +23,20 @@ public class ShoppingListService {
         return new HashSet<>();
     }
 
-    private void removeIngredients(String ingredientAmount){
-
+    public boolean removeIngredient(String ingredient, ShoppingList shoppingList) {
+        return removeIngredient(
+                shoppingList.getIngredients(ingredient), shoppingList);
     }
 
-    public void removeIngredient(IngredientAmount ingredient){
-
+    private boolean removeIngredient(Iterable<IngredientAmount> ingredients, ShoppingList shoppingList){
+        boolean result = false;
+        for (IngredientAmount ingredient : ingredients) {
+            result |= shoppingList.removeIngredient(ingredient);
+        }
+        return result;
     }
 
-    public void removeRecipe(String recipeName){
+    public void removeRecipe(String recipeName, ShoppingList shoppingList){
 
     }
 
@@ -44,7 +48,7 @@ public class ShoppingListService {
 
     }
 
-    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList){
+    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
 
         final IngredientAmount ingredientAmount = new IngredientAmount();
         ingredientAmount.setName(name);

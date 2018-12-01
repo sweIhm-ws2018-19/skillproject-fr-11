@@ -1,9 +1,7 @@
 package edu.hm.cs.seng.hypershop.model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ShoppingList {
 
@@ -28,6 +26,16 @@ public class ShoppingList {
 
     public void addIngredient(IngredientAmount ingredient) {
         ingredients.add(ingredient);
+    }
+
+    public Set<IngredientAmount> getIngredients(String nameSearchString) {
+        return ingredients.stream()
+                .filter(ingredientAmount -> ingredientAmount.getName().toLowerCase().equals(nameSearchString.toLowerCase()))
+                .collect(Collectors.toSet());
+    }
+
+    public boolean removeIngredient(IngredientAmount ingredient) {
+        return ingredients.remove(ingredient);
     }
 
     @Override
