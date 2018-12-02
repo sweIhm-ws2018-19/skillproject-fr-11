@@ -5,7 +5,7 @@ public class Constants {
         // disable public constructor
     }
 
-    static final String SKILL_ID = "amzn1.ask.skill.8c7a9786-c97e-4c48-a685-37a80ddd262e";
+    static final String SKILL_ID = "amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85";
     static final String DYNAMO_TABLE_NAME = "hypershopData";
 
     public static final String INTENT_ADD_INGREDIENT = "AddIngredientIntent";
