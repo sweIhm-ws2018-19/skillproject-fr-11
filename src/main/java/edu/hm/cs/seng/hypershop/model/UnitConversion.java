@@ -1,15 +1,12 @@
 package edu.hm.cs.seng.hypershop.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import javax.measure.Unit;
 
 public class UnitConversion {
 
     private Unit unitConversionFrom;
     private Unit unitConversionTo;
     private double conversionFactor;
-    private final static Set<UnitConversion> conversions = new HashSet<>();
-
 
     public Unit getUnitConversionFrom() {
         return unitConversionFrom;
@@ -35,8 +32,5 @@ public class UnitConversion {
         this.conversionFactor = conversionFactor;
     }
 
-    public static Set<UnitConversion> getConversions() {
-        return conversions;
-    }
 
 }

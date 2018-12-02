@@ -5,6 +5,7 @@ public class SpeechTextConstants {
     public static final String INGREDIENTS_ADD_SUCCESS = "%s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String INGREDIENTS_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
     public static final String INGREDIENTS_ADD_NUMBER_ERROR = "Tut mir leid, ich habe die angegebene Zutatenmenge nicht verstanden, kannst du sie wiederholen?";
+    public static String INGREDIENTS_ADD_UNIT_ERROR = "Tut mir leid, die angegebene Einheit konnte nicht gefunden werden, kannst du sie wiederholen?";
 
     public static final String INGREDIENTS_ADD_REPROMPT = "Was willst du hinzufügen?";
 
@@ -19,4 +20,5 @@ public class SpeechTextConstants {
 
     public static final String LAUNCH_TEXT = "Willkommen bei <lang xml:lang=\"en-US\">Hypershop</lang>.";
     public static final String LAUNCH_REPROMPT = "Was willst du tun?";
+
 }

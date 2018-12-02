@@ -66,7 +66,11 @@ public class ListIngredientShoppingListTest {
             String ingredientName = "ingredient" + index;
             int amount = 10 + index;
             String unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            try {
+                shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -22,6 +22,7 @@ import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
+import javax.measure.format.ParserException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -69,6 +70,9 @@ public class AddIngredientIntentHandler implements RequestHandler {
                 speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
             } catch (NumberFormatException ex) {
                 speechText = INGREDIENTS_ADD_NUMBER_ERROR;
+                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
+            } catch(ParserException ex){
+                speechText = INGREDIENTS_ADD_UNIT_ERROR;
                 responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
             }
         } else {

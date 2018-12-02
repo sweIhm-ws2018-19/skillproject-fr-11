@@ -1,5 +1,6 @@
 package edu.hm.cs.seng.hypershop.model;
 
+import javax.measure.Unit;
 import java.util.Objects;
 
 public class IngredientAmount {

@@ -1,10 +1,12 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import com.sun.javafx.tools.packager.PackagerException;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import edu.hm.cs.seng.hypershop.model.Unit;
 
+import javax.measure.Unit;
+import javax.measure.format.ParserException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -44,7 +46,7 @@ public class ShoppingListService {
 
     }
 
-    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList){
+    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) throws ParserException {
 
         final IngredientAmount ingredientAmount = new IngredientAmount();
         ingredientAmount.setName(name);
