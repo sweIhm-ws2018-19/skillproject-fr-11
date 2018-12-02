@@ -78,11 +78,7 @@ public class AddIngredientToShoppingListTest {
             String ingredientName = "ingredient" + index;
             int amount = 10 + index;
             String unitName = "kg";
-            try {
-                shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         }
 
         byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
@@ -113,24 +109,24 @@ public class AddIngredientToShoppingListTest {
     @Test
     public void testIngredientSlotEmpty() {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT,null);
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT, null);
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_ERROR);
+        Assert.assertEquals(card.getContent(), INGREDIENTS_ADD_ERROR);
     }
 
     @Test
     public void testAmountNoNumber() {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Slot slot = Slot.builder().withName(SLOT_AMOUNT).withValue("test").build();
-        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_AMOUNT,slot);
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_AMOUNT, slot);
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(card.getContent(),INGREDIENTS_ADD_NUMBER_ERROR);
+        Assert.assertEquals(card.getContent(), INGREDIENTS_ADD_NUMBER_ERROR);
     }
 
     @Test

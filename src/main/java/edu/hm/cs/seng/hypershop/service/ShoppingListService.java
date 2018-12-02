@@ -4,6 +4,7 @@ import com.sun.javafx.tools.packager.PackagerException;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import tec.units.ri.quantity.QuantityDimension;
 
 import javax.measure.Unit;
 import javax.measure.format.ParserException;
@@ -53,7 +54,6 @@ public class ShoppingListService {
         ingredientAmount.setAmount(amount);
 
         Unit unit = unitConversionService.getUnit(unitName);
-
         ingredientAmount.setUnit(unit);
 
         shoppingList.addIngredient(ingredientAmount);

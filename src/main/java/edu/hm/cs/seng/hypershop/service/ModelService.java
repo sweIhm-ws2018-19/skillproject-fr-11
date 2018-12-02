@@ -8,6 +8,9 @@ import com.esotericsoftware.kryo.io.Output;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import tec.units.ri.quantity.QuantityDimension;
+import tec.units.ri.unit.BaseUnit;
+import tec.units.ri.unit.ProductUnit;
 
 import javax.measure.Unit;
 import java.io.ByteArrayInputStream;
@@ -78,13 +81,22 @@ public class ModelService {
 
     private static Kryo getCryo(Class clazz) {
         Kryo kryo = new Kryo();
+        try {
+            Class<?> act = Class.forName("tec.units.ri.unit.ProductUnit$Element");
+            kryo.register(act);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         kryo.register(IngredientAmount.class);
-        kryo.register(Unit.class);
+        kryo.register(BaseUnit.class);
+        kryo.register(ProductUnit.class);
+        kryo.register(QuantityDimension.class);
         kryo.register(HashSet.class);
         kryo.register(ArrayList.class);
         kryo.register(clazz);
         return kryo;
     }
+
 
 
 }
