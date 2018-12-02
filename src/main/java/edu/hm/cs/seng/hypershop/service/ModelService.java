@@ -12,7 +12,6 @@ import tec.units.ri.quantity.QuantityDimension;
 import tec.units.ri.unit.BaseUnit;
 import tec.units.ri.unit.ProductUnit;
 
-import javax.measure.Unit;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.*;
@@ -61,9 +60,7 @@ public class ModelService {
         } catch (Exception e) {
             try {
                 return clazz.newInstance();
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
+            } catch (InstantiationException | IllegalAccessException e1) {
                 e1.printStackTrace();
             }
         }

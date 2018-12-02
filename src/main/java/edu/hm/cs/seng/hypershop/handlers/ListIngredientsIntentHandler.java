@@ -71,7 +71,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
     private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
         sb.append(ia.getAmount());
         sb.append(" ");
-        sb.append(ia.getUnit().getName());
+        sb.append(ia.getUnit());
         sb.append(" ");
         sb.append(ia.getName());
     }

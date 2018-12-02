@@ -1,12 +1,11 @@
 package edu.hm.cs.seng.hypershop.model;
 
-import javax.measure.Unit;
 import java.util.Objects;
 
 public class IngredientAmount {
 
     private String name;
-    private Unit unit;
+    private String unitName;
     private int amount;
 
     public String getName() {
@@ -17,12 +16,12 @@ public class IngredientAmount {
         this.name = name;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public String getUnit() {
+        return unitName;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setUnit(String unitName) {
+        this.unitName = unitName;
     }
 
     public int getAmount() {

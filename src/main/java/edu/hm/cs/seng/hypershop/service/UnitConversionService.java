@@ -1,12 +1,12 @@
 package edu.hm.cs.seng.hypershop.service;
 
-import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import tec.units.ri.format.SimpleUnitFormat;
+import tec.units.ri.quantity.Quantities;
 
+import javax.measure.Quantity;
 import javax.measure.Unit;
 import javax.measure.format.ParserException;
-import java.util.Set;
 
 public class UnitConversionService {
 
@@ -24,6 +24,20 @@ public class UnitConversionService {
 
     public Unit getNormalUnit(Unit unit) {
         return null;
+    }
+
+
+    public void summmarizeIngredients(IngredientAmount ingredient, int amount, String unitName) {
+        UnitConversionService conversionService = new UnitConversionService();
+        Unit baseUnit = conversionService.getUnit(ingredient.getUnit());
+        Unit addUnit = conversionService.getUnit(unitName);
+
+
+        Quantity<?> baseQuantity = Quantities.getQuantity(ingredient.getAmount(), baseUnit);
+        Quantity addQuantity = Quantities.getQuantity(amount, addUnit);
+
+        baseQuantity.add(addQuantity);
+        ingredient.setAmount(baseQuantity.getValue().intValue());
     }
 
     public Unit getUnit(String unitName) throws ParserException {
