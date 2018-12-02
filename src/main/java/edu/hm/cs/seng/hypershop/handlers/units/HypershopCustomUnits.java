@@ -17,7 +17,7 @@ public class HypershopCustomUnits extends Units {
 
     private static final HypershopCustomUnits INSTANCE = new HypershopCustomUnits();
 
-    public static final Unit<Volume> GLASS = myUnits(new TransformedUnit<Volume>("glass", CUBIC_METRE, CUBIC_METRE, new MultiplyConverter(0.000005)));
+    public static final Unit<Volume> GLASS = myUnits(new TransformedUnit<Volume>("glass", CUBIC_METRE, CUBIC_METRE, new MultiplyConverter(0.0002)));
     public static final Unit<Volume> TEASPOON = myUnits(new TransformedUnit<Volume>("tsp", CUBIC_METRE, CUBIC_METRE, new MultiplyConverter(0.000005)));
 
     public static HypershopCustomUnits getInstance() {

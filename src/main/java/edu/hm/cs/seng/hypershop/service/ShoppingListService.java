@@ -12,6 +12,7 @@ import javax.measure.Unit;
 import javax.measure.format.ParserException;
 import javax.measure.quantity.Mass;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static tec.units.ri.unit.Units.GRAM;
 
@@ -69,25 +70,22 @@ public class ShoppingListService {
     }
 
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
-        Optional<IngredientAmount> ingredientOptional = Optional.empty();
-        for (IngredientAmount ingredient : shoppingList.getIngredients()) {
-            if (ingredient.getName().equals(name)) {
-                unitConversionService.summmarizeIngredients(ingredient, amount, unitName);
-                ingredientOptional = Optional.of(ingredient);
-            }
-        }
+        boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
+                .map(ingredientAmount ->
+                        unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
+                .count())>0;
 
-        if (!ingredientOptional.isPresent()) {
+        if(!matchingIngredient){
             final IngredientAmount ingredientAmount = new IngredientAmount();
             ingredientAmount.setName(name);
             ingredientAmount.setAmount(amount);
 
             unitConversionService.getUnit(unitName);
             ingredientAmount.setUnit(unitName);
-            ingredientOptional = Optional.of(ingredientAmount);
+            shoppingList.addIngredient(ingredientAmount);
         }
 
-        shoppingList.addIngredient(ingredientOptional.get());
+
         return shoppingList;
     }
 

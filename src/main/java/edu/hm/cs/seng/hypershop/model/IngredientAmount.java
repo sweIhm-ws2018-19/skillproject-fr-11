@@ -6,7 +6,7 @@ public class IngredientAmount {
 
     private String name;
     private String unitName;
-    private int amount;
+    private double amount;
 
     public String getName() {
         return name;
@@ -24,11 +24,11 @@ public class IngredientAmount {
         this.unitName = unitName;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

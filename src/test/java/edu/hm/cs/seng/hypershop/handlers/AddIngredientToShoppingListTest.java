@@ -20,8 +20,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
+import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_UNIT_ERROR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -92,15 +94,24 @@ public class AddIngredientToShoppingListTest {
 
     @Test
     public void testAmountNoNumber() {
+        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_NUMBER_ERROR);
+    }
+
+    @Test
+    public void testUnitNotFound() {
+        invalidInput(SLOT_UNIT, INGREDIENTS_ADD_UNIT_ERROR);
+    }
+
+    private void invalidInput(String slotUnit, String ingredientsAddUnitError) {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        Slot slot = Slot.builder().withName(SLOT_AMOUNT).withValue("test").build();
-        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_AMOUNT, slot);
+        Slot slot = Slot.builder().withName(slotUnit).withValue("test").build();
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(slotUnit, slot);
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
 
-        Assert.assertEquals(INGREDIENTS_ADD_NUMBER_ERROR, card.getContent());
+        Assert.assertEquals(ingredientsAddUnitError, card.getContent());
     }
 
     @Test
@@ -108,5 +119,7 @@ public class AddIngredientToShoppingListTest {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Assert.assertTrue(handler.canHandle(input));
     }
+
+
 
 }
