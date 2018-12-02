@@ -3,16 +3,13 @@ package edu.hm.cs.seng.hypershop.model;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import org.junit.Test;
 
-
 import static org.junit.Assert.assertEquals;
 
 public class RecipeTest {
 
     @Test
     public void recipeToByteFromByteEquals() {
-        final Recipe recipe = new Recipe();
-
-        recipe.setName("test");
+        final Recipe recipe = new Recipe("test");
 
         byte[] recipeAsBytes = ModelService.toBinary(recipe);
 

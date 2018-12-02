@@ -6,18 +6,14 @@ import java.util.stream.Collectors;
 public class ShoppingList {
 
     private final Set<IngredientAmount> ingredients = new HashSet<>();
-    private List<Recipe> recipes;
+    private final List<Recipe> recipes = new ArrayList<>();
 
     public ShoppingList(){
-
+        // nothing to do
     }
 
     public List<Recipe> getRecipes() {
         return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
     }
 
     public Set<IngredientAmount> getIngredients() {
@@ -30,7 +26,7 @@ public class ShoppingList {
 
     public Set<IngredientAmount> getIngredients(String nameSearchString) {
         return ingredients.stream()
-                .filter(ingredientAmount -> ingredientAmount.getName().toLowerCase().equals(nameSearchString.toLowerCase()))
+                .filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(nameSearchString.toLowerCase()))
                 .collect(Collectors.toSet());
     }
 

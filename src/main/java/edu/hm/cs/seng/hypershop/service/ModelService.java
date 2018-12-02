@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.model.Unit;
 
@@ -58,9 +59,7 @@ public class ModelService {
         } catch (Exception e) {
             try {
                 return clazz.newInstance();
-            } catch (InstantiationException e1) {
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
+            } catch (InstantiationException | IllegalAccessException e1) {
                 e1.printStackTrace();
             }
         }
@@ -79,6 +78,7 @@ public class ModelService {
     private static Kryo getCryo(Class clazz) {
         Kryo kryo = new Kryo();
         kryo.register(IngredientAmount.class);
+        kryo.register(Recipe.class);
         kryo.register(Unit.class);
         kryo.register(HashSet.class);
         kryo.register(ArrayList.class);

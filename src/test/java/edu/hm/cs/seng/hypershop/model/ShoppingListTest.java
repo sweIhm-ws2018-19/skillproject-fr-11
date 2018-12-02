@@ -4,7 +4,6 @@ import edu.hm.cs.seng.hypershop.service.ModelService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 
 public class ShoppingListTest {
@@ -12,7 +11,7 @@ public class ShoppingListTest {
     public void listIsEmptyOnStart() {
         final ShoppingList shoppingList = new ShoppingList();
         assertEquals(0, shoppingList.getIngredients().size());
-        assertNull(shoppingList.getRecipes());
+        assertEquals(0, shoppingList.getRecipes().size());
     }
 
     @Test

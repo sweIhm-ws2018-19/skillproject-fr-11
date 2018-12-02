@@ -71,6 +71,20 @@
           ]
         },
         {
+          "name": "AddRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "erstelle das rezept {recipe}",
+            "erstelle {recipe}",
+            "erstelle rezept {recipe}"
+          ]
+        },
+        {
           "name": "RemoveIngredientIntent",
           "slots": [
             {
@@ -85,6 +99,13 @@
           "samples": [
             "entferne {ingredient}",
             "lösche {ingredient}"
+          ]
+        },
+        {
+          "name": "BackIntent",
+          "slots": [],
+          "samples": [
+            "zurück"
           ]
         }
       ],

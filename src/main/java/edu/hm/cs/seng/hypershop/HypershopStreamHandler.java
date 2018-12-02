@@ -27,13 +27,14 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new AddIngredientIntentHandler(),
                         new RemoveIngredientIntentHandler(),
                         new ListIngredientsIntentHandler(),
+                        new AddRecipeIntentHandler(),
                         new LaunchRequestHandler(),
                         new CancelandStopIntentHandler(),
                         new SessionEndedRequestHandler(),
                         new HelpIntentHandler(),
                         new FallbackIntentHandler())
-                .withTableName("hypershopData")
-                .withSkillId("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85")
+                .withTableName(Constants.DYNAMO_TABLE_NAME)
+                .withSkillId(Constants.SKILL_ID)
                 .build();
     }
 
