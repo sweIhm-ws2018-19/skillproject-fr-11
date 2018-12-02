@@ -131,12 +131,11 @@
           "values": [
             {
               "name": {
-                "value": "becher"
-              }
-            },
-            {
-              "name": {
-                "value": "glas"
+                "value": "glas",
+                "synonyms": [
+                  "Tasse",
+                  "Glas"
+                ]
               }
             },
             {

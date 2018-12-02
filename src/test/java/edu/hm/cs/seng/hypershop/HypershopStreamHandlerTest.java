@@ -8,7 +8,7 @@ public class HypershopStreamHandlerTest {
 
     @Test
     public void isSkillIdValid() {
-        assertEquals("amzn1.ask.skill.83f45138-33db-4af6-874d-c78af275fa85", Constants.SKILL_ID);
+        assertEquals("amzn1.ask.skill.8c7a9786-c97e-4c48-a685-37a80ddd262e", Constants.SKILL_ID);
     }
 
     @Test

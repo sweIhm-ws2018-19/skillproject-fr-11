@@ -16,6 +16,8 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
+import com.amazon.ask.model.slu.entityresolution.Resolution;
+import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
@@ -24,8 +26,11 @@ import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import javax.measure.format.ParserException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
@@ -62,7 +67,18 @@ public class AddIngredientIntentHandler implements RequestHandler {
                 final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
 
                 final String ingredient = ingredientSlot.getValue();
-                final String unit = unitSlot.getValue();
+                String unit;
+                Optional<List<String>> strings=Optional.empty();
+                if (unitSlot.getResolutions() != null) {
+                    strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
+                            resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
+                }
+                if (strings.isPresent()) {
+                    unit = strings.get().get(0);
+                } else {
+                    unit = unitSlot.getValue();
+                }
+
                 final String amount = amountSlot.getValue();
                 int amountNumber = Integer.parseInt(amount);
 
@@ -72,7 +88,7 @@ public class AddIngredientIntentHandler implements RequestHandler {
             } catch (NumberFormatException ex) {
                 speechText = INGREDIENTS_ADD_NUMBER_ERROR;
                 responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
-            } catch(ParserException ex){
+            } catch (ParserException ex) {
                 speechText = INGREDIENTS_ADD_UNIT_ERROR;
                 responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
             }
@@ -80,7 +96,8 @@ public class AddIngredientIntentHandler implements RequestHandler {
             speechText = INGREDIENTS_ADD_ERROR;
             responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
         }
-        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
+        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).
+                withShouldEndSession(false);
 
         return responseBuilder.build();
     }

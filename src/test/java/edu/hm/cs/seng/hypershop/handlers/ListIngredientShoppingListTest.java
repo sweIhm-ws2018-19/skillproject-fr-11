@@ -76,6 +76,7 @@ public class ListIngredientShoppingListTest {
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
         Assert.assertTrue(card.getContent().contains("ingredient0"));
         Assert.assertTrue(card.getContent().contains("ingredient9"));
+        Assert.assertFalse(card.getContent().contains(".0"));
         Assert.assertFalse(card.getContent().endsWith(", "));
     }
     @Test

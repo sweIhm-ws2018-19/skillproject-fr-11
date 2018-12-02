@@ -30,7 +30,7 @@ public class AddIngredientToShoppingListTest {
 
     private HandlerInput input = Mockito.mock(HandlerInput.class);
     private HandlerInput input2 = Mockito.mock(HandlerInput.class);
-
+    private HandlerInput input3 = Mockito.mock(HandlerInput.class);
     private ShoppingList shoppingList;
 
 
@@ -40,6 +40,7 @@ public class AddIngredientToShoppingListTest {
 
         HandlerTestHelper.buildInput("addingredients.json", input);
         HandlerTestHelper.buildInput("addingredients2.json", input2);
+        HandlerTestHelper.buildInput("addingredients3.json", input3);
     }
 
 
@@ -118,6 +119,16 @@ public class AddIngredientToShoppingListTest {
         Assert.assertTrue(handler.canHandle(input));
     }
 
+    @Test
+    public void testResolution(){
+
+        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+        Optional<Response> responseOptional = handler.handle(input3);
+
+        assertTrue(responseOptional.isPresent());
+        final Card card = responseOptional.get().getCard();
+        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("müll"));
+    }
 
 
 }
