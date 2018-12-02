@@ -25,7 +25,7 @@ public class UnitConversionServiceTest {
             shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         }
         Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals(shoppingList.getIngredients().iterator().next().getAmount(), 100.0, 100);
+        Assert.assertEquals( 100.0, shoppingList.getIngredients().iterator().next().getAmount(),0.001);
         Assert.assertEquals("kg", shoppingList.getIngredients().iterator().next().getUnit());
     }
 
@@ -46,7 +46,7 @@ public class UnitConversionServiceTest {
         unitName = "g";
         shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals(shoppingList.getIngredients().iterator().next().getAmount(), 20.1, 100);
+        Assert.assertEquals(20.01, shoppingList.getIngredients().iterator().next().getAmount(), 0.001);
         Assert.assertEquals("kg", shoppingList.getIngredients().iterator().next().getUnit());
     }
 
@@ -67,7 +67,7 @@ public class UnitConversionServiceTest {
         unitName = "glass";
         shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals(400.0, shoppingList.getIngredients().iterator().next().getAmount(), 100);
+        Assert.assertEquals(400.0, shoppingList.getIngredients().iterator().next().getAmount(), 0.001);
         Assert.assertEquals("ml", shoppingList.getIngredients().iterator().next().getUnit());
     }
 
