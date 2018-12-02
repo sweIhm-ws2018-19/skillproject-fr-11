@@ -61,7 +61,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
             return responseBuilder.withSpeech(RECIPE_ADD_INVALID_INTENT).withShouldEndSession(false).build();
         }
 
-        if(recipeSlot == null) {
+        if(recipeSlot.getValue() == null) {
             return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
         }
 
