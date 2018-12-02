@@ -9,9 +9,6 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import tec.units.ri.quantity.QuantityDimension;
-import tec.units.ri.unit.BaseUnit;
-import tec.units.ri.unit.ProductUnit;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

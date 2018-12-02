@@ -3,18 +3,11 @@ package edu.hm.cs.seng.hypershop.service;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import tec.units.ri.quantity.Quantities;
-import tec.units.ri.unit.MetricPrefix;
-import tec.units.ri.unit.Units;
 
-import javax.measure.Quantity;
-import javax.measure.Unit;
-import javax.measure.format.ParserException;
-import javax.measure.quantity.Mass;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static tec.units.ri.unit.Units.GRAM;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class ShoppingListService {

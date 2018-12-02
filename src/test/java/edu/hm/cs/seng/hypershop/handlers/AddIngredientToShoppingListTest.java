@@ -21,9 +21,7 @@ import java.util.Optional;
 
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_UNIT_ERROR;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
