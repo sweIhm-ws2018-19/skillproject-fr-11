@@ -1,16 +1,12 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.Response;
-import com.amazon.ask.model.ui.SsmlOutputSpeech;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,10 +21,9 @@ public class AddRecipeIntentHandlerTest {
         final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
-        final Optional<Response> response = handler.handle(input);
-        final SsmlOutputSpeech speech = (SsmlOutputSpeech) response.get().getOutputSpeech();
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
         final String formatted = String.format(SpeechTextConstants.RECIPE_ADD_SUCCESS, "schnitzel");
-        assertTrue(speech.getSsml().contains(formatted));
+        assertTrue(responseString.contains(formatted));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         assertEquals(1, s.getRecipes().size());
@@ -41,9 +36,8 @@ public class AddRecipeIntentHandlerTest {
         final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
-        final Optional<Response> response = handler.handle(input);
-        final SsmlOutputSpeech speech = (SsmlOutputSpeech) response.get().getOutputSpeech();
-        assertTrue(speech.getSsml().contains(SpeechTextConstants.RECIPE_ADD_INVALID_INTENT));
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_ADD_INVALID_INTENT));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         assertEquals(0, s.getRecipes().size());
@@ -56,9 +50,8 @@ public class AddRecipeIntentHandlerTest {
         final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
-        final Optional<Response> response = handler.handle(input);
-        final SsmlOutputSpeech speech = (SsmlOutputSpeech) response.get().getOutputSpeech();
-        assertTrue(speech.getSsml().contains(SpeechTextConstants.RECIPE_ADD_ERROR));
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_ADD_ERROR));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         assertEquals(0, s.getRecipes().size());
