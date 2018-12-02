@@ -27,6 +27,7 @@ import edu.hm.cs.seng.hypershop.service.ModelService;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPES_LIST;
 
 public class ListRecipesIntentHandler implements RequestHandler {
 
@@ -45,7 +46,7 @@ public class ListRecipesIntentHandler implements RequestHandler {
 
         final ShoppingList shoppingList = (ShoppingList) getModelService().get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         final int recipesCount = shoppingList.getRecipes().size();
-        final StringBuilder sb = new StringBuilder(String.format("Du hast %d Rezepte gespeichert", recipesCount));
+        final StringBuilder sb = new StringBuilder(String.format(RECIPES_LIST, recipesCount));
         if (recipesCount == 0) {
             sb.append(".");
         } else {

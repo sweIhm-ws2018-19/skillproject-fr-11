@@ -3,6 +3,7 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.ui.SimpleCard;
+import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -26,34 +27,25 @@ import static org.mockito.Mockito.when;
 public class ListRecipesTest {
 
     private HandlerInput input = mock(HandlerInput.class);
-    private ShoppingList shoppingList;
-    @Mock
-    private ModelService modelService;
-    @InjectMocks
-    @Spy
-    private ListRecipesIntentHandler listRecipesIntentHandler = new ListRecipesIntentHandler();
 
     @Before
     public void before() {
         HandlerTestHelper.buildInput("listrecipes.json", input);
-
-        shoppingList = new ShoppingList();
-        addRecipe();
     }
 
     private void addRecipe() {
+        final ShoppingList shoppingList = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         ShoppingListService listService = new ShoppingListService();
         for (int index = 0; index < 10; index++) {
             String ingredientName = "recipe" + index;
             listService.addRecipe(ingredientName, shoppingList);
         }
+        new ModelService(input).save(shoppingList);
     }
 
     @Test
     public void testEmptyList() {
-        when(modelService.get(any(), any())).thenReturn(new ShoppingList());
-        when(listRecipesIntentHandler.getModelService()).thenReturn(modelService);
-        Optional<Response> responseOptional = listRecipesIntentHandler.handle(input);
+        Optional<Response> responseOptional = new ListRecipesIntentHandler().handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
@@ -62,9 +54,9 @@ public class ListRecipesTest {
 
     @Test
     public void testListIngredients() {
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(listRecipesIntentHandler.getModelService()).thenReturn(modelService);
-        Optional<Response> responseOptional = listRecipesIntentHandler.handle(input);
+        addRecipe();
+
+        Optional<Response> responseOptional = new ListRecipesIntentHandler().handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
@@ -74,7 +66,7 @@ public class ListRecipesTest {
     }
     @Test
     public void canHandle() {
-        Assert.assertTrue(listRecipesIntentHandler.canHandle(input));
+        Assert.assertTrue(new ListRecipesIntentHandler().canHandle(input));
     }
 
 }
