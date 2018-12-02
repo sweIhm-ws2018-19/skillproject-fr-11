@@ -44,8 +44,8 @@ public class ShoppingListService {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    public void addRecipe(String recipeName, ShoppingList shoppingList){
-        shoppingList.getRecipes().add(new Recipe(recipeName));
+    public void addRecipe(String recipeName, ShoppingList shoppingList) {
+        shoppingList.getRecipes().put(new Recipe(recipeName), 0);
     }
 
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {

@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "hypershop",
+      "invocationName": "hypershopmst",
       "intents": [
         {
           "name": "AMAZON.CancelIntent",
@@ -106,6 +106,15 @@
           "slots": [],
           "samples": [
             "zurück"
+          ]
+        },
+        {
+          "name": "ListRecipesIntent",
+          "slots": [],
+          "samples": [
+            "Liste gespeicherte Rezepte",
+            "Liste alle Rezepte",
+            "Liste Rezepte"
           ]
         }
       ],
