@@ -1,26 +1,15 @@
 package edu.hm.cs.seng.hypershop.service;
 
-import com.amazon.ask.attributes.AttributesManager;
-import com.amazon.ask.attributes.persistence.PersistenceAdapter;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.RequestEnvelope;
-import com.amazon.ask.response.ResponseBuilder;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.seng.hypershop.handlers.HandlerTestHelper;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
@@ -30,24 +19,7 @@ public class ContextStackServiceTest {
 
     @Before
     public void setUp() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        RequestEnvelope requestEnvelope = null;
-        try {
-            objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-            ClassLoader classLoader = getClass().getClassLoader();
-            String file1 = Objects.requireNonNull(classLoader.getResource("addingredients.json")).getFile();
-            requestEnvelope = objectMapper.readValue(new FileReader(file1), RequestEnvelope.class);
-        } catch (IOException e) {
-            System.out.println(e);
-            Assert.fail();
-        }
-
-        Mockito.when(input.getRequestEnvelope()).thenReturn(requestEnvelope);
-        final AttributesManager.Builder b = AttributesManager.builder();
-        final AttributesManager am = b.withRequestEnvelope(requestEnvelope).build();
-        am.setSessionAttributes(new HashMap<>());
-        Mockito.when(input.getAttributesManager()).thenReturn(am);
-        Mockito.when(input.getResponseBuilder()).thenReturn(new ResponseBuilder());
+        HandlerTestHelper.buildInput("addingredients.json", input);
     }
 
     @Test

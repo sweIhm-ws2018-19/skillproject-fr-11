@@ -19,7 +19,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 
 public class HandlerTestHelper {
 
-    static void buildInput(String filename, final HandlerInput input) {
+    public static void buildInput(String filename, final HandlerInput input) {
         buildInput(envelopeFromFile(filename), input);
     }
 
