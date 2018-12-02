@@ -34,6 +34,15 @@ public class ShoppingList {
         return ingredients.remove(ingredient);
     }
 
+    public List<Recipe> getRecipes(String nameSearchString){
+        return recipes.stream().filter(recipe -> recipe.getName().equals(nameSearchString))
+                .collect(Collectors.toList());
+    }
+
+    public boolean removeRecipe(Recipe recipe){
+        return recipes.remove(recipe);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

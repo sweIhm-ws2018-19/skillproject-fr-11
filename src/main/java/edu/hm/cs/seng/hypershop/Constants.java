@@ -1,6 +1,8 @@
 package edu.hm.cs.seng.hypershop;
 
 public class Constants {
+
+
     private Constants() {
         // disable public constructor
     }
@@ -14,6 +16,7 @@ public class Constants {
     public static final String INTENT_LIST_INGREDIENTS = "ListIngredientsIntent";
     public static final String INTENT_BACK = "BackIntent";
     public static final String INTENT_EDIT_RECIPE = "EditRecipeIntent";
+    public static final String INTENT_REMOVE_RECIPE = "RemoveRecipeIntent";
 
     public static final String SLOT_AMOUNT = "amount";
     public static final String SLOT_UNIT = "unit";
