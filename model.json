@@ -107,6 +107,22 @@
           "samples": [
             "zurück"
           ]
+        },
+        {
+          "name": "EditRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "samples": [
+                "{recipe}"
+              ]
+            }
+          ],
+          "samples": [
+            "bearbeite das rezept {recipe}",
+            "bearbeite rezept {recipe}"
+          ]
         }
       ],
       "types": [
@@ -210,6 +226,22 @@
               }
             }
           ]
+        },
+        {
+          "name": "EditRecipeIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.519175215927.950002344048"
+              }
+            }
+          ]
         }
       ]
     },
@@ -247,6 +279,15 @@
           {
             "type": "PlainText",
             "value": "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.519175215927.950002344048",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welches Rezept möchtest du bearbeiten?"
           }
         ]
       }
