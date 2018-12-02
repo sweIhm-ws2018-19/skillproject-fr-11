@@ -133,8 +133,11 @@
               "name": {
                 "value": "glas",
                 "synonyms": [
+                  "Gläser",
+                  "Tassen",
+                  "Glas",
                   "Tasse",
-                  "Glas"
+                  "glass"
                 ]
               }
             },
