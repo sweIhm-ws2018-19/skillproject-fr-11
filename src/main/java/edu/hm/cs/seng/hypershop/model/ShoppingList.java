@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 public class ShoppingList {
 
     private final Set<IngredientAmount> ingredients = new HashSet<>();
-    private final List<Recipe> recipes = new ArrayList<>();
+    private final Map<Recipe,Integer> recipes = new HashMap<>();
 
     public ShoppingList(){
         // nothing to do
     }
 
-    public List<Recipe> getRecipes() {
+    public Map<Recipe,Integer> getRecipes() {
         return recipes;
     }
 

@@ -109,6 +109,15 @@
           ]
         },
         {
+          "name": "ListRecipesIntent",
+          "slots": [],
+          "samples": [
+            "Liste gespeicherte Rezepte",
+            "Liste alle Rezepte",
+            "Liste Rezepte"
+          ]
+        },
+        {
           "name": "EditRecipeIntent",
           "slots": [
             {
