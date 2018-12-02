@@ -1,10 +1,8 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.ui.SimpleCard;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -17,12 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Objects;
 import java.util.Optional;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -41,20 +35,7 @@ public class ListIngredientShoppingListTest {
 
     @Before
     public void before() {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        RequestEnvelope requestEnvelope = null;
-        try {
-            objectMapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
-
-            ClassLoader classLoader = getClass().getClassLoader();
-            String file1 = Objects.requireNonNull(classLoader.getResource("listingredients.json")).getFile();
-            requestEnvelope = objectMapper.readValue(new FileReader(file1), RequestEnvelope.class);
-        } catch (IOException e) {
-            System.out.println(e);
-            Assert.fail();
-        }
-        HandlerTestHelper.buildInput(requestEnvelope, input);
+        HandlerTestHelper.buildInput("listingredients.json", input);
 
         shoppingList = new ShoppingList();
         addIngredients2ShoppingList();
@@ -99,7 +80,6 @@ public class ListIngredientShoppingListTest {
     }
     @Test
     public void canHandle() {
-        when(input.matches(any())).thenReturn(true);
         Assert.assertTrue(listIngredientsIntentHandler.canHandle(input));
     }
 

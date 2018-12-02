@@ -23,21 +23,16 @@ import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
-import javax.measure.format.ParserException;
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
-public class AddIngredientIntentHandler implements RequestHandler {
-
-
-    private ShoppingListService shoppingListService = new ShoppingListService();
-
+public class RemoveIngredientIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_ADD_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_REMOVE_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
@@ -48,41 +43,30 @@ public class AddIngredientIntentHandler implements RequestHandler {
         final Map<String, Slot> slots = intent.getSlots();
 
         final Slot ingredientSlot = slots.get(Constants.SLOT_INGREDIENT);
-        final Slot unitSlot = slots.get(Constants.SLOT_UNIT);
-        final Slot amountSlot = slots.get(Constants.SLOT_AMOUNT);
 
-        String speechText;
+        final ResponseBuilder responseBuilder = input.getResponseBuilder();
 
-        ResponseBuilder responseBuilder = input.getResponseBuilder();
+        final String speechText;
 
-        if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
-            try {
+        if(ingredientSlot != null) {
 
-                ModelService modelService = new ModelService(input);
-                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+            final ModelService modelService = new ModelService(input);
+            final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+            final String ingredient = ingredientSlot.getValue();
+            final ShoppingListService shoppingListService = new ShoppingListService();
 
-                final String ingredient = ingredientSlot.getValue();
-                final String unit = unitSlot.getValue();
-                final String amount = amountSlot.getValue();
-                int amountNumber = Integer.parseInt(amount);
-
-                ShoppingList newShoppingList = shoppingListService.addIngredient(ingredient, amountNumber, unit, shoppingList);
-                modelService.save(newShoppingList);
-                speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
-            } catch (NumberFormatException ex) {
-                speechText = INGREDIENTS_ADD_NUMBER_ERROR;
-                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
-            } catch(ParserException ex){
-                speechText = INGREDIENTS_ADD_UNIT_ERROR;
-                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
+            final boolean result = shoppingListService.removeIngredient(ingredient, shoppingList);
+            if(result) {
+                speechText = String.format(INGREDIENTS_REMOVE_SUCCESS, ingredient);
+                modelService.save(shoppingList);
+            } else {
+                speechText = INGREDIENTS_REMOVE_ERROR;
             }
         } else {
-            speechText = INGREDIENTS_ADD_ERROR;
-            responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);
+            speechText = INGREDIENTS_REMOVE_REPROMPT;
+            responseBuilder.withReprompt(INGREDIENTS_REMOVE_REPROMPT);
         }
         responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
-
         return responseBuilder.build();
     }
-
 }

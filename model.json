@@ -69,6 +69,60 @@
             "Welche Zutaten habe ich in meiner Einkaufsliste",
             "Liste Zutaten auf"
           ]
+        },
+        {
+          "name": "AddRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "erstelle das rezept {recipe}",
+            "erstelle {recipe}",
+            "erstelle rezept {recipe}"
+          ]
+        },
+        {
+          "name": "RemoveIngredientIntent",
+          "slots": [
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "samples": [
+                "{ingredient}",
+                "Die Zutat ist {ingredient}"
+              ]
+            }
+          ],
+          "samples": [
+            "entferne {ingredient}",
+            "lösche {ingredient}"
+          ]
+        },
+        {
+          "name": "BackIntent",
+          "slots": [],
+          "samples": [
+            "zurück"
+          ]
+        },
+        {
+          "name": "EditRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "samples": [
+                "{recipe}"
+              ]
+            }
+          ],
+          "samples": [
+            "bearbeite das rezept {recipe}",
+            "bearbeite rezept {recipe}"
+          ]
         }
       ],
       "types": [
@@ -156,6 +210,38 @@
               }
             }
           ]
+        },
+        {
+          "name": "RemoveIngredientIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.617425659085.1478882763140"
+              }
+            }
+          ]
+        },
+        {
+          "name": "EditRecipeIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.519175215927.950002344048"
+              }
+            }
+          ]
         }
       ]
     },
@@ -184,6 +270,24 @@
           {
             "type": "PlainText",
             "value": "Welche Einheit sagtest du?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.617425659085.1478882763140",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?"
+          }
+        ]
+      },
+      {
+        "id": "Elicit.Slot.519175215927.950002344048",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welches Rezept möchtest du bearbeiten?"
           }
         ]
       }

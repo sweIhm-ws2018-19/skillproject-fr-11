@@ -18,16 +18,17 @@ import static tec.units.ri.unit.Units.GRAM;
 
 public class ShoppingListService {
 
-
     private UnitConversionService unitConversionService = new UnitConversionService();
 
     public void addIngredient(IngredientAmount ingredientAmount) {
+        throw new UnsupportedOperationException("not implemented");
 
     }
 
     private Set<IngredientAmount> summarizeIngredients() {
         return new HashSet<>();
     }
+
 
     private void removeIngredients(String ingredientAmount) {
 
@@ -37,20 +38,37 @@ public class ShoppingListService {
 
     }
 
-    public void removeRecipe(String recipeName) {
-
-    }
-
-    private void removeRecipe(Recipe recipe) {
-
-    }
 
     public void addRecipe(String recipeName) {
 
     }
 
-    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) throws ParserException {
+    public boolean removeIngredient(String ingredient, ShoppingList shoppingList) {
+        return removeIngredient(
+                shoppingList.getIngredients(ingredient), shoppingList);
+    }
 
+    private boolean removeIngredient(Iterable<IngredientAmount> ingredients, ShoppingList shoppingList) {
+        boolean result = false;
+        for (IngredientAmount ingredient : ingredients) {
+            result |= shoppingList.removeIngredient(ingredient);
+        }
+        return result;
+    }
+
+    public void removeRecipe(String recipeName, ShoppingList shoppingList) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    private void removeRecipe(Recipe recipe) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    public void addRecipe(String recipeName, ShoppingList shoppingList) {
+        shoppingList.getRecipes().add(new Recipe(recipeName));
+    }
+
+    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
         Optional<IngredientAmount> ingredientOptional = Optional.empty();
         for (IngredientAmount ingredient : shoppingList.getIngredients()) {
             if (ingredient.getName().equals(name)) {
@@ -74,7 +92,6 @@ public class ShoppingListService {
     }
 
 
-
     public List<String> getRecipeStrings() {
         return new ArrayList<>();
     }
@@ -83,4 +100,7 @@ public class ShoppingListService {
         return new ArrayList<>();
     }
 
+    public boolean containsRecipe(String recipeName, ShoppingList shoppingList) {
+        return shoppingList.getRecipes().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
+    }
 }

@@ -9,6 +9,14 @@ public class Recipe {
     private String name;
     private Set<IngredientAmount> ingredients = new HashSet<>();
 
+    private Recipe() {
+        // private constructor for kryo
+    }
+
+    public Recipe(String name) {
+        this.name = name;
+    }
+
     public Set<IngredientAmount> getIngredients() {
         return ingredients;
     }
