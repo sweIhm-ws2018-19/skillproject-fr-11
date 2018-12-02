@@ -3,6 +3,8 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.attributes.AttributesManager;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.RequestEnvelope;
+import com.amazon.ask.model.Response;
+import com.amazon.ask.model.ui.SsmlOutputSpeech;
 import com.amazon.ask.response.ResponseBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.hm.cs.seng.hypershop.util.PersistenceAdapterMockImpl;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
 
@@ -54,5 +57,9 @@ public class HandlerTestHelper {
             Assert.fail();
         }
         return requestEnvelope;
+    }
+
+    public static String getResponseString(Optional<Response> response) {
+        return ((SsmlOutputSpeech) response.get().getOutputSpeech()).getSsml();
     }
 }

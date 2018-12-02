@@ -70,4 +70,7 @@ public class ShoppingListService {
         return new ArrayList<>();
     }
 
+    public boolean containsRecipe(String recipeName, ShoppingList shoppingList) {
+        return shoppingList.getRecipes().keySet().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
+    }
 }

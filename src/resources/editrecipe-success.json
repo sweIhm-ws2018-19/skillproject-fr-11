@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.9d7eba48-3a82-4b2a-bb21-6d3ae95110b5",
+    "application": {
+      "applicationId": "amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AHOY7UT3L6KFX5NHK2HJ5ZCOKVOKCARRY3D6CIELUQQVZROCXYDCLHSXA6UPZHVNPEAC2JO3EICXILNPDT2MEV3ANM6RKUOCA2LYMH6RYNPPMOGQVONH5PSZ3P2Q7OHK77NNK4ZJ7NX63MPHSSJXVNB6S3VN2HG5OQG3YZVIYBJ63UWDHTJXSKHNAYXYDFANJV6ZPS5ZS5XVECA"
+    }
+  },
+  "context": {
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AHOY7UT3L6KFX5NHK2HJ5ZCOKVOKCARRY3D6CIELUQQVZROCXYDCLHSXA6UPZHVNPEAC2JO3EICXILNPDT2MEV3ANM6RKUOCA2LYMH6RYNPPMOGQVONH5PSZ3P2Q7OHK77NNK4ZJ7NX63MPHSSJXVNB6S3VN2HG5OQG3YZVIYBJ63UWDHTJXSKHNAYXYDFANJV6ZPS5ZS5XVECA"
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AHDVE7JGORZKOPXREW75MCOXH5CNXTFC25CD7PSTQ5A4FRYEWE445IOTDQ6SRCUQI7BDVQQBXOLEP2CMXTUDUCNVJA3FL323JODPW7OM3DNF4SHAOLIUVZVTH6XHEM7HTUI3WSHKT6CXCA3OTU5XUXEF725HESUVPN7DBF3MJMXUDHWYB74ZC",
+        "supportedInterfaces": {}
+      },
+      "apiEndpoint": "https://api.eu.amazonalexa.com",
+      "apiAccessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLmI0MDcxYWE2LTQ5ZjctNDYyZC1iNjhkLWQ4MDQyYzViMTdlMiIsImV4cCI6MTU0Mzc1MDQxMywiaWF0IjoxNTQzNzQ2ODEzLCJuYmYiOjE1NDM3NDY4MTMsInByaXZhdGVDbGFpbXMiOnsiY29uc2VudFRva2VuIjpudWxsLCJkZXZpY2VJZCI6ImFtem4xLmFzay5kZXZpY2UuQUhEVkU3SkdPUlpLT1BYUkVXNzVNQ09YSDVDTlhURkMyNUNEN1BTVFE1QTRGUllFV0U0NDVJT1REUTZTUkNVUUk3QkRWUVFCWE9MRVAyQ01YVFVEVUNOVkpBM0ZMMzIzSk9EUFc3T00zRE5GNFNIQU9MSVVWWlZUSDZYSEVNN0hUVUkzV1NIS1Q2Q1hDQTNPVFU1WFVYRUY3MjVIRVNVVlBON0RCRjNNSk1YVURIV1lCNzRaQyIsInVzZXJJZCI6ImFtem4xLmFzay5hY2NvdW50LkFIT1k3VVQzTDZLRlg1TkhLMkhKNVpDT0tWT0tDQVJSWTNENkNJRUxVUVFWWlJPQ1hZRENMSFNYQTZVUFpIVk5QRUFDMkpPM0VJQ1hJTE5QRFQyTUVWM0FOTTZSS1VPQ0EyTFlNSDZSWU5QUE1PR1FWT05INVBTWjNQMlE3T0hLNzdOTks0Wko3Tlg2M01QSFNTSlhWTkI2UzNWTjJIRzVPUUczWVpWSVlCSjYzVVdESFRKWFNLSE5BWVhZREZBTkpWNlpQUzVaUzVYVkVDQSJ9fQ.Cj73jY7J7CNQh3oSQROcu1KSO67t9txOWBKtI1XtTxuY9Uk-ER3YkWHLmdolvBRspGzl2x7fAVDyrIUSEZwWoYDCNaHcLZ44XSJjbT5QRiIN5BQcv6xtfwuymG5BYIt-2bdIF4znCJtMWoeJz4aHWuEInj5EvoG_WP5QDLzaR7EUMYymBjqq-GfaQyeHk148bN-wPrS3PkJ5YezrRAfOMlYuQgB5zmf1lPROfQY1bun7LPv0cEwO-5aXHGaQfrIQ8R-shmLvuHYbRYMSCSe9R673AyQfLDVosvT08tcW0YWQQgMa3Edg1HVS66eAwRGUXMCApcBeD1s6nQhlyxZH5A"
+    },
+    "Viewport": {
+      "experiences": [
+        {
+          "arcMinuteWidth": 246,
+          "arcMinuteHeight": 144,
+          "canRotate": false,
+          "canResize": false
+        }
+      ],
+      "shape": "RECTANGLE",
+      "pixelWidth": 1024,
+      "pixelHeight": 600,
+      "dpi": 160,
+      "currentPixelWidth": 1024,
+      "currentPixelHeight": 600,
+      "touch": [
+        "SINGLE"
+      ]
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.990f8a30-3b35-4a6f-b7df-2da52b490faf",
+    "locale": "de-DE",
+    "intent": {
+      "name": "EditRecipeIntent",
+      "confirmationStatus": "NONE",
+      "slots": {
+        "recipe": {
+          "name": "recipe",
+          "value": "lebkuchen",
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        }
+      }
+    },
+    "dialogState": "STARTED"
+  }
+}
