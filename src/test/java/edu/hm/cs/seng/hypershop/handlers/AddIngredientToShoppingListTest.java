@@ -7,6 +7,7 @@ import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
 import edu.hm.cs.seng.hypershop.Constants;
+import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -130,5 +131,17 @@ public class AddIngredientToShoppingListTest {
         Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("müll"));
     }
 
+    @Test
+    public void addThreeJamJars() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("addingredients-3-jam.json", input);
+        final AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+
+        assertTrue(handler.canHandle(input));
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_SUCCESS, "marmelade");
+        HandlerTestHelper.compareSSML(expected, responseString);
+    }
 
 }
