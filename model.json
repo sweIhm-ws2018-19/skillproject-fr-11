@@ -140,12 +140,14 @@
           "values": [
             {
               "name": {
-                "value": "becher"
-              }
-            },
-            {
-              "name": {
-                "value": "glas"
+                "value": "glas",
+                "synonyms": [
+                  "Gläser",
+                  "Tassen",
+                  "Glas",
+                  "Tasse",
+                  "glass"
+                ]
               }
             },
             {
