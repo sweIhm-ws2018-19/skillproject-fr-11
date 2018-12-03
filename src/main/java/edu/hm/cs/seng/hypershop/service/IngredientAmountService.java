@@ -34,13 +34,24 @@ public class IngredientAmountService {
         }
         return sb;
     }
-
     private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
-        sb.append(ia.getAmount());
+        sb.append("<say-as interpret-as=\"number\">");
+        sb.append(fmt(ia.getAmount()));
+        sb.append("</say-as>");
         sb.append(" ");
-        sb.append(ia.getUnit().getName());
+        sb.append("<say-as interpret-as=\"unit\">");
+        sb.append(ia.getUnit());
+        sb.append("</say-as>");
         sb.append(" ");
         sb.append(ia.getName());
+    }
+
+    private static String fmt(double d)
+    {
+        if(d == (long) d)
+            return String.format("%d",(long)d);
+        else
+            return String.format("%s",d);
     }
 
 }
