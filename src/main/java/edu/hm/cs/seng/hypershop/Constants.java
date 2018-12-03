@@ -15,6 +15,8 @@ public class Constants {
     public static final String INTENT_LIST_RECIPES = "ListRecipesIntent";
     public static final String INTENT_BACK = "BackIntent";
     public static final String INTENT_EDIT_RECIPE = "EditRecipeIntent";
+    public static final String INTENT_ADD_INGREDIENT_RECIPE = "AddIngredientRecipeIntent";
+
 
     public static final String SLOT_AMOUNT = "amount";
     public static final String SLOT_UNIT = "unit";

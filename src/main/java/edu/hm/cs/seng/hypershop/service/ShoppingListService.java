@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class ShoppingListService {
@@ -50,6 +51,7 @@ public class ShoppingListService {
         return result;
     }
 
+
     public void removeRecipe(String recipeName, ShoppingList shoppingList) {
         throw new UnsupportedOperationException("not implemented");
     }
@@ -62,24 +64,56 @@ public class ShoppingListService {
         shoppingList.getRecipes().put(new Recipe(recipeName), 0);
     }
 
+    public void addRecipe(Recipe recipe, ShoppingList shoppingList) {
+        shoppingList.getRecipes().put(recipe, 0);
+    }
+
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
         boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
-                .count())>0;
+                .count()) > 0;
 
-        if(!matchingIngredient){
-            final IngredientAmount ingredientAmount = new IngredientAmount();
-            ingredientAmount.setName(name);
-            ingredientAmount.setAmount(amount);
-
-            unitConversionService.getUnit(unitName);
-            ingredientAmount.setUnit(unitName);
+        if (!matchingIngredient) {
+            IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
             shoppingList.addIngredient(ingredientAmount);
         }
 
 
         return shoppingList;
+    }
+
+    public Recipe getRecipe(ShoppingList shoppingList, String nameSearchString) {
+        List<Recipe> recipes = shoppingList.getRecipes().keySet().stream().filter(recipe -> recipe.getName().equals(nameSearchString))
+                .collect(Collectors.toList());
+        return recipes.size() == 1 ? recipes.get(0) : null;
+    }
+
+
+    public Recipe addIngredientRecipe(String name, int amount, String unitName, ShoppingList shoppingList,
+                                      String recipeName) {
+        Recipe recipe = getRecipe(shoppingList, recipeName);
+        if (recipe != null) {
+            boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
+                    .map(ingredientAmount ->
+                            unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
+                    .count()) > 0;
+            if (!matchingIngredient) {
+                IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
+                recipe.addIngredient(ingredientAmount);
+            }
+        }
+        return recipe;
+    }
+
+    public IngredientAmount createIngredient(String name, int amount, String unitName) {
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName(name);
+        ingredientAmount.setAmount(amount);
+
+        unitConversionService.getUnit(unitName);
+        ingredientAmount.setUnit(unitName);
+        return ingredientAmount;
     }
 
 

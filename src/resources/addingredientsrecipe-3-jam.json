@@ -1,0 +1,96 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.23dadf96-b0dc-40d3-acf2-b444dfb97fc3",
+    "application": {
+      "applicationId": "amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AHOY7UT3L6KFX5NHK2HJ5ZCOKVOKCARRY3D6CIELUQQVZROCXYDCLHSXA6UPZHVNPEAC2JO3EICXILNPDT2MEV3ANM6RKUOCA2LYMH6RYNPPMOGQVONH5PSZ3P2Q7OHK77NNK4ZJ7NX63MPHSSJXVNB6S3VN2HG5OQG3YZVIYBJ63UWDHTJXSKHNAYXYDFANJV6ZPS5ZS5XVECA"
+    }
+  },
+  "context": {
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AHOY7UT3L6KFX5NHK2HJ5ZCOKVOKCARRY3D6CIELUQQVZROCXYDCLHSXA6UPZHVNPEAC2JO3EICXILNPDT2MEV3ANM6RKUOCA2LYMH6RYNPPMOGQVONH5PSZ3P2Q7OHK77NNK4ZJ7NX63MPHSSJXVNB6S3VN2HG5OQG3YZVIYBJ63UWDHTJXSKHNAYXYDFANJV6ZPS5ZS5XVECA"
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AHDVE7JGORZKOPXREW75MCOXH5CNXTFC25CD7PSTQ5A4FRYEWE445IOTDQ6SRCUQI7BDVQQBXOLEP2CMXTUDUCNVJA3FL323JODPW7OM3DNF4SHAOLIUVZVTH6XHEM7HTUI3WSHKT6CXCA3OTU5XUXEF725HESUVPN7DBF3MJMXUDHWYB74ZC",
+        "supportedInterfaces": {}
+      },
+      "apiEndpoint": "https://api.eu.amazonalexa.com",
+      "apiAccessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLmI0MDcxYWE2LTQ5ZjctNDYyZC1iNjhkLWQ4MDQyYzViMTdlMiIsImV4cCI6MTU0MzgzMjYwNywiaWF0IjoxNTQzODI5MDA3LCJuYmYiOjE1NDM4MjkwMDcsInByaXZhdGVDbGFpbXMiOnsiY29uc2VudFRva2VuIjpudWxsLCJkZXZpY2VJZCI6ImFtem4xLmFzay5kZXZpY2UuQUhEVkU3SkdPUlpLT1BYUkVXNzVNQ09YSDVDTlhURkMyNUNEN1BTVFE1QTRGUllFV0U0NDVJT1REUTZTUkNVUUk3QkRWUVFCWE9MRVAyQ01YVFVEVUNOVkpBM0ZMMzIzSk9EUFc3T00zRE5GNFNIQU9MSVVWWlZUSDZYSEVNN0hUVUkzV1NIS1Q2Q1hDQTNPVFU1WFVYRUY3MjVIRVNVVlBON0RCRjNNSk1YVURIV1lCNzRaQyIsInVzZXJJZCI6ImFtem4xLmFzay5hY2NvdW50LkFIT1k3VVQzTDZLRlg1TkhLMkhKNVpDT0tWT0tDQVJSWTNENkNJRUxVUVFWWlJPQ1hZRENMSFNYQTZVUFpIVk5QRUFDMkpPM0VJQ1hJTE5QRFQyTUVWM0FOTTZSS1VPQ0EyTFlNSDZSWU5QUE1PR1FWT05INVBTWjNQMlE3T0hLNzdOTks0Wko3Tlg2M01QSFNTSlhWTkI2UzNWTjJIRzVPUUczWVpWSVlCSjYzVVdESFRKWFNLSE5BWVhZREZBTkpWNlpQUzVaUzVYVkVDQSJ9fQ.T0cSyVcIhrEdU1TL5BnqKmbf6KTi5BvTsHLhexnBEHA9Om-iIj-DcZY_aiAHx6Wz7dYsx9_DWKAxhlr6ezBCfVTuV2197SxekzS0HFwJUP6VnOGyk82thbFNfFAT1KlpB-VTCaG4UK7hknG2SRbbQ-pWlf154aCkBnR5N8Ed2XvqvQ0zxyFP4jRNvDYRELqPdFjx8d9HhlpBMtEG4YyLJSjdHiuco7EWMPLPNwqlCMuXD6rIog5gYxPtW8WhzK5Bwkw-qTJp_8t59qMzkGYP-uOxTxMghCzELz5rp65XtzFx2uiCgMqZcsEy-uIEPfF2RZ6mst7hQBVe0FKEFxGRkw"
+    },
+    "Viewport": {
+      "experiences": [
+        {
+          "arcMinuteWidth": 246,
+          "arcMinuteHeight": 144,
+          "canRotate": false,
+          "canResize": false
+        }
+      ],
+      "shape": "RECTANGLE",
+      "pixelWidth": 1024,
+      "pixelHeight": 600,
+      "dpi": 160,
+      "currentPixelWidth": 1024,
+      "currentPixelHeight": 600,
+      "touch": [
+        "SINGLE"
+      ]
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.cc3d7dce-e8ee-475a-868a-1c7187fe60ae",
+    "locale": "de-DE",
+    "intent": {
+      "name": "AddIngredientRecipeIntent",
+      "confirmationStatus": "NONE",
+      "slots": {
+        "unit": {
+          "name": "unit",
+          "value": "tassen",
+          "resolutions": {
+            "resolutionsPerAuthority": [
+              {
+                "authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2.ingredientUnit",
+                "status": {
+                  "code": "ER_SUCCESS_MATCH"
+                },
+                "values": [
+                  {
+                    "value": {
+                      "name": "glas",
+                      "id": "526ffd74d16cf76c4b1f02ab59d70ac9"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        },
+        "amount": {
+          "name": "amount",
+          "value": "3",
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        },
+        "ingredient": {
+          "name": "ingredient",
+          "value": "marmelade",
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        }
+      }
+    },
+    "dialogState": "STARTED"
+  }
+}
