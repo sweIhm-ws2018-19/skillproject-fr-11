@@ -21,6 +21,7 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
+import edu.hm.cs.seng.hypershop.service.IngredientAmountService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 
 import java.util.Optional;
@@ -44,19 +45,14 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
         final ShoppingList shoppingList = (ShoppingList) getModelService().get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         final int listSize = shoppingList.getIngredients().size();
-        final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste", listSize));
+        StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste", listSize));
         if (listSize == 0) {
             sb.append(".");
         } else {
             sb.append(": ");
         }
-        for (IngredientAmount ie : shoppingList.getIngredients()) {
-            Optional<IngredientAmount> firstIngredient = shoppingList.getIngredients().stream().findFirst();
-            if (firstIngredient.isPresent() && ie != firstIngredient.get()) {
-                sb.append(", ");
-            }
-            addIngredientToStringBuilder(sb, ie);
-        }
+        IngredientAmountService ingredientAmountService = new IngredientAmountService();
+        sb = ingredientAmountService.getIngredientsString(shoppingList,sb);
 
         final String speechText = sb.toString();
 
@@ -69,13 +65,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         return responseBuilder.build();
     }
 
-    private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
-        sb.append(ia.getAmount());
-        sb.append(" ");
-        sb.append(ia.getUnit().getName());
-        sb.append(" ");
-        sb.append(ia.getName());
-    }
+
 
     public ModelService getModelService() {
         return modelService;

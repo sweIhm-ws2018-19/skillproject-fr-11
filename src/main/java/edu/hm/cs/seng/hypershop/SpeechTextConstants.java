@@ -2,6 +2,8 @@ package edu.hm.cs.seng.hypershop;
 
 public class SpeechTextConstants {
 
+
+
     private SpeechTextConstants() {
         // hide public ctor
     }
@@ -39,6 +41,12 @@ public class SpeechTextConstants {
     public static final String RECIPE_EDIT_ERROR = "Tut mir leid, ich habe den Rezeptnamen nicht verstanden.";
     public static final String RECIPE_EDIT_REPROMPT = "Welches Rezept möchtest du bearbeiten?";
     public static final String RECIPE_EDIT_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
+
+    public static final String RECIPE_LIST_ERROR = "Tut mir leid, ich habe den Rezeptnamen nicht verstanden.";
+    public static final String RECIPE_LIST_REPROMPT = "Von Welchem Rezept möchtest du die Zutaten auflisten?";
+    public static final String RECIPE_LIST_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
+    ;public static final String LIST_RECIPE_INGREDIENTS = "Du hast %d Zutaten in deinem Rezept";
+
 
     public static final String BACK_OK = "Ok.";
 }

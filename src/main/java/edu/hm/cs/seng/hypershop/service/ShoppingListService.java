@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class ShoppingListService {
@@ -72,5 +73,10 @@ public class ShoppingListService {
 
     public boolean containsRecipe(String recipeName, ShoppingList shoppingList) {
         return shoppingList.getRecipes().keySet().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
+    }
+
+    public Recipe getRecipe(String recipeName, ShoppingList shoppingList){
+        return shoppingList.getRecipes().keySet().stream().filter(r->r.getName().equalsIgnoreCase(recipeName))
+                .collect(Collectors.toList()).get(0);
     }
 }
