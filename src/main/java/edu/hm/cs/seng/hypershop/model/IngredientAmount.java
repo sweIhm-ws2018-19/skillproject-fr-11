@@ -5,8 +5,8 @@ import java.util.Objects;
 public class IngredientAmount {
 
     private String name;
-    private Unit unit;
-    private int amount;
+    private String unitName;
+    private double amount;
 
     public String getName() {
         return name;
@@ -16,19 +16,19 @@ public class IngredientAmount {
         this.name = name;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public String getUnit() {
+        return unitName;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setUnit(String unitName) {
+        this.unitName = unitName;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

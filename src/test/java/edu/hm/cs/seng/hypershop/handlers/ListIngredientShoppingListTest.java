@@ -47,7 +47,11 @@ public class ListIngredientShoppingListTest {
             String ingredientName = "ingredient" + index;
             int amount = 10 + index;
             String unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            try {
+                shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -72,6 +76,7 @@ public class ListIngredientShoppingListTest {
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
         Assert.assertTrue(card.getContent().contains("ingredient0"));
         Assert.assertTrue(card.getContent().contains("ingredient9"));
+        Assert.assertFalse(card.getContent().contains(".0"));
         Assert.assertFalse(card.getContent().endsWith(", "));
     }
     @Test

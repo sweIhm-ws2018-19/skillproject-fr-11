@@ -7,6 +7,7 @@ import com.amazon.ask.model.Slot;
 import com.amazon.ask.model.ui.Card;
 import com.amazon.ask.model.ui.SimpleCard;
 import edu.hm.cs.seng.hypershop.Constants;
+import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -20,8 +21,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.Optional;
 
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_ERROR;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_ADD_NUMBER_ERROR;
+import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +31,7 @@ public class AddIngredientToShoppingListTest {
 
     private HandlerInput input = Mockito.mock(HandlerInput.class);
     private HandlerInput input2 = Mockito.mock(HandlerInput.class);
-
+    private HandlerInput input3 = Mockito.mock(HandlerInput.class);
     private ShoppingList shoppingList;
 
 
@@ -40,6 +41,7 @@ public class AddIngredientToShoppingListTest {
 
         HandlerTestHelper.buildInput("addingredients.json", input);
         HandlerTestHelper.buildInput("addingredients2.json", input2);
+        HandlerTestHelper.buildInput("addingredients3.json", input3);
     }
 
 
@@ -82,7 +84,7 @@ public class AddIngredientToShoppingListTest {
     @Test
     public void testIngredientSlotEmpty() {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT,null);
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT, null);
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
@@ -92,14 +94,24 @@ public class AddIngredientToShoppingListTest {
 
     @Test
     public void testAmountNoNumber() {
+        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_NUMBER_ERROR);
+    }
+
+    @Test
+    public void testUnitNotFound() {
+        invalidInput(SLOT_UNIT, INGREDIENTS_ADD_UNIT_ERROR);
+    }
+
+    private void invalidInput(String slotUnit, String ingredientsAddUnitError) {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        Slot slot = Slot.builder().withName(SLOT_AMOUNT).withValue("test").build();
-        ((IntentRequest)input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_AMOUNT,slot);
+        Slot slot = Slot.builder().withName(slotUnit).withValue("test").build();
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(slotUnit, slot);
         Optional<Response> responseOptional = handler.handle(input);
 
         assertTrue(responseOptional.isPresent());
         final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(INGREDIENTS_ADD_NUMBER_ERROR, card.getContent());
+
+        Assert.assertEquals(ingredientsAddUnitError, card.getContent());
     }
 
     @Test
@@ -107,4 +119,29 @@ public class AddIngredientToShoppingListTest {
         AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Assert.assertTrue(handler.canHandle(input));
     }
+
+    @Test
+    public void testResolution(){
+
+        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+        Optional<Response> responseOptional = handler.handle(input3);
+
+        assertTrue(responseOptional.isPresent());
+        final Card card = responseOptional.get().getCard();
+        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("müll"));
+    }
+
+    @Test
+    public void addThreeJamJars() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("addingredients-3-jam.json", input);
+        final AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
+
+        assertTrue(handler.canHandle(input));
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_SUCCESS, "marmelade");
+        HandlerTestHelper.compareSSML(expected, responseString);
+    }
+
 }
