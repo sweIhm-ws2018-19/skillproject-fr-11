@@ -18,7 +18,6 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -30,6 +29,7 @@ import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class RemoveIngredientIntentHandler implements RequestHandler {
+
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName(Constants.INTENT_REMOVE_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
@@ -49,16 +49,14 @@ public class RemoveIngredientIntentHandler implements RequestHandler {
         final String speechText;
 
         if(ingredientSlot != null) {
-
             final ModelService modelService = new ModelService(input);
-            final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
             final String ingredient = ingredientSlot.getValue();
-            final ShoppingListService shoppingListService = new ShoppingListService();
+            final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-            final boolean result = shoppingListService.removeIngredient(ingredient, shoppingList);
+            final boolean result = shoppingListService.removeIngredient(ingredient);
             if(result) {
                 speechText = String.format(INGREDIENTS_REMOVE_SUCCESS, ingredient);
-                modelService.save(shoppingList);
+                shoppingListService.save(modelService);
             } else {
                 speechText = INGREDIENTS_REMOVE_ERROR;
             }

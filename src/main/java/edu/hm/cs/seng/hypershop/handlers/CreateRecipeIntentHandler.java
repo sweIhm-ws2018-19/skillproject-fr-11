@@ -18,7 +18,6 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -34,8 +33,6 @@ public class CreateRecipeIntentHandler implements RequestHandler {
             Constants.INTENT_ADD_INGREDIENT,
             Constants.INTENT_REMOVE_INGREDIENT
     ));
-
-    private ShoppingListService shoppingListService = new ShoppingListService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -66,13 +63,12 @@ public class CreateRecipeIntentHandler implements RequestHandler {
         }
 
         final ModelService modelService = new ModelService(input);
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
         final String recipeName = recipeSlot.getValue();
 
-        shoppingListService.addRecipe(recipeName, shoppingList);
-
-        modelService.save(shoppingList);
+        shoppingListService.createRecipe(recipeName);
+        shoppingListService.save(modelService);
 
         ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
 

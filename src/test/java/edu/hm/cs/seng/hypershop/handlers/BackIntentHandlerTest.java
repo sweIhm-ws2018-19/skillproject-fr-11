@@ -19,7 +19,7 @@ public class BackIntentHandlerTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.BACK_OK));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.BACK_OK, responseString);
 
         assertTrue(ContextStackService.isCurrentContext(input, null));
     }
@@ -33,7 +33,7 @@ public class BackIntentHandlerTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.BACK_OK));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.BACK_OK, responseString);
 
         assertTrue(ContextStackService.isCurrentContext(input, null));
     }
@@ -48,7 +48,7 @@ public class BackIntentHandlerTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.BACK_OK));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.BACK_OK, responseString);
 
         assertTrue(ContextStackService.isCurrentContext(input, "foo"));
     }

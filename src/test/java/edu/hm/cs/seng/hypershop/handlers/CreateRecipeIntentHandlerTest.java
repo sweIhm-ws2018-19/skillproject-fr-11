@@ -1,10 +1,9 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -23,10 +22,10 @@ public class CreateRecipeIntentHandlerTest {
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
         final String formatted = String.format(SpeechTextConstants.RECIPE_CREATE_SUCCESS, "schnitzel");
-        assertTrue(responseString.contains(formatted));
+        HandlerTestHelper.compareSSML(formatted, responseString);
 
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        assertEquals(1, s.getRecipes().size());
+        final ShoppingListService shoppingListService = new ShoppingListService(new ModelService(input));
+        assertEquals(1, shoppingListService.getRecipeStrings().size());
     }
 
     @Test
@@ -37,10 +36,10 @@ public class CreateRecipeIntentHandlerTest {
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_CREATE_INVALID_INTENT));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.RECIPE_CREATE_INVALID_INTENT, responseString);
 
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        assertEquals(0, s.getRecipes().size());
+        final ShoppingListService shoppingListService = new ShoppingListService(new ModelService(input));
+        assertEquals(0, shoppingListService.getRecipeStrings().size());
     }
 
     @Test
@@ -51,9 +50,9 @@ public class CreateRecipeIntentHandlerTest {
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_CREATE_ERROR));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.RECIPE_CREATE_ERROR, responseString);
 
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        assertEquals(0, s.getRecipes().size());
+        final ShoppingListService shoppingListService = new ShoppingListService(new ModelService(input));
+        assertEquals(0, shoppingListService.getRecipeStrings().size());
     }
 }

@@ -60,6 +60,11 @@ public class HandlerTestHelper {
     }
 
     public static String getResponseString(Optional<Response> response) {
+        Assert.assertTrue(response.isPresent());
         return ((SsmlOutputSpeech) response.get().getOutputSpeech()).getSsml();
+    }
+
+    public static void compareSSML(String expected, String actual) {
+        Assert.assertEquals("<speak>" + expected + "</speak>", actual);
     }
 }

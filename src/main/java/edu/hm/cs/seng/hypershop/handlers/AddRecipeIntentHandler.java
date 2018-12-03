@@ -15,55 +15,49 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
+import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
-import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPES_LIST;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_ADD_ERROR;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_ADD_REPROMPT;
 
-public class ListRecipesIntentHandler implements RequestHandler {
+public class AddRecipeIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_LIST_RECIPES)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_ADD_RECIPE)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        final IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+        final Map<String, Slot> slots = intentRequest.getIntent().getSlots();
+
+        final Slot recipeSlot = slots.get(Constants.SLOT_RECIPE);
+
+        final ResponseBuilder responseBuilder = input.getResponseBuilder();
+
+        if (recipeSlot.getValue() == null) {
+            return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
+        }
 
         final ModelService modelService = new ModelService(input);
-        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        final int recipesCount = shoppingListService.getRecipeStrings().size();
-        final StringBuilder sb = new StringBuilder(String.format(RECIPES_LIST, recipesCount));
-        if (recipesCount == 0) {
-            sb.append(".");
-        } else {
-            sb.append(": ");
-        }
-        boolean isFirst = true;
-        for (String r : shoppingListService.getRecipeStrings()) {
-            if (isFirst)
-                isFirst = false;
-            else
-                sb.append(", ");
-            sb.append(r);
-        }
+        ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
 
-        final String speechText = sb.toString();
-
-        ResponseBuilder responseBuilder = input.getResponseBuilder();
-
-        responseBuilder.withSimpleCard("HypershopSession", speechText)
-                .withSpeech(speechText)
-                .withShouldEndSession(false);
+//        final String speechText = String.format(RECIPE_CREATE_SUCCESS, recipeName);
+//        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
 
         return responseBuilder.build();
     }
+
 }
