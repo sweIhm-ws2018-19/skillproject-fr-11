@@ -3,8 +3,6 @@ package edu.hm.cs.seng.hypershop;
 public class Constants {
 
 
-
-
     private Constants() {
         // disable public constructor
     }

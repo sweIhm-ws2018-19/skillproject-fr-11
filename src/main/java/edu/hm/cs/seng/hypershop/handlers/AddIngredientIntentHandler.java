@@ -16,8 +16,6 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
-import com.amazon.ask.model.slu.entityresolution.Resolution;
-import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
@@ -29,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
@@ -64,7 +61,7 @@ public class AddIngredientIntentHandler implements RequestHandler {
 
                 final String ingredient = ingredientSlot.getValue();
                 String unit;
-                Optional<List<String>> strings=Optional.empty();
+                Optional<List<String>> strings = Optional.empty();
                 if (unitSlot.getResolutions() != null) {
                     strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
                             resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
