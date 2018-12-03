@@ -21,7 +21,8 @@
           "samples": [
             "stop",
             "aus",
-            "aufhören"
+            "aufhören",
+            "ciao"
           ]
         },
         {
@@ -93,8 +94,6 @@
             }
           ],
           "samples": [
-            "liste {recipe}",
-            "liste von {recipe}",
             "Zeige Zutaten von {recipe}",
             "Zeige Zutaten {recipe}"
           ]
