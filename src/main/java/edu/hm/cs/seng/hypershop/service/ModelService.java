@@ -9,7 +9,6 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import edu.hm.cs.seng.hypershop.model.Unit;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -79,12 +78,12 @@ public class ModelService {
         Kryo kryo = new Kryo();
         kryo.register(IngredientAmount.class);
         kryo.register(Recipe.class);
-        kryo.register(Unit.class);
         kryo.register(HashSet.class);
-        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
         kryo.register(clazz);
         return kryo;
     }
+
 
 
 }

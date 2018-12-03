@@ -109,6 +109,15 @@
           ]
         },
         {
+          "name": "ListRecipesIntent",
+          "slots": [],
+          "samples": [
+            "Liste gespeicherte Rezepte",
+            "Liste alle Rezepte",
+            "Liste Rezepte"
+          ]
+        },
+        {
           "name": "EditRecipeIntent",
           "slots": [
             {
@@ -129,10 +138,7 @@
           "slots": [
             {
               "name": "recipe",
-              "type": "AMAZON.Food",
-              "samples": [
-                "{recipe}"
-              ]
+              "type": "AMAZON.Food"
             }
           ],
           "samples": [
@@ -147,12 +153,14 @@
           "values": [
             {
               "name": {
-                "value": "becher"
-              }
-            },
-            {
-              "name": {
-                "value": "glas"
+                "value": "glas",
+                "synonyms": [
+                  "Gläser",
+                  "Tassen",
+                  "Glas",
+                  "Tasse",
+                  "glass"
+                ]
               }
             },
             {

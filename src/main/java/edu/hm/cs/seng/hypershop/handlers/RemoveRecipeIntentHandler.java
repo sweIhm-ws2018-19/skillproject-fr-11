@@ -49,7 +49,7 @@ public class RemoveRecipeIntentHandler implements RequestHandler {
         try {
             ShoppingList newShoppingList = shoppingListService.removeRecipe(recipeName, shoppingList);
             modelService.save(newShoppingList);
-            speechText = String.format(RECIPE_EDIT_SUCCESS, recipeName);
+            speechText = String.format(RECIPE_REMOVE_SUCCESS, recipeName);
         } catch (IllegalArgumentException ex) {
             speechText = String.format(RECIPE_REMOVE_NOT_FOUND, recipeName);
         }

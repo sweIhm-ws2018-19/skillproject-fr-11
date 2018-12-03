@@ -6,13 +6,13 @@ import java.util.stream.Collectors;
 public class ShoppingList {
 
     private final Set<IngredientAmount> ingredients = new HashSet<>();
-    private final List<Recipe> recipes = new ArrayList<>();
+    private final Map<Recipe, Integer> recipes = new HashMap<>();
 
-    public ShoppingList(){
+    public ShoppingList() {
         // nothing to do
     }
 
-    public List<Recipe> getRecipes() {
+    public Map<Recipe, Integer> getRecipes() {
         return recipes;
     }
 
@@ -34,13 +34,13 @@ public class ShoppingList {
         return ingredients.remove(ingredient);
     }
 
-    public List<Recipe> getRecipes(String nameSearchString){
-        return recipes.stream().filter(recipe -> recipe.getName().equals(nameSearchString))
+    public List<Recipe> getRecipes(String nameSearchString) {
+        return recipes.keySet().stream().filter(recipe -> recipe.getName().equals(nameSearchString))
                 .collect(Collectors.toList());
     }
 
-    public boolean removeRecipe(Recipe recipe){
-        return recipes.remove(recipe);
+    public void removeRecipe(Recipe recipe) {
+        recipes.remove(recipe);
     }
 
     @Override

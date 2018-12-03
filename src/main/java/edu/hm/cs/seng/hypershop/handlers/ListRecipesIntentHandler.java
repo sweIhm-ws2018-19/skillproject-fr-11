@@ -19,6 +19,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
@@ -26,15 +27,16 @@ import edu.hm.cs.seng.hypershop.service.ModelService;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPES_LIST;
 
-public class ListIngredientsIntentHandler implements RequestHandler {
+public class ListRecipesIntentHandler implements RequestHandler {
 
 
     private ModelService modelService;
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_LIST_INGREDIENTS)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_LIST_RECIPES)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
@@ -43,19 +45,20 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         modelService = new ModelService(input);
 
         final ShoppingList shoppingList = (ShoppingList) getModelService().get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        final int listSize = shoppingList.getIngredients().size();
-        final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste", listSize));
-        if (listSize == 0) {
+        final int recipesCount = shoppingList.getRecipes().size();
+        final StringBuilder sb = new StringBuilder(String.format(RECIPES_LIST, recipesCount));
+        if (recipesCount == 0) {
             sb.append(".");
         } else {
             sb.append(": ");
         }
-        for (IngredientAmount ie : shoppingList.getIngredients()) {
-            Optional<IngredientAmount> firstIngredient = shoppingList.getIngredients().stream().findFirst();
-            if (firstIngredient.isPresent() && ie != firstIngredient.get()) {
+        boolean isFirst = true;
+        for (Recipe r : shoppingList.getRecipes().keySet()) {
+            if (isFirst)
+                isFirst = false;
+            else
                 sb.append(", ");
-            }
-            addIngredientToStringBuilder(sb, ie);
+            sb.append(r.getName());
         }
 
         final String speechText = sb.toString();
@@ -67,26 +70,6 @@ public class ListIngredientsIntentHandler implements RequestHandler {
                 .withShouldEndSession(false);
 
         return responseBuilder.build();
-    }
-
-    private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
-        sb.append("<say-as interpret-as=\"number\">");
-        sb.append(fmt(ia.getAmount()));
-        sb.append("</say-as>");
-        sb.append(" ");
-        sb.append("<say-as interpret-as=\"unit\">");
-        sb.append(ia.getUnit());
-        sb.append("</say-as>");
-        sb.append(" ");
-        sb.append(ia.getName());
-    }
-
-    private static String fmt(double d)
-    {
-        if(d == (long) d)
-            return String.format("%d",(long)d);
-        else
-            return String.format("%s",d);
     }
 
     public ModelService getModelService() {
