@@ -59,7 +59,7 @@ public class ShoppingListService {
     }
 
     public void addRecipe(String recipeName, ShoppingList shoppingList) {
-        shoppingList.getRecipes().add(new Recipe(recipeName));
+        shoppingList.getRecipes().put(new Recipe(recipeName), 0);
     }
 
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
@@ -92,6 +92,6 @@ public class ShoppingListService {
     }
 
     public boolean containsRecipe(String recipeName, ShoppingList shoppingList) {
-        return shoppingList.getRecipes().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
+        return shoppingList.getRecipes().keySet().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
     }
 }

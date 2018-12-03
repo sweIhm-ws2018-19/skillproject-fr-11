@@ -79,7 +79,7 @@ public class ModelService {
         kryo.register(IngredientAmount.class);
         kryo.register(Recipe.class);
         kryo.register(HashSet.class);
-        kryo.register(ArrayList.class);
+        kryo.register(HashMap.class);
         kryo.register(clazz);
         return kryo;
     }
