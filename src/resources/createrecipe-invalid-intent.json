@@ -54,7 +54,7 @@
     "requestId": "amzn1.echo-api.request.94175854-0657-4c95-a66e-36723cd23e12",
     "locale": "de-DE",
     "intent": {
-      "name": "AddRecipeIntent",
+      "name": "CreateRecipeIntent",
       "confirmationStatus": "NONE",
       "slots": {
         "recipe": {

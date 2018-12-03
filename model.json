@@ -71,7 +71,7 @@
           ]
         },
         {
-          "name": "AddRecipeIntent",
+          "name": "CreateRecipeIntent",
           "slots": [
             {
               "name": "recipe",

@@ -11,18 +11,18 @@ import org.mockito.Mockito;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class AddRecipeIntentHandlerTest {
+public class CreateRecipeIntentHandlerTest {
 
 
     @Test
     public void shouldHandleNewRecipe() {
         final HandlerInput input = Mockito.mock(HandlerInput.class);
-        HandlerTestHelper.buildInput("addrecipe-normal.json", input);
-        final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
+        HandlerTestHelper.buildInput("createrecipe-normal.json", input);
+        final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        final String formatted = String.format(SpeechTextConstants.RECIPE_ADD_SUCCESS, "schnitzel");
+        final String formatted = String.format(SpeechTextConstants.RECIPE_CREATE_SUCCESS, "schnitzel");
         assertTrue(responseString.contains(formatted));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
@@ -32,12 +32,12 @@ public class AddRecipeIntentHandlerTest {
     @Test
     public void shouldWarnAboutInvalidAction() {
         final HandlerInput input = Mockito.mock(HandlerInput.class);
-        HandlerTestHelper.buildInput("addrecipe-invalid-intent.json", input);
-        final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
+        HandlerTestHelper.buildInput("createrecipe-invalid-intent.json", input);
+        final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_ADD_INVALID_INTENT));
+        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_CREATE_INVALID_INTENT));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         assertEquals(0, s.getRecipes().size());
@@ -46,12 +46,12 @@ public class AddRecipeIntentHandlerTest {
     @Test
     public void shouldExitWithError() {
         final HandlerInput input = Mockito.mock(HandlerInput.class);
-        HandlerTestHelper.buildInput("addrecipe-empty.json", input);
-        final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
+        HandlerTestHelper.buildInput("createrecipe-empty.json", input);
+        final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_ADD_ERROR));
+        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_CREATE_ERROR));
 
         final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
         assertEquals(0, s.getRecipes().size());
