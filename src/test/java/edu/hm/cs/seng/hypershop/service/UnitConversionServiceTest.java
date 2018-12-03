@@ -64,7 +64,7 @@ public class UnitConversionServiceTest {
         }
         ingredientName = "ingredient";
         amount = 1;
-        unitName = "glass";
+        unitName = "glas";
         shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
         Assert.assertEquals(shoppingList.getIngredients().size(), 1);
         Assert.assertEquals(400.0, shoppingList.getIngredients().iterator().next().getAmount(), 0.001);
