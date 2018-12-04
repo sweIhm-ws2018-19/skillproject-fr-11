@@ -32,7 +32,8 @@ public class AddRecipeIntentHandler implements RequestHandler {
 
     private static final Set<String> contextualIntents = new HashSet<>(Arrays.asList(
             Constants.INTENT_ADD_INGREDIENT,
-            Constants.INTENT_REMOVE_INGREDIENT
+            Constants.INTENT_REMOVE_INGREDIENT,
+            Constants.INTENT_ADD_INGREDIENT_RECIPE
     ));
 
     private ShoppingListService shoppingListService = new ShoppingListService();

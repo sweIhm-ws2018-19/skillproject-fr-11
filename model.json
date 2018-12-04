@@ -62,6 +62,37 @@
           ]
         },
         {
+          "name": "AddIngredientRecipeIntent",
+          "slots": [
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER",
+              "samples": [
+                "{amount} {unit} "
+              ]
+            },
+            {
+              "name": "unit",
+              "type": "ingredientUnit",
+              "samples": [
+                "{unit}"
+              ]
+            },
+            {
+              "name": "ingredient",
+              "type": "AMAZON.Food",
+              "samples": [
+                "Die Zutat ist {ingredient}",
+                "{ingredient}"
+              ]
+            }
+          ],
+          "samples": [
+            "füge {amount} {unit} {ingredient} zu Rezept dazu",
+            "füge {amount} {unit} {ingredient} zu Rezept hinzu"
+          ]
+        },
+        {
           "name": "ListIngredientsIntent",
           "slots": [],
           "samples": [
