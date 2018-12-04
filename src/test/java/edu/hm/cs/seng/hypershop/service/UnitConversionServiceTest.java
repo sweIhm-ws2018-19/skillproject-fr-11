@@ -1,37 +1,38 @@
 package edu.hm.cs.seng.hypershop.service;
 
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import edu.hm.cs.seng.hypershop.handlers.HandlerTestHelper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 public class UnitConversionServiceTest {
 
-    private ShoppingList shoppingList;
+    private final HandlerInput input = Mockito.mock(HandlerInput.class);
+    private ShoppingListService listService;
 
     @Before
     public void before() {
-        this.shoppingList = new ShoppingList();
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+        listService = new ShoppingListService(new ModelService(input));
     }
 
     @Test
     public void testAddTwice_SameUnit() {
-        ShoppingListService listService = new ShoppingListService();
-
         for (int index = 0; index < 10; index++) {
             String ingredientName = "ingredient";
             int amount = 10;
             String unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            listService.addIngredient(ingredientName, amount, unitName);
         }
-        Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals( 100.0, shoppingList.getIngredients().iterator().next().getAmount(),0.001);
-        Assert.assertEquals("kg", shoppingList.getIngredients().iterator().next().getUnit());
+        Assert.assertEquals(listService.getIngredients().size(), 1);
+        Assert.assertEquals(100.0, listService.getIngredients().iterator().next().getAmount(), 0.001);
+        Assert.assertEquals("kg", listService.getIngredients().iterator().next().getUnit());
     }
 
     @Test
     public void testAddTwice_OtherUnit() {
-        ShoppingListService listService = new ShoppingListService();
         String ingredientName;
         int amount;
         String unitName;
@@ -39,20 +40,19 @@ public class UnitConversionServiceTest {
             ingredientName = "ingredient";
             amount = 10;
             unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            listService.addIngredient(ingredientName, amount, unitName);
         }
         ingredientName = "ingredient";
         amount = 10;
         unitName = "g";
-        shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
-        Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals(20.01, shoppingList.getIngredients().iterator().next().getAmount(), 0.001);
-        Assert.assertEquals("kg", shoppingList.getIngredients().iterator().next().getUnit());
+        listService.addIngredient(ingredientName, amount, unitName);
+        Assert.assertEquals(listService.getIngredients().size(), 1);
+        Assert.assertEquals(20.01, listService.getIngredients().iterator().next().getAmount(), 0.001);
+        Assert.assertEquals("kg", listService.getIngredients().iterator().next().getUnit());
     }
 
     @Test
     public void testAddTwice_OtherUnit_Volume() {
-        ShoppingListService listService = new ShoppingListService();
         String ingredientName;
         int amount;
         String unitName;
@@ -60,15 +60,15 @@ public class UnitConversionServiceTest {
             ingredientName = "ingredient";
             amount = 100;
             unitName = "ml";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            listService.addIngredient(ingredientName, amount, unitName);
         }
         ingredientName = "ingredient";
         amount = 1;
         unitName = "glas";
-        shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
-        Assert.assertEquals(shoppingList.getIngredients().size(), 1);
-        Assert.assertEquals(400.0, shoppingList.getIngredients().iterator().next().getAmount(), 0.001);
-        Assert.assertEquals("ml", shoppingList.getIngredients().iterator().next().getUnit());
+        listService.addIngredient(ingredientName, amount, unitName);
+        Assert.assertEquals(listService.getIngredients().size(), 1);
+        Assert.assertEquals(400.0, listService.getIngredients().iterator().next().getAmount(), 0.001);
+        Assert.assertEquals("ml", listService.getIngredients().iterator().next().getUnit());
     }
 
 

@@ -31,10 +31,15 @@ public class SpeechTextConstants {
 
     public static final String RECIPES_LIST = "Du hast %d Rezepte gespeichert";
 
-    public static final String RECIPE_ADD_SUCCESS = "Das Rezept %s wurde erstellt. Du kannst jetzt Zutaten hinzufügen und entfernen.";
+    public static final String RECIPE_CREATE_SUCCESS = "Das Rezept %s wurde erstellt. Du kannst jetzt Zutaten hinzufügen und entfernen.";
+    public static final String RECIPE_CREATE_ERROR = "Tut mir leid, ich konnte den Rezeptnamen nicht verstehen.";
+    public static final String RECIPE_CREATE_REPROMPT = "Wie lautet der Rezeptnamen?";
+    public static final String RECIPE_CREATE_INVALID_INTENT = "Tut mir leid, das kannst du hier nicht machen, du bearbeitest gerade ein Rezept.";
+
+    public static final String RECIPE_ADD_SUCCESS = "Das Rezept %s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String RECIPE_ADD_ERROR = "Tut mir leid, ich konnte den Rezeptnamen nicht verstehen.";
+    public static final String RECIPE_ADD_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     public static final String RECIPE_ADD_REPROMPT = "Wie lautet der Rezeptnamen?";
-    public static final String RECIPE_ADD_INVALID_INTENT = "Tut mir leid, das kannst du hier nicht machen, du bearbeitest gerade ein Rezept.";
 
     public static final String RECIPE_EDIT_SUCCESS = "Du bearbeitest jetzt das Rezept %s.";
     public static final String RECIPE_EDIT_ERROR = "Tut mir leid, ich habe den Rezeptnamen nicht verstanden.";

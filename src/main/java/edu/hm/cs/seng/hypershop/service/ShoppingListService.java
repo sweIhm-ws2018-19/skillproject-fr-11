@@ -1,18 +1,27 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class ShoppingListService {
 
-    private UnitConversionService unitConversionService = new UnitConversionService();
+    private final UnitConversionService unitConversionService = new UnitConversionService();
+    private ShoppingList shoppingList;
+
+    public ShoppingListService(ShoppingList shoppingList) {
+        this.shoppingList = shoppingList;
+    }
+
+    public ShoppingListService(ModelService modelService) {
+        load(modelService);
+    }
 
     public void addIngredient(IngredientAmount ingredientAmount) {
         throw new UnsupportedOperationException("not implemented");
@@ -23,50 +32,84 @@ public class ShoppingListService {
         return new HashSet<>();
     }
 
-
-    private void removeIngredients(String ingredientAmount) {
-
+    public boolean removeIngredient(String ingredient) {
+        return shoppingList.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
     }
 
-    public void removeIngredient(IngredientAmount ingredient) {
-
+    private Stream<Map.Entry<Recipe, Integer>> getFilteredRecipeStream(String recipeName) {
+        return shoppingList.getRecipes().entrySet().stream().filter(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
 
-
-    public void addRecipe(String recipeName) {
-
+    public boolean containsRecipe(String recipeName) {
+        return getFilteredRecipeStream(recipeName).findAny().isPresent();
     }
 
-    public boolean removeIngredient(String ingredient, ShoppingList shoppingList) {
-        return removeIngredient(
-                shoppingList.getIngredients(ingredient), shoppingList);
-    }
-
-    private boolean removeIngredient(Iterable<IngredientAmount> ingredients, ShoppingList shoppingList) {
-        boolean result = false;
-        for (IngredientAmount ingredient : ingredients) {
-            result |= shoppingList.removeIngredient(ingredient);
-        }
-        return result;
-    }
-
-
-    public ShoppingList removeRecipe(String recipeName, ShoppingList shoppingList) {
-        List<Recipe> recipes = shoppingList.getRecipes(recipeName);
-        if (recipes.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        for (Recipe recipe : recipes) {
-            shoppingList.removeRecipe(recipe);
-        }
-        return shoppingList;
-    }
-
-    public void addRecipe(String recipeName, ShoppingList shoppingList) {
+    /**
+     * Creates a recipe and overrides it if it exists (create a map key with value 0)
+     *
+     * @param recipeName the name of the recipe to create
+     */
+    public void createRecipe(String recipeName) {
         shoppingList.getRecipes().put(new Recipe(recipeName), 0);
     }
 
-    public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {
+    /**
+     * Removes the recipe from the list of available recipes (drops the map key)
+     *
+     * @param recipeName the recipe name to remove from the list
+     * @return true if a recipe was deleted
+     * @throws IllegalArgumentException when an illegal amount is given
+     */
+    public boolean deleteRecipe(String recipeName) throws IllegalArgumentException {
+        return shoppingList.getRecipes().entrySet().removeIf(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
+    }
+
+    /**
+     * Adds a existing recipe to the shoppingList amount times
+     *
+     * @param recipeName an existing recipe name
+     * @param amount     how many times to add the recipe to the shoppingList
+     * @return whether any recipes were added to the shoppingList
+     * @throws IllegalArgumentException when an illegal amount is given
+     */
+    public boolean addRecipes(String recipeName, int amount) throws IllegalArgumentException {
+        if (amount < 1) {
+            throw new IllegalArgumentException("illegal amount");
+        }
+        final long count = getFilteredRecipeStream(recipeName)
+                .peek(es -> es.setValue(es.getValue() + amount)).count();
+        return count > 0;
+    }
+
+    /**
+     * Removes an existing recipe from the shoppingList, but not from the list of available recipes
+     *
+     * @param recipeName the name of the recipe to remove amount times
+     * @param amount     how many times to remove the recipe
+     * @return whether any recipes were removed
+     * @throws IllegalArgumentException when an illegal amount is given
+     */
+    public boolean removeRecipes(String recipeName, int amount) throws IllegalArgumentException {
+        if (amount < 1) {
+            throw new IllegalArgumentException("illegal amount");
+        }
+        final long count = getFilteredRecipeStream(recipeName)
+                .peek(es -> es.setValue(es.getValue() - amount > 0 ? es.getValue() - amount : 0)).count();
+        return count > 0;
+    }
+
+    public List<String> getRecipeStrings() {
+        return shoppingList.getRecipes().entrySet().stream().map(es -> es.getKey().getName()).collect(Collectors.toList());
+    }
+
+    public List<String> getAddedRecipeStrings() {
+        return shoppingList.getRecipes().entrySet().stream()
+                .filter(es -> es.getValue() > 0)
+                .map(es -> es.getKey().getName())
+                .collect(Collectors.toList());
+    }
+
+    public void addIngredient(String name, int amount, String unitName) {
         boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
@@ -81,20 +124,26 @@ public class ShoppingListService {
             ingredientAmount.setUnit(unitName);
             shoppingList.addIngredient(ingredientAmount);
         }
-
-        return shoppingList;
-    }
-
-
-    public List<String> getRecipeStrings() {
-        return new ArrayList<>();
     }
 
     public List<String> getIngredientStrings() {
         return new ArrayList<>();
     }
 
-    public boolean containsRecipe(String recipeName, ShoppingList shoppingList) {
-        return shoppingList.getRecipes().keySet().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName));
+    public Set<IngredientAmount> getIngredients() {
+        return shoppingList.getIngredients();
+    }
+
+    public void load(ModelService modelService) {
+        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        if (shoppingList == null) {
+            this.shoppingList = new ShoppingList();
+        } else {
+            this.shoppingList = shoppingList;
+        }
+    }
+
+    public void save(ModelService modelService) {
+        modelService.save(shoppingList);
     }
 }
