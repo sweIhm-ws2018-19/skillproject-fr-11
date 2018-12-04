@@ -39,6 +39,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
+        // TODO: replace this method
         final IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
         final Map<String, Slot> slots = intentRequest.getIntent().getSlots();
 
