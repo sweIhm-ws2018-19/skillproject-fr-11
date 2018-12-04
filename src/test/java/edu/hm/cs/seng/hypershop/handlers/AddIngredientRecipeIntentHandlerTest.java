@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Iterator;
 import java.util.Optional;
 
 import static edu.hm.cs.seng.hypershop.Constants.*;
@@ -183,6 +184,35 @@ public class AddIngredientRecipeIntentHandlerTest {
         final String responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
         final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
         HandlerTestHelper.compareSSML(expected, responseString);
+    }
+
+    @Test
+    public void addThreeJamJars_2Recipes() {
+
+        when(modelService.get(any(), any())).thenReturn(shoppingList);
+        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
+
+        assertTrue(addIngredientRecipeIntentHandler.canHandle(input4));
+
+        String responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
+        String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
+        HandlerTestHelper.compareSSML(expected, responseString);
+
+        Assert.assertEquals(1, shoppingList.getRecipes().size());
+        Assert.assertEquals(1, shoppingList.getRecipes().keySet().iterator().next().getIngredients().size());
+
+        SessionStorageService.setCurrentRecipe(input4, "test2");
+        listService.addRecipe("test2", shoppingList);
+
+        responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
+        expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
+        HandlerTestHelper.compareSSML(expected, responseString);
+
+        Assert.assertEquals(2, shoppingList.getRecipes().size());
+        for(Iterator<Recipe> it = shoppingList.getRecipes().keySet().iterator();it.hasNext();) {
+            Assert.assertEquals(1, it.next().getIngredients().size());
+            Assert.assertEquals(1, it.next().getIngredients().size());
+        }
     }
 
 }
