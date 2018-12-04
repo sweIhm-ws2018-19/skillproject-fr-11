@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AddRecipeIntentHandlerTest {
@@ -35,7 +36,7 @@ public class AddRecipeIntentHandlerTest {
         HandlerTestHelper.buildInput("addrecipe-invalid-intent.json", input);
         final AddRecipeIntentHandler handler = new AddRecipeIntentHandler();
 
-        assertTrue(handler.canHandle(input));
+        assertFalse(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
         assertTrue(responseString.contains(SpeechTextConstants.RECIPE_ADD_INVALID_INTENT));
 

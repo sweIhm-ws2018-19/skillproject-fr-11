@@ -41,9 +41,8 @@ public class AddRecipeIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
         final boolean b = ContextStackService.isCurrentContext(input, null);
-        final boolean c = ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE);
         final boolean a = input.matches(intentName(Constants.INTENT_ADD_RECIPE));
-        return (a && b) || c;
+        return a && b;
     }
 
     @Override
@@ -62,7 +61,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
             return responseBuilder.withSpeech(RECIPE_ADD_INVALID_INTENT).withShouldEndSession(false).build();
         }
 
-        if(recipeSlot.getValue() == null) {
+        if (recipeSlot.getValue() == null) {
             return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
         }
 
