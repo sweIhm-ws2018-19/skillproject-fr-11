@@ -31,6 +31,7 @@ public class HypershopStreamHandler extends SkillStreamHandler {
                         new AddRecipeIntentHandler(),
                         new ListRecipesIntentHandler(),
                         new EditRecipeIntentHandler(),
+                        new RemoveRecipeIntentHandler(),
                         new LaunchRequestHandler(),
                         new AddIngredientRecipeIntentHandler(),
                         new CancelandStopIntentHandler(),

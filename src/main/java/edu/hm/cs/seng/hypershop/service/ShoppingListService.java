@@ -51,13 +51,15 @@ public class ShoppingListService {
         return result;
     }
 
-
-    public void removeRecipe(String recipeName, ShoppingList shoppingList) {
-        throw new UnsupportedOperationException("not implemented");
-    }
-
-    private void removeRecipe(Recipe recipe) {
-        throw new UnsupportedOperationException("not implemented");
+    public ShoppingList removeRecipe(String recipeName, ShoppingList shoppingList) {
+        List<Recipe> recipes = shoppingList.getRecipes(recipeName);
+        if (recipes.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        for (Recipe recipe : recipes) {
+            shoppingList.removeRecipe(recipe);
+        }
+        return shoppingList;
     }
 
     public void addRecipe(String recipeName, ShoppingList shoppingList) {
@@ -78,7 +80,6 @@ public class ShoppingListService {
             IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
             shoppingList.addIngredient(ingredientAmount);
         }
-
 
         return shoppingList;
     }
