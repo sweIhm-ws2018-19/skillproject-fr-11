@@ -63,9 +63,7 @@ public class AddIngredientRecipeIntentHandler implements RequestHandler {
 
         if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
             try {
-
-                ModelService modelService = new ModelService(input);
-                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+                final ShoppingList shoppingList = (ShoppingList) getModelService().get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
 
                 final String ingredient = ingredientSlot.getValue();
                 String unit;
@@ -87,10 +85,11 @@ public class AddIngredientRecipeIntentHandler implements RequestHandler {
                 Recipe newRecipe = shoppingListService.addIngredientRecipe(ingredient, amountNumber, unit, shoppingList, recipeString);
                 if (newRecipe != null) {
                     shoppingListService.addRecipe(newRecipe, shoppingList);
-                    modelService.save(shoppingList);
+                    getModelService().save(shoppingList);
                     speechText = String.format(INGREDIENTS_ADD_RECIPE_SUCCESS, ingredient);
+                } else {
+                    speechText = String.format(RECIPE_EDIT_NOT_FOUND, recipeString);
                 }
-                speechText = String.format(RECIPE_EDIT_NOT_FOUND, recipeString);
             } catch (NumberFormatException ex) {
                 speechText = INGREDIENTS_ADD_RECIPE_NUMBER_ERROR;
                 responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);

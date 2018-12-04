@@ -65,7 +65,7 @@ public class ShoppingListService {
     }
 
     public void addRecipe(Recipe recipe, ShoppingList shoppingList) {
-        shoppingList.getRecipes().put(recipe, 0);
+        shoppingList.getRecipes().replace(recipe, 0);
     }
 
     public ShoppingList addIngredient(String name, int amount, String unitName, ShoppingList shoppingList) {

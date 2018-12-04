@@ -17,9 +17,11 @@ import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
@@ -30,6 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AddIngredientRecipeIntentHandlerTest {
 
 
@@ -38,6 +41,8 @@ public class AddIngredientRecipeIntentHandlerTest {
     private HandlerInput input = mock(HandlerInput.class);
     private HandlerInput input2 = mock(HandlerInput.class);
     private HandlerInput input3 = mock(HandlerInput.class);
+    private HandlerInput input4 = mock(HandlerInput.class);
+
     private ShoppingList shoppingList;
 
     @Mock
@@ -54,14 +59,19 @@ public class AddIngredientRecipeIntentHandlerTest {
         HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
         HandlerTestHelper.buildInput("addingredientsrecipe2.json", input2);
         HandlerTestHelper.buildInput("addingredientsrecipe3.json", input3);
+        HandlerTestHelper.buildInput("addingredientsrecipe-3-jam.json", input4);
 
         ContextStackService.pushContext(input, CONTEXT_RECIPE);
         ContextStackService.pushContext(input2, CONTEXT_RECIPE);
+        ContextStackService.pushContext(input4, CONTEXT_RECIPE);
 
         SessionStorageService.setCurrentRecipe(input, "test");
         SessionStorageService.setCurrentRecipe(input2, "test");
+        SessionStorageService.setCurrentRecipe(input4, "test");
+
 
         listService.addRecipe("test", shoppingList);
+
     }
 
 
@@ -90,11 +100,8 @@ public class AddIngredientRecipeIntentHandlerTest {
 
     @Test
     public void testIngredientHandler() {
-
-        listService.addRecipe("test", shoppingList);
-        when(modelService.get(any(), any())).thenReturn(new ShoppingList());
+        when(modelService.get(any(), any())).thenReturn(shoppingList);
         when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
-
 
         Optional<Response> responseOptional = addIngredientRecipeIntentHandler.handle(input);
 
@@ -107,6 +114,9 @@ public class AddIngredientRecipeIntentHandlerTest {
         assertTrue(responseOptional2.isPresent());
         final Card card2 = responseOptional2.get().getCard();
         Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard) card2).getContent().contains("wasser"));
+
+        Assert.assertEquals(1, shoppingList.getRecipes().size());
+        Assert.assertEquals(2, shoppingList.getRecipes().keySet().iterator().next().getIngredients().size());
     }
 
     @Test
@@ -131,7 +141,6 @@ public class AddIngredientRecipeIntentHandlerTest {
     }
 
     private void invalidInput(String slotUnit, String ingredientsAddError) {
-        listService.addRecipe("test", shoppingList);
         when(modelService.get(any(), any())).thenReturn(shoppingList);
         when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
         Slot slot = Slot.builder().withName(slotUnit).withValue("test").build();
@@ -153,25 +162,26 @@ public class AddIngredientRecipeIntentHandlerTest {
 
     @Test
     public void testResolution() {
-        ContextStackService.pushContext(input3, CONTEXT_RECIPE);
+        when(modelService.get(any(), any())).thenReturn(shoppingList);
+        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
 
-        AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
-        Optional<Response> responseOptional = handler.handle(input3);
+        Optional<Response> responseOptional = addIngredientRecipeIntentHandler.handle(input2);
 
         assertTrue(responseOptional.isPresent());
         final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("müll"));
+        Assert.assertTrue(((SimpleCard) card).getContent().contains("wasser"));
     }
 
     @Test
     public void addThreeJamJars() {
-        HandlerTestHelper.buildInput("addingredientsrecipe-3-jam.json", input);
-        final AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
 
-        assertTrue(handler.canHandle(input));
+        when(modelService.get(any(), any())).thenReturn(shoppingList);
+        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
 
-        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_SUCCESS, "marmelade");
+        assertTrue(addIngredientRecipeIntentHandler.canHandle(input4));
+
+        final String responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
+        final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
         HandlerTestHelper.compareSSML(expected, responseString);
     }
 
