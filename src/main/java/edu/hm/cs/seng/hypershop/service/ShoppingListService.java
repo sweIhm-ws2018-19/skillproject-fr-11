@@ -50,12 +50,16 @@ public class ShoppingListService {
         return result;
     }
 
-    public void removeRecipe(String recipeName, ShoppingList shoppingList) {
-        throw new UnsupportedOperationException("not implemented");
-    }
 
-    private void removeRecipe(Recipe recipe) {
-        throw new UnsupportedOperationException("not implemented");
+    public ShoppingList removeRecipe(String recipeName, ShoppingList shoppingList) {
+        List<Recipe> recipes = shoppingList.getRecipes(recipeName);
+        if (recipes.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        for (Recipe recipe : recipes) {
+            shoppingList.removeRecipe(recipe);
+        }
+        return shoppingList;
     }
 
     public void addRecipe(String recipeName, ShoppingList shoppingList) {
@@ -66,9 +70,9 @@ public class ShoppingListService {
         boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
-                .count())>0;
+                .count()) > 0;
 
-        if(!matchingIngredient){
+        if (!matchingIngredient) {
             final IngredientAmount ingredientAmount = new IngredientAmount();
             ingredientAmount.setName(name);
             ingredientAmount.setAmount(amount);
@@ -77,7 +81,6 @@ public class ShoppingListService {
             ingredientAmount.setUnit(unitName);
             shoppingList.addIngredient(ingredientAmount);
         }
-
 
         return shoppingList;
     }
