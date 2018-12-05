@@ -55,7 +55,7 @@
     "requestId": "amzn1.echo-api.request.ae9fbe6b-c0a8-4309-86d3-667547332442",
     "locale": "de-DE",
     "intent": {
-      "name": "ListRecipeIngredientsIntent",
+      "name": "ListIngredientsIntent",
       "confirmationStatus": "NONE",
       "slots": {
         "recipe": {

@@ -48,10 +48,9 @@ public class SpeechTextConstants {
     public static final String RECIPE_EDIT_REPROMPT = "Welches Rezept möchtest du bearbeiten?";
     public static final String RECIPE_EDIT_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
 
-    public static final String RECIPE_LIST_ERROR = "Tut mir leid, ich habe den Rezeptnamen nicht verstanden.";
-    public static final String RECIPE_LIST_REPROMPT = "Von Welchem Rezept möchtest du die Zutaten auflisten?";
     public static final String RECIPE_LIST_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     public static final String LIST_RECIPE_INGREDIENTS = "Du hast %d Zutaten in deinem Rezept";
+    public static final String LIST_INGREDIENTS = "Du hast %d Zutaten in deiner Einkaufsliste";
     public static final String RECIPE_REMOVE_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     public static final String RECIPE_REMOVE_REPROMPT = "Welches Rezept möchtest du löschen?";
     public static final String RECIPE_REMOVE_SUCCESS = "%s wurde gelöscht.";

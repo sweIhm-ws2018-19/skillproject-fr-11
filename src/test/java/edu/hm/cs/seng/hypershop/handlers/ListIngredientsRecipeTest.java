@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import static edu.hm.cs.seng.hypershop.Constants.CONTEXT_RECIPE;
 import static org.junit.Assert.*;
 
-public class ListIngredientsRecipeIntentHandlerTest {
+public class ListIngredientsRecipeTest {
     private HandlerInput input = Mockito.mock(HandlerInput.class);
 
     @Before
@@ -22,19 +22,11 @@ public class ListIngredientsRecipeIntentHandlerTest {
         HandlerTestHelper.buildInput("listingredientrecipe.json", input);
     }
 
-        @Test
-    public void shouldNotHandleInContext() {
-        ContextStackService.pushContext(input, "foobar");
-
-        final ListIngredientsIntentHandler handler = new ListIngredientsIntentHandler();
-        assertFalse(handler.canHandle(input));
-    }
-
     @Test
     public void shouldNotListNotExistingRecipe() {
         ContextStackService.pushContext(input, CONTEXT_RECIPE);
 
-        final ListIngredientsRecipeIntentHandler handler = new ListIngredientsRecipeIntentHandler();
+        final ListIngredientsIntentHandler handler = new ListIngredientsIntentHandler();
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
@@ -50,7 +42,7 @@ public class ListIngredientsRecipeIntentHandlerTest {
         shoppingListService.createRecipe("haus");
         shoppingListService.save(modelService);
 
-        final ListIngredientsRecipeIntentHandler handler = new ListIngredientsRecipeIntentHandler();
+        final ListIngredientsIntentHandler handler = new ListIngredientsIntentHandler();
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));

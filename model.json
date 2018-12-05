@@ -86,19 +86,6 @@
           ]
         },
         {
-          "name": "ListRecipeIngredientsIntent",
-          "slots": [
-            {
-              "name": "recipe",
-              "type": "AMAZON.Food"
-            }
-          ],
-          "samples": [
-            "Zeige Zutaten von {recipe}",
-            "Zeige Zutaten {recipe}"
-          ]
-        },
-        {
           "name": "RemoveIngredientIntent",
           "slots": [
             {
