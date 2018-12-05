@@ -22,13 +22,13 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Map;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_ADD_ERROR;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_ADD_REPROMPT;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddRecipeIntentHandler implements RequestHandler {
 
@@ -39,26 +39,29 @@ public class AddRecipeIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        // TODO: replace this method
         final IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
         final Map<String, Slot> slots = intentRequest.getIntent().getSlots();
 
         final Slot recipeSlot = slots.get(Constants.SLOT_RECIPE);
 
-        final ResponseBuilder responseBuilder = input.getResponseBuilder();
+        final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
         if (recipeSlot.getValue() == null) {
             return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
         }
 
         final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
+        final boolean isInserted = shoppingListService.addRecipes(recipeSlot.getValue(), 1);
 
-//        final String speechText = String.format(RECIPE_CREATE_SUCCESS, recipeName);
-//        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
+        if(!isInserted) {
+            final String formatted = String.format(RECIPE_ADD_NOT_FOUND, recipeSlot.getValue());
+            return responseBuilder.withSpeech(formatted).withReprompt(RECIPE_ADD_REPROMPT).build();
+        }
 
-        return responseBuilder.build();
+        final String formatted = String.format(RECIPE_ADD_SUCCESS, recipeSlot.getValue());
+        return responseBuilder.withSpeech(formatted).build();
     }
 
 }

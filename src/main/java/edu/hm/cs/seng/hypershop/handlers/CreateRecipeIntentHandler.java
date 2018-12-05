@@ -20,6 +20,7 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.*;
@@ -58,7 +59,7 @@ public class CreateRecipeIntentHandler implements RequestHandler {
             return responseBuilder.withSpeech(RECIPE_CREATE_INVALID_INTENT).withShouldEndSession(false).build();
         }
 
-        if(recipeSlot.getValue() == null) {
+        if (recipeSlot.getValue() == null) {
             return responseBuilder.withSpeech(RECIPE_CREATE_ERROR).withReprompt(RECIPE_CREATE_REPROMPT).build();
         }
 
@@ -71,6 +72,7 @@ public class CreateRecipeIntentHandler implements RequestHandler {
         shoppingListService.save(modelService);
 
         ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
+        SessionStorageService.setCurrentRecipe(input, recipeName);
 
         final String speechText = String.format(RECIPE_CREATE_SUCCESS, recipeName);
         responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
