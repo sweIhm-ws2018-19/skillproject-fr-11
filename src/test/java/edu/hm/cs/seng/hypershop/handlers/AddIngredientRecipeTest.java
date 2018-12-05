@@ -2,41 +2,28 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.amazon.ask.model.ui.Card;
-import com.amazon.ask.model.ui.SimpleCard;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
-import edu.hm.cs.seng.hypershop.model.Recipe;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
-import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
-import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Optional;
-
-import static edu.hm.cs.seng.hypershop.Constants.*;
+import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
+import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-public class AddIngredientRecipeIntentHandlerTest {
+public class AddIngredientRecipeTest {
 
     private HandlerInput input = mock(HandlerInput.class);
 
-    private AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
+    private AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
 
     @Test
     public void addFirstIngredientToEmptyRecipe() {
@@ -115,18 +102,6 @@ public class AddIngredientRecipeIntentHandlerTest {
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
         HandlerTestHelper.compareSSML(ingredientsAddError, responseString);
-    }
-
-    @Test
-    public void canHandle() {
-        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
-        Assert.assertTrue(handler.canHandle(input));
-    }
-
-    @Test
-    public void canNotHandle() {
-        HandlerTestHelper.buildInput("addingredientsrecipe3.json", input);
-        Assert.assertFalse(handler.canHandle(input));
     }
 
     @Test

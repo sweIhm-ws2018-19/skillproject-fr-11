@@ -37,7 +37,7 @@
 
 		"locale": "de-DE",
 		"intent": {
-			"name": "AddIngredientRecipeIntent",
+			"name": "AddIngredientIntent",
 			"confirmationStatus": "NONE",
 			"slots": {
 				"unit": {

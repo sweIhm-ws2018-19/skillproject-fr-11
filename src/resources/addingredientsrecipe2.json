@@ -55,7 +55,7 @@
     "requestId": "amzn1.echo-api.request.0cfb0103-b1d4-4a14-ab1e-693bb45c5674",
     "locale": "de-DE",
     "intent": {
-      "name": "AddIngredientRecipeIntent",
+      "name": "AddIngredientIntent",
       "confirmationStatus": "NONE",
       "slots": {
         "unit": {
