@@ -109,6 +109,13 @@ public class ShoppingListService {
                 .collect(Collectors.toList());
     }
 
+    public List<Map.Entry<String, Integer>> getAddedRecipesWithAmount() {
+        return shoppingList.getRecipes().entrySet().stream()
+                .filter(es -> es.getValue() > 0)
+                .map(es -> new AbstractMap.SimpleEntry<>(es.getKey().getName(), es.getValue()))
+                .collect(Collectors.toList());
+    }
+
     public void addIngredient(String name, int amount, String unitName) {
         boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
                 .map(ingredientAmount ->
