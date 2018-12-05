@@ -36,14 +36,18 @@ public class Recipe {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recipe that = (Recipe) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(ingredients, that.ingredients);
+        if (!(o instanceof Recipe)) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(getName(), recipe.getName()) &&
+                Objects.equals(getIngredients(), recipe.getIngredients());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(name, ingredients);
+    }
+
+    public void addIngredient(IngredientAmount ingredientAmount) {
+        ingredients.add(ingredientAmount);
     }
 }

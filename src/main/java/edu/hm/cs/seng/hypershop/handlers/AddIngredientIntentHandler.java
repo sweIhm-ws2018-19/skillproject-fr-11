@@ -20,6 +20,7 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import javax.measure.format.ParserException;
@@ -29,13 +30,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.Constants.CONTEXT_RECIPE;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_ADD_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_ADD_INGREDIENT));
     }
 
     @Override
@@ -74,11 +76,21 @@ public class AddIngredientIntentHandler implements RequestHandler {
 
                 final String amount = amountSlot.getValue();
                 int amountNumber = Integer.parseInt(amount);
-
-                shoppingListService.addIngredient(ingredient, amountNumber, unit);
-                shoppingListService.save(modelService);
-
-                speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
+                
+                if (ContextStackService.isCurrentContext(input, CONTEXT_RECIPE)) {
+                    String recipeString = SessionStorageService.getCurrentRecipe(input);
+                    final boolean added = shoppingListService.addIngredientRecipe(ingredient, amountNumber, unit, recipeString);
+                    if (added) {
+                        shoppingListService.save(modelService);
+                        speechText = String.format(INGREDIENTS_ADD_RECIPE_SUCCESS, ingredient);
+                    } else {
+                        speechText = String.format(RECIPE_EDIT_NOT_FOUND, recipeString);
+                    }
+                } else {
+                    shoppingListService.addIngredient(ingredient, amountNumber, unit);
+                    shoppingListService.save(modelService);
+                    speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
+                }
             } catch (NumberFormatException ex) {
                 speechText = INGREDIENTS_ADD_NUMBER_ERROR;
                 responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_ADD_REPROMPT);

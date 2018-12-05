@@ -116,16 +116,44 @@ public class ShoppingListService {
                 .count()) > 0;
 
         if (!matchingIngredient) {
-            final IngredientAmount ingredientAmount = new IngredientAmount();
-            ingredientAmount.setName(name);
-            ingredientAmount.setAmount(amount);
-
-            unitConversionService.getUnit(unitName);
-            ingredientAmount.setUnit(unitName);
+            IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
             shoppingList.addIngredient(ingredientAmount);
         }
     }
 
+    public Recipe getRecipe(String nameSearchString) {
+        List<Recipe> recipes = shoppingList.getRecipes().keySet().stream().filter(recipe -> recipe.getName().equals(nameSearchString))
+                .collect(Collectors.toList());
+        return recipes.size() == 1 ? recipes.get(0) : null;
+    }
+
+
+    public boolean addIngredientRecipe(String name, int amount, String unitName, String recipeName) {
+        final Recipe recipe = getRecipe(recipeName);
+        if (recipe == null) {
+            return false;
+        }
+        boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
+                .map(ingredientAmount ->
+                        unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
+                .count()) > 0;
+        if (!matchingIngredient) {
+            IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
+            recipe.addIngredient(ingredientAmount);
+        }
+        return true;
+    }
+
+    public IngredientAmount createIngredient(String name, int amount, String unitName) {
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName(name);
+        ingredientAmount.setAmount(amount);
+
+        unitConversionService.getUnit(unitName);
+        ingredientAmount.setUnit(unitName);
+        return ingredientAmount;
+    }
+    
     public List<String> getIngredientStrings() {
         return new ArrayList<>();
     }

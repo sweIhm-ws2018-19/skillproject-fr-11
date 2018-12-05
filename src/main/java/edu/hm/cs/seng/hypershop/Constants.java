@@ -20,6 +20,7 @@ public class Constants {
     public static final String INTENT_REMOVE_RECIPE = "RemoveRecipeIntent";
     public static final String INTENT_LIST_RECIPES = "ListRecipesIntent";
 
+
     public static final String SLOT_AMOUNT = "amount";
     public static final String SLOT_UNIT = "unit";
     public static final String SLOT_INGREDIENT = "ingredient";
