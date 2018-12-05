@@ -30,7 +30,6 @@ public class ListIngredientsRecipeTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        System.out.println(responseString);
         assertTrue(responseString.contains(String.format(SpeechTextConstants.RECIPE_LIST_NOT_FOUND, "haus")));
     }
 
