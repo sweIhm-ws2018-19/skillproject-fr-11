@@ -17,7 +17,6 @@ public class Constants {
     public static final String INTENT_LIST_INGREDIENTS = "ListIngredientsIntent";
     public static final String INTENT_BACK = "BackIntent";
     public static final String INTENT_EDIT_RECIPE = "EditRecipeIntent";
-    public static final String INTENT_ADD_INGREDIENT_RECIPE = "AddIngredientRecipeIntent";
     public static final String INTENT_REMOVE_RECIPE = "RemoveRecipeIntent";
     public static final String INTENT_LIST_RECIPES = "ListRecipesIntent";
 
