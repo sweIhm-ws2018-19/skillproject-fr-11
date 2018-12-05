@@ -25,7 +25,6 @@ public class ShoppingListService {
 
     public void addIngredient(IngredientAmount ingredientAmount) {
         throw new UnsupportedOperationException("not implemented");
-
     }
 
     private Set<IngredientAmount> summarizeIngredients() {
@@ -175,8 +174,4 @@ public class ShoppingListService {
         modelService.save(shoppingList);
     }
 
-    public Recipe getRecipe(String recipeName){
-        return shoppingList.getRecipes().keySet().stream().filter(r->r.getName().equalsIgnoreCase(recipeName))
-                .collect(Collectors.toList()).get(0);
-    }
 }
