@@ -15,71 +15,53 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
-import com.amazon.ask.model.*;
+import com.amazon.ask.model.IntentRequest;
+import com.amazon.ask.model.Response;
+import com.amazon.ask.model.Slot;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddRecipeIntentHandler implements RequestHandler {
 
-    private static final Set<String> contextualIntents = new HashSet<>(Arrays.asList(
-            Constants.INTENT_ADD_INGREDIENT,
-            Constants.INTENT_REMOVE_INGREDIENT,
-            Constants.INTENT_ADD_INGREDIENT_RECIPE
-    ));
-
-    private ShoppingListService shoppingListService = new ShoppingListService();
-
     @Override
     public boolean canHandle(HandlerInput input) {
-        final boolean b = ContextStackService.isCurrentContext(input, null);
-        final boolean a = input.matches(intentName(Constants.INTENT_ADD_RECIPE));
-        return a && b;
+        return input.matches(intentName(Constants.INTENT_ADD_RECIPE)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        final Request request = input.getRequestEnvelope().getRequest();
-        final IntentRequest intentRequest = (IntentRequest) request;
-        final Intent intent = intentRequest.getIntent();
-        final Map<String, Slot> slots = intent.getSlots();
+        final IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
+        final Map<String, Slot> slots = intentRequest.getIntent().getSlots();
 
         final Slot recipeSlot = slots.get(Constants.SLOT_RECIPE);
 
-        final ResponseBuilder responseBuilder = input.getResponseBuilder();
-
-        if (ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE)
-                && contextualIntents.stream().noneMatch(s -> input.matches(intentName(s)))) {
-            return responseBuilder.withSpeech(RECIPE_ADD_INVALID_INTENT).withShouldEndSession(false).build();
-        }
+        final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
         if (recipeSlot.getValue() == null) {
             return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
         }
 
         final ModelService modelService = new ModelService(input);
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        final String recipeName = recipeSlot.getValue();
+        final boolean isInserted = shoppingListService.addRecipes(recipeSlot.getValue(), 1);
 
-        shoppingListService.addRecipe(recipeName, shoppingList);
+        if(!isInserted) {
+            final String formatted = String.format(RECIPE_ADD_NOT_FOUND, recipeSlot.getValue());
+            return responseBuilder.withSpeech(formatted).withReprompt(RECIPE_ADD_REPROMPT).build();
+        }
 
-        modelService.save(shoppingList);
-
-        ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
-
-        final String speechText = String.format(RECIPE_ADD_SUCCESS, recipeName);
-        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
-
-        return responseBuilder.build();
+        final String formatted = String.format(RECIPE_ADD_SUCCESS, recipeSlot.getValue());
+        return responseBuilder.withSpeech(formatted).build();
     }
 
 }

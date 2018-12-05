@@ -2,13 +2,10 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.model.IntentRequest;
-import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
-import com.amazon.ask.model.ui.Card;
-import com.amazon.ask.model.ui.SimpleCard;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
@@ -18,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Optional;
+import java.util.Set;
 
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
@@ -32,64 +29,74 @@ public class AddIngredientToShoppingListTest {
     private HandlerInput input = Mockito.mock(HandlerInput.class);
     private HandlerInput input2 = Mockito.mock(HandlerInput.class);
     private HandlerInput input3 = Mockito.mock(HandlerInput.class);
-    private ShoppingList shoppingList;
 
+    private final AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
 
     @Before
     public void before() {
-        this.shoppingList = new ShoppingList();
-
         HandlerTestHelper.buildInput("addingredients.json", input);
         HandlerTestHelper.buildInput("addingredients2.json", input2);
         HandlerTestHelper.buildInput("addingredients3.json", input3);
     }
 
-
-    @Test
-    public void addIngredients() {
-        ShoppingListService listService = new ShoppingListService();
-
+    public static void addTestIngedients(ShoppingListService listService, ModelService modelService) {
         for (int index = 0; index < 10; index++) {
             String ingredientName = "ingredient" + index;
             int amount = 10 + index;
             String unitName = "kg";
-            shoppingList = listService.addIngredient(ingredientName, amount, unitName, shoppingList);
+            listService.addIngredient(ingredientName, amount, unitName);
         }
-
-        byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
-
-        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes, ShoppingList.class);
-
-        assertEquals(shoppingList, actual);
-
-        assertEquals(10, shoppingList.getIngredients().size());
-        assertEquals(0, shoppingList.getRecipes().size());
+        listService.save(modelService);
     }
 
     @Test
-    public void testIngredientHandler() {
-        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        Optional<Response> responseOptional = handler.handle(input);
+    public void addIngredients() {
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
 
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("Brot"));
+        addTestIngedients(listService, modelService);
 
-        Optional<Response> responseOptional2 = handler.handle(input2);
-        assertTrue(responseOptional2.isPresent());
-        final Card card2 = responseOptional2.get().getCard();
-        Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard) card2).getContent().contains("wasser"));
+        assertEquals(10, listService.getIngredients().size());
+        assertEquals(0, listService.getRecipeStrings().size());
+    }
+
+    @Test
+    public void addFirstIngredient() {
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        Assert.assertTrue(responseString.contains("Brot"));
+
+        final String responseString2 = HandlerTestHelper.getResponseString(handler.handle(input2));
+        Assert.assertTrue(responseString2.contains("wasser"));
+
+        final ShoppingListService shoppingListService = new ShoppingListService(new ModelService(input));
+        final Set<IngredientAmount> ingredients = shoppingListService.getIngredients();
+
+        Assert.assertEquals(1, ingredients.size());
+    }
+
+    @Test
+    public void addSecondIngredient() {
+        final ModelService modelService = new ModelService(input2);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+
+        shoppingListService.addIngredient("Brot", 10, "kg");
+        shoppingListService.save(modelService);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input2));
+        Assert.assertTrue(responseString.contains("wasser"));
+
+        shoppingListService.load(modelService);
+        final Set<IngredientAmount> ingredients = shoppingListService.getIngredients();
+        Assert.assertEquals(2, ingredients.size());
     }
 
     @Test
     public void testIngredientSlotEmpty() {
-        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT, null);
-        Optional<Response> responseOptional = handler.handle(input);
 
-        assertTrue(responseOptional.isPresent());
-        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(INGREDIENTS_ADD_ERROR, card.getContent());
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(INGREDIENTS_ADD_ERROR, responseString);
     }
 
     @Test
@@ -103,32 +110,24 @@ public class AddIngredientToShoppingListTest {
     }
 
     private void invalidInput(String slotUnit, String ingredientsAddUnitError) {
-        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Slot slot = Slot.builder().withName(slotUnit).withValue("test").build();
         ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(slotUnit, slot);
-        Optional<Response> responseOptional = handler.handle(input);
 
-        assertTrue(responseOptional.isPresent());
-        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
-        Assert.assertEquals(ingredientsAddUnitError, card.getContent());
+        HandlerTestHelper.compareSSML(ingredientsAddUnitError, responseString);
     }
 
     @Test
     public void canHandle() {
-        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
         Assert.assertTrue(handler.canHandle(input));
     }
 
     @Test
-    public void testResolution(){
+    public void testResolution() {
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input3));
 
-        AddIngredientIntentHandler handler = new AddIngredientIntentHandler();
-        Optional<Response> responseOptional = handler.handle(input3);
-
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("müll"));
+        Assert.assertTrue(responseString.contains("müll"));
     }
 
     @Test

@@ -18,11 +18,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -36,99 +34,60 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class AddIngredientRecipeIntentHandlerTest {
 
-
-    private ShoppingListService listService = new ShoppingListService();
-
     private HandlerInput input = mock(HandlerInput.class);
-    private HandlerInput input2 = mock(HandlerInput.class);
-    private HandlerInput input3 = mock(HandlerInput.class);
-    private HandlerInput input4 = mock(HandlerInput.class);
 
-    private ShoppingList shoppingList;
+    private AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
 
-    @Mock
-    private ModelService modelService;
-    @InjectMocks
-    @Spy
-    private AddIngredientRecipeIntentHandler addIngredientRecipeIntentHandler = new AddIngredientRecipeIntentHandler();
-
-
-    @Before
-    public void before() {
-        this.shoppingList = new ShoppingList();
-
+    @Test
+    public void addFirstIngredientToEmptyRecipe() {
         HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
-        HandlerTestHelper.buildInput("addingredientsrecipe2.json", input2);
-        HandlerTestHelper.buildInput("addingredientsrecipe3.json", input3);
-        HandlerTestHelper.buildInput("addingredientsrecipe-3-jam.json", input4);
 
-        ContextStackService.pushContext(input, CONTEXT_RECIPE);
-        ContextStackService.pushContext(input2, CONTEXT_RECIPE);
-        ContextStackService.pushContext(input4, CONTEXT_RECIPE);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
 
-        SessionStorageService.setCurrentRecipe(input, "test");
-        SessionStorageService.setCurrentRecipe(input2, "test");
-        SessionStorageService.setCurrentRecipe(input4, "test");
+        listService.createRecipe("Auflauf");
+        listService.save(modelService);
 
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
-        listService.addRecipe("test", shoppingList);
+        Assert.assertTrue(responseString.contains("Brot"));
 
-    }
+        listService.load(modelService);
 
-
-    @Test
-    public void addIngredients() {
-        for (int index = 0; index < 10; index++) {
-            String ingredientName = "ingredient" + index;
-            int amount = 10 + index;
-            String unitName = "kg";
-            listService.addIngredientRecipe(ingredientName, amount, unitName, shoppingList, "test");
-        }
-
-        byte[] shoppingListAsBytes = ModelService.toBinary(shoppingList);
-
-        final ShoppingList actual = (ShoppingList) ModelService.fromBinary(shoppingListAsBytes, ShoppingList.class);
-
-        assertNotNull(actual);
-        assertEquals(shoppingList, actual);
-
-        assertEquals(1, shoppingList.getRecipes().size());
-        assertEquals(0, shoppingList.getIngredients().size());
-
-        Recipe actualRecipe = actual.getRecipes().keySet().iterator().next();
-        assertEquals(10, actualRecipe.getIngredients().size());
+        Assert.assertEquals(1, listService.getRecipeStrings().size());
+        Assert.assertEquals(1, listService.getRecipe("Auflauf").getIngredients().size());
     }
 
     @Test
-    public void testIngredientHandler() {
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
+    public void addSecondIngredientToRecipe() {
+        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
 
-        Optional<Response> responseOptional = addIngredientRecipeIntentHandler.handle(input);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
 
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard && ((SimpleCard) card).getContent().contains("Brot"));
+        listService.createRecipe("Auflauf");
+        listService.addIngredientRecipe("Petersilie", 10, "kg", "Auflauf");
+        listService.save(modelService);
 
-        Optional<Response> responseOptional2 = addIngredientRecipeIntentHandler.handle(input2);
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
-        assertTrue(responseOptional2.isPresent());
-        final Card card2 = responseOptional2.get().getCard();
-        Assert.assertTrue(card2 instanceof SimpleCard && ((SimpleCard) card2).getContent().contains("wasser"));
+        Assert.assertTrue(responseString.contains("Brot"));
 
-        Assert.assertEquals(1, shoppingList.getRecipes().size());
-        Assert.assertEquals(2, shoppingList.getRecipes().keySet().iterator().next().getIngredients().size());
+        listService.load(modelService);
+
+        Assert.assertEquals(1, listService.getRecipeStrings().size());
+        Assert.assertEquals(2, listService.getRecipe("Auflauf").getIngredients().size());
     }
 
     @Test
     public void testIngredientSlotEmpty() {
-        AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
-        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT, null);
-        Optional<Response> responseOptional = handler.handle(input);
+        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
 
-        assertTrue(responseOptional.isPresent());
-        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
-        Assert.assertEquals(INGREDIENTS_ADD_ERROR, card.getContent());
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(Constants.SLOT_INGREDIENT, null);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(INGREDIENTS_ADD_ERROR, responseString);
     }
 
     @Test
@@ -142,77 +101,65 @@ public class AddIngredientRecipeIntentHandlerTest {
     }
 
     private void invalidInput(String slotUnit, String ingredientsAddError) {
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
+        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
+
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
+
+        listService.createRecipe("Auflauf");
+        listService.save(modelService);
+
         Slot slot = Slot.builder().withName(slotUnit).withValue("test").build();
         ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(slotUnit, slot);
-        Optional<Response> responseOptional = addIngredientRecipeIntentHandler.handle(input);
 
-        assertTrue(responseOptional.isPresent());
-        final SimpleCard card = (SimpleCard) responseOptional.get().getCard();
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
-        Assert.assertEquals(ingredientsAddError, card.getContent());
+        HandlerTestHelper.compareSSML(ingredientsAddError, responseString);
     }
 
     @Test
     public void canHandle() {
-        AddIngredientRecipeIntentHandler handler = new AddIngredientRecipeIntentHandler();
+        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
         Assert.assertTrue(handler.canHandle(input));
-        Assert.assertFalse(handler.canHandle(input3));
+    }
+
+    @Test
+    public void canNotHandle() {
+        HandlerTestHelper.buildInput("addingredientsrecipe3.json", input);
+        Assert.assertFalse(handler.canHandle(input));
     }
 
     @Test
     public void testResolution() {
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
+        HandlerTestHelper.buildInput("addingredientsrecipe2.json", input);
 
-        Optional<Response> responseOptional = addIngredientRecipeIntentHandler.handle(input2);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
 
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(((SimpleCard) card).getContent().contains("wasser"));
+        listService.createRecipe("Auflauf");
+        listService.save(modelService);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        Assert.assertTrue(responseString.contains("wasser"));
     }
 
     @Test
     public void addThreeJamJars() {
+        HandlerTestHelper.buildInput("addingredientsrecipe-3-jam.json", input);
 
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
 
-        assertTrue(addIngredientRecipeIntentHandler.canHandle(input4));
+        listService.createRecipe("Auflauf");
+        listService.save(modelService);
 
-        final String responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
+        assertTrue(handler.canHandle(input));
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
         final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
+
         HandlerTestHelper.compareSSML(expected, responseString);
     }
-
-    @Test
-    public void addThreeJamJars_2Recipes() {
-
-        when(modelService.get(any(), any())).thenReturn(shoppingList);
-        when(addIngredientRecipeIntentHandler.getModelService()).thenReturn(modelService);
-
-        assertTrue(addIngredientRecipeIntentHandler.canHandle(input4));
-
-        String responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
-        String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
-        HandlerTestHelper.compareSSML(expected, responseString);
-
-        Assert.assertEquals(1, shoppingList.getRecipes().size());
-        Assert.assertEquals(1, shoppingList.getRecipes().keySet().iterator().next().getIngredients().size());
-
-        SessionStorageService.setCurrentRecipe(input4, "test2");
-        listService.addRecipe("test2", shoppingList);
-
-        responseString = HandlerTestHelper.getResponseString(addIngredientRecipeIntentHandler.handle(input4));
-        expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
-        HandlerTestHelper.compareSSML(expected, responseString);
-
-        Assert.assertEquals(2, shoppingList.getRecipes().size());
-        for(Iterator<Recipe> it = shoppingList.getRecipes().keySet().iterator();it.hasNext();) {
-            Assert.assertEquals(1, it.next().getIngredients().size());
-            Assert.assertEquals(1, it.next().getIngredients().size());
-        }
-    }
-
 }

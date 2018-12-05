@@ -7,10 +7,8 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
-import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Map;
@@ -20,8 +18,6 @@ import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class RemoveRecipeIntentHandler implements RequestHandler {
-
-    private ShoppingListService shoppingListService = new ShoppingListService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -42,13 +38,15 @@ public class RemoveRecipeIntentHandler implements RequestHandler {
         }
 
         final ModelService modelService = new ModelService(input);
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
         final String recipeName = recipeSlot.getValue();
         String speechText;
         try {
-            ShoppingList newShoppingList = shoppingListService.removeRecipe(recipeName, shoppingList);
-            modelService.save(newShoppingList);
+            if (!shoppingListService.removeRecipes(recipeName, 1)) {
+                throw new IllegalArgumentException("recipe does not exist");
+            }
+            shoppingListService.save(modelService);
             speechText = String.format(RECIPE_REMOVE_SUCCESS, recipeName);
         } catch (IllegalArgumentException ex) {
             speechText = String.format(RECIPE_REMOVE_NOT_FOUND, recipeName);

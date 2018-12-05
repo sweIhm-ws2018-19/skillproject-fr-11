@@ -37,9 +37,6 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientRecipeIntentHandler implements RequestHandler {
 
-    private ModelService modelService;
-    private ShoppingListService shoppingListService = new ShoppingListService();
-
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName(Constants.INTENT_ADD_INGREDIENT_RECIPE)) && ContextStackService.isCurrentContext(input, CONTEXT_RECIPE);
@@ -47,7 +44,6 @@ public class AddIngredientRecipeIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        modelService = new ModelService(input);
         final Request request = input.getRequestEnvelope().getRequest();
         final IntentRequest intentRequest = (IntentRequest) request;
         final Intent intent = intentRequest.getIntent();
@@ -61,53 +57,51 @@ public class AddIngredientRecipeIntentHandler implements RequestHandler {
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
 
-        if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
-            try {
-                final ShoppingList shoppingList = (ShoppingList) getModelService().get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        if(ingredientSlot == null || unitSlot == null || amountSlot == null) {
+            responseBuilder.withSpeech(INGREDIENTS_RECIPE_ADD_ERROR).withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);
+            return responseBuilder.build();
+        }
 
-                final String ingredient = ingredientSlot.getValue();
-                String unit;
-                Optional<List<String>> strings = Optional.empty();
-                if (unitSlot.getResolutions() != null) {
-                    strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
-                            resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
-                }
-                if (strings.isPresent()) {
-                    unit = strings.get().get(0);
-                } else {
-                    unit = unitSlot.getValue();
-                }
+        try {
 
-                final String amount = amountSlot.getValue();
-                int amountNumber = Integer.parseInt(amount);
-                String recipeString = SessionStorageService.getCurrentRecipe(input);
-
-                Recipe newRecipe = shoppingListService.addIngredientRecipe(ingredient, amountNumber, unit, shoppingList, recipeString);
-                if (newRecipe != null) {
-                    shoppingListService.addRecipe(newRecipe, shoppingList);
-                    getModelService().save(shoppingList);
-                    speechText = String.format(INGREDIENTS_ADD_RECIPE_SUCCESS, ingredient);
-                } else {
-                    speechText = String.format(RECIPE_EDIT_NOT_FOUND, recipeString);
-                }
-            } catch (NumberFormatException ex) {
-                speechText = INGREDIENTS_ADD_RECIPE_NUMBER_ERROR;
-                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);
-            } catch (ParserException ex) {
-                speechText = INGREDIENTS_ADD_RECIPE_UNIT_ERROR;
-                responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);
+            final String ingredient = ingredientSlot.getValue();
+            String unit;
+            Optional<List<String>> strings = Optional.empty();
+            if (unitSlot.getResolutions() != null) {
+                strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
+                        resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
             }
-        } else {
-            speechText = INGREDIENTS_RECIPE_ADD_ERROR;
+            if (strings.isPresent()) {
+                unit = strings.get().get(0);
+            } else {
+                unit = unitSlot.getValue();
+            }
+
+            final String amount = amountSlot.getValue();
+            int amountNumber = Integer.parseInt(amount);
+            String recipeString = SessionStorageService.getCurrentRecipe(input);
+
+            final ModelService modelService = new ModelService(input);
+            final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+
+            final boolean added = shoppingListService.addIngredientRecipe(ingredient, amountNumber, unit, recipeString);
+            if (added) {
+                shoppingListService.save(modelService);
+                speechText = String.format(INGREDIENTS_ADD_RECIPE_SUCCESS, ingredient);
+            } else {
+                speechText = String.format(RECIPE_EDIT_NOT_FOUND, recipeString);
+            }
+        } catch (NumberFormatException ex) {
+            speechText = INGREDIENTS_ADD_RECIPE_NUMBER_ERROR;
+            responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);
+        } catch (ParserException ex) {
+            speechText = INGREDIENTS_ADD_RECIPE_UNIT_ERROR;
             responseBuilder.withShouldEndSession(false).withReprompt(INGREDIENTS_RECIPE_ADD_REPROMPT);
         }
+
         responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).
                 withShouldEndSession(false);
 
         return responseBuilder.build();
-    }
-
-    public ModelService getModelService() {
-        return modelService;
     }
 }

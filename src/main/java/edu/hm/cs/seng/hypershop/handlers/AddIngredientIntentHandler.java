@@ -16,11 +16,8 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
-import com.amazon.ask.model.slu.entityresolution.Resolution;
-import com.amazon.ask.model.slu.entityresolution.ValueWrapper;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -30,15 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class AddIngredientIntentHandler implements RequestHandler {
-
-
-    private ShoppingListService shoppingListService = new ShoppingListService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -63,12 +56,12 @@ public class AddIngredientIntentHandler implements RequestHandler {
         if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
             try {
 
-                ModelService modelService = new ModelService(input);
-                final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+                final ModelService modelService = new ModelService(input);
+                final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
                 final String ingredient = ingredientSlot.getValue();
                 String unit;
-                Optional<List<String>> strings=Optional.empty();
+                Optional<List<String>> strings = Optional.empty();
                 if (unitSlot.getResolutions() != null) {
                     strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
                             resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
@@ -82,8 +75,9 @@ public class AddIngredientIntentHandler implements RequestHandler {
                 final String amount = amountSlot.getValue();
                 int amountNumber = Integer.parseInt(amount);
 
-                ShoppingList newShoppingList = shoppingListService.addIngredient(ingredient, amountNumber, unit, shoppingList);
-                modelService.save(newShoppingList);
+                shoppingListService.addIngredient(ingredient, amountNumber, unit);
+                shoppingListService.save(modelService);
+
                 speechText = String.format(INGREDIENTS_ADD_SUCCESS, ingredient);
             } catch (NumberFormatException ex) {
                 speechText = INGREDIENTS_ADD_NUMBER_ERROR;

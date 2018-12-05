@@ -3,7 +3,6 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -33,7 +32,7 @@ public class EditRecipeIntentHandlerTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(String.format(SpeechTextConstants.RECIPE_EDIT_NOT_FOUND, "bananen")));
+        HandlerTestHelper.compareSSML(String.format(SpeechTextConstants.RECIPE_EDIT_NOT_FOUND, "bananen"), responseString);
 
         assertTrue(ContextStackService.isCurrentContext(input, null));
     }
@@ -46,7 +45,8 @@ public class EditRecipeIntentHandlerTest {
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(SpeechTextConstants.RECIPE_EDIT_ERROR));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.RECIPE_EDIT_ERROR, responseString);
+
 
         assertTrue(ContextStackService.isCurrentContext(input, null));
     }
@@ -55,15 +55,17 @@ public class EditRecipeIntentHandlerTest {
     public void shouldSucceedWithExistingRecipeName() {
         HandlerTestHelper.buildInput("editrecipe-success.json", input);
 
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        new ShoppingListService().addRecipe("lebkuchen", s);
-        new ModelService(input).save(s);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+
+        shoppingListService.createRecipe("lebkuchen");
+        shoppingListService.save(modelService);
 
         final EditRecipeIntentHandler handler = new EditRecipeIntentHandler();
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        assertTrue(responseString.contains(String.format(SpeechTextConstants.RECIPE_EDIT_SUCCESS, "lebkuchen")));
+        HandlerTestHelper.compareSSML(String.format(SpeechTextConstants.RECIPE_EDIT_SUCCESS, "lebkuchen"), responseString);
 
         assertTrue(ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE));
     }

@@ -6,6 +6,11 @@
     "application": {
       "applicationId": "amzn1.ask.skill.b4071aa6-49f7-462d-b68d-d8042c5b17e2"
     },
+    "attributes": {
+      "current_recipe": "Auflauf",
+      "stack_pointer": 0,
+      "SPTR_0": "context_recipe"
+    },
     "user": {
       "userId": "amzn1.ask.account.AHOY7UT3L6KFX5NHK2HJ5ZCOKVOKCARRY3D6CIELUQQVZROCXYDCLHSXA6UPZHVNPEAC2JO3EICXILNPDT2MEV3ANM6RKUOCA2LYMH6RYNPPMOGQVONH5PSZ3P2Q7OHK77NNK4ZJ7NX63MPHSSJXVNB6S3VN2HG5OQG3YZVIYBJ63UWDHTJXSKHNAYXYDFANJV6ZPS5ZS5XVECA"
     }
