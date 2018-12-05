@@ -19,15 +19,15 @@ public class ModelService {
     private AttributesManager attributesManager;
     private Set<String> convertClasses = new HashSet<>(Arrays.asList(Constants.KEY_SHOPPING_LIST));
 
-    public ModelService() {
-
+    private ModelService() {
+        // hide public constructor
     }
 
     public ModelService(HandlerInput input) {
         attributesManager = input.getAttributesManager();
     }
 
-    public void save(Object o) {
+    void save(Object o) {
         final Map<String, Object> pam = attributesManager.getPersistentAttributes();
         if (o instanceof ShoppingList) {
             pam.put(Constants.KEY_SHOPPING_LIST, toBinary(o));
@@ -36,7 +36,7 @@ public class ModelService {
         }
     }
 
-    public Object get(String key, Class clazz) {
+    Object get(String key, Class clazz) {
         if (attributesManager != null) {
             final Map<String, Object> pam = attributesManager.getPersistentAttributes();
 
@@ -47,7 +47,7 @@ public class ModelService {
         return null;
     }
 
-    public static Object fromBinary(Object o, Class clazz) {
+    static Object fromBinary(Object o, Class clazz) {
         try {
             final byte[] data = (byte[]) o;
             final Kryo kryo = getCryo(clazz);
@@ -65,7 +65,7 @@ public class ModelService {
         return null;
     }
 
-    public static byte[] toBinary(Object o) {
+    static byte[] toBinary(Object o) {
         final Kryo kryo = getCryo(o.getClass());
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Output output = new Output(baos);
@@ -74,7 +74,7 @@ public class ModelService {
         return baos.toByteArray();
     }
 
-    private static Kryo getCryo(Class clazz) {
+    static Kryo getCryo(Class clazz) {
         Kryo kryo = new Kryo();
         kryo.register(IngredientAmount.class);
         kryo.register(Recipe.class);
@@ -83,7 +83,6 @@ public class ModelService {
         kryo.register(clazz);
         return kryo;
     }
-
 
 
 }

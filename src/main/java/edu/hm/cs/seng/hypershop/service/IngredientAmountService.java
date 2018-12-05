@@ -20,8 +20,8 @@ public class IngredientAmountService {
         return getIngredientsString(recipe.getIngredients(),sb);
     }
 
-    public StringBuilder getIngredientsString(ShoppingList shoppingList, StringBuilder sb) {
-        return getIngredientsString(shoppingList.getIngredients(),sb);
+    public StringBuilder getIngredientsString(ShoppingListService service, StringBuilder sb) {
+        return getIngredientsString(service.getIngredients(),sb);
     }
 
     private StringBuilder getIngredientsString(Set<IngredientAmount> ingredientAmountSet, StringBuilder sb){

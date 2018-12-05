@@ -72,7 +72,7 @@
           ]
         },
         {
-          "name": "AddRecipeIntent",
+          "name": "CreateRecipeIntent",
           "slots": [
             {
               "name": "recipe",
@@ -145,6 +145,19 @@
           "samples": [
             "bearbeite das rezept {recipe}",
             "bearbeite rezept {recipe}"
+          ]
+        },
+        {
+          "name": "RemoveRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "Lösche das rezept {recipe}",
+            "Lösche rezept {recipe}"
           ]
         }
       ],
@@ -254,6 +267,22 @@
         },
         {
           "name": "EditRecipeIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": true,
+              "prompts": {
+                "elicitation": "Elicit.Slot.519175215927.950002344048"
+              }
+            }
+          ]
+        },
+        {
+          "name": "RemoveRecipeIntent",
           "confirmationRequired": false,
           "prompts": {},
           "slots": [

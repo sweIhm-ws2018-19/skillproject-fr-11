@@ -45,17 +45,15 @@ public class ListIngredientsRecipeIntentHandlerTest {
 
     @Test
     public void shouldSucceedWithExistingRecipeName() {
-        ContextStackService.pushContext(input, CONTEXT_RECIPE);
-
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        new ShoppingListService().addRecipe("haus", s);
-        new ModelService(input).save(s);
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+        shoppingListService.createRecipe("haus");
+        shoppingListService.save(modelService);
 
         final ListIngredientsRecipeIntentHandler handler = new ListIngredientsRecipeIntentHandler();
         assertTrue(handler.canHandle(input));
 
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
-        System.out.println(responseString);
         assertTrue(responseString.contains(String.format(SpeechTextConstants.LIST_RECIPE_INGREDIENTS, 0)));
 
         assertTrue(ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE));

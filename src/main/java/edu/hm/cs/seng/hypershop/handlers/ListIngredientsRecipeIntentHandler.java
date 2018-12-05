@@ -20,8 +20,6 @@ import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class ListIngredientsRecipeIntentHandler implements RequestHandler {
 
-    private ShoppingListService shoppingListService = new ShoppingListService();
-
     @Override
     public boolean canHandle(HandlerInput input) {
         return input.matches(intentName(Constants.INTENT_LIST_INGREDIENTS_RECIPE)) && ContextStackService.isCurrentContext(input, CONTEXT_RECIPE);
@@ -41,15 +39,15 @@ public class ListIngredientsRecipeIntentHandler implements RequestHandler {
         }
 
         final ModelService modelService = new ModelService(input);
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
         final String recipeName = recipeSlot.getValue();
 
-        if (!shoppingListService.containsRecipe(recipeName, shoppingList)) {
+        if (!shoppingListService.containsRecipe(recipeName)) {
             return responseBuilder.withSpeech(String.format(RECIPE_EDIT_NOT_FOUND, recipeName)).build();
         }
 
-        Recipe recipe = shoppingListService.getRecipe(recipeName, shoppingList);
+        Recipe recipe = shoppingListService.getRecipe(recipeName);
 
         int ingredientsSize = recipe.getIngredients().size();
         StringBuilder sb = new StringBuilder(String.format(LIST_RECIPE_INGREDIENTS, ingredientsSize));

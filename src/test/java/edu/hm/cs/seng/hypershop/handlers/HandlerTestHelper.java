@@ -60,6 +60,7 @@ public class HandlerTestHelper {
     }
 
     public static String getResponseString(Optional<Response> response) {
+        Assert.assertTrue(response.isPresent());
         return ((SsmlOutputSpeech) response.get().getOutputSpeech()).getSsml();
     }
 

@@ -1,11 +1,6 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazon.ask.model.Response;
-import com.amazon.ask.model.ui.Card;
-import com.amazon.ask.model.ui.SimpleCard;
-import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
@@ -15,16 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Optional;
-
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_REMOVE_ERROR;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_REMOVE_SUCCESS;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class RemoveIngredientFromShoppingListTest {
 
-    private HandlerInput input = Mockito.mock(HandlerInput.class);
+    private final HandlerInput input = Mockito.mock(HandlerInput.class);
+    private final RemoveIngredientIntentHandler handler = new RemoveIngredientIntentHandler();
 
     @Before
     public void before() {
@@ -33,35 +26,25 @@ public class RemoveIngredientFromShoppingListTest {
 
     @Test
     public void testIngredientHandler_WithoutIngredients_ErrorMessage() {
-        RemoveIngredientIntentHandler handler = new RemoveIngredientIntentHandler();
-        Optional<Response> responseOptional = handler.handle(input);
-
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard);
-        Assert.assertEquals(INGREDIENTS_REMOVE_ERROR, ((SimpleCard) card).getContent());
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        HandlerTestHelper.compareSSML(INGREDIENTS_REMOVE_ERROR, responseString);
     }
 
     @Test
     public void testIngredientHandler_WithIngredients_SuccessMessage() {
-        final ShoppingList s = (ShoppingList) new ModelService(input).get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        final ShoppingListService shoppingListService = new ShoppingListService();
-
-        shoppingListService.addIngredient("tomaten", 50, "g", s);
-        shoppingListService.addIngredient("kartoffeln", 50, "g", s);
-
         final ModelService modelService = new ModelService(input);
-        modelService.save(s);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        RemoveIngredientIntentHandler handler = new RemoveIngredientIntentHandler();
-        Optional<Response> responseOptional = handler.handle(input);
+        shoppingListService.addIngredient("tomaten", 50, "g");
+        shoppingListService.addIngredient("kartoffeln", 50, "g");
 
-        assertTrue(responseOptional.isPresent());
-        final Card card = responseOptional.get().getCard();
-        Assert.assertTrue(card instanceof SimpleCard);
-        Assert.assertEquals(String.format(INGREDIENTS_REMOVE_SUCCESS, "tomaten"), ((SimpleCard) card).getContent());
+        shoppingListService.save(modelService);
 
-        ShoppingList actual = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        Assert.assertEquals(1, actual.getIngredients().size());
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(String.format(INGREDIENTS_REMOVE_SUCCESS, "tomaten"), responseString);
+
+        shoppingListService.load(modelService);
+        Assert.assertEquals(1, shoppingListService.getIngredients().size());
     }
 }
