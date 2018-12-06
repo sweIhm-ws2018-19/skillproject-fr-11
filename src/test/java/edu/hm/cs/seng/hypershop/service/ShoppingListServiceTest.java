@@ -7,7 +7,9 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
@@ -45,6 +47,21 @@ public class ShoppingListServiceTest {
         final ModelService modelService = Mockito.mock(ModelService.class);
         new ShoppingListService(modelService);
         Mockito.verify(modelService, Mockito.times(1)).get(Mockito.anyString(), Mockito.any());
+    }
+
+    @Test
+    public void shouldLoadEmptyList() {
+        shoppingList.getRecipes().put(new Recipe("Lebkuchen"), 0);
+        assertEquals(1, service.getRecipeStrings().size());
+
+        final ShoppingList newSl = new ShoppingList();
+        newSl.getRecipes().put(new Recipe("Lebkuchen"), 0);
+        newSl.getRecipes().put(new Recipe("Bockwurst"), 0);
+
+        final ModelService modelService = Mockito.mock(ModelService.class);
+        Mockito.when(modelService.get(Mockito.anyString(), Mockito.any())).thenReturn(newSl);
+        service.load(modelService);
+        assertEquals(2, service.getRecipeStrings().size());
     }
 
     @Test
@@ -287,4 +304,47 @@ public class ShoppingListServiceTest {
     public void removeNonexistingRecipe() {
         assertFalse(service.removeRecipes("Lebkuchen", 12));
     }
+
+    @Test
+    public void getRecipeStringsEmpty() {
+        assertEquals(0, service.getRecipeStrings().size());
+    }
+
+    @Test
+    public void getRecipeStringsTwo() {
+        shoppingList.getRecipes().put(new Recipe("Lebkuchen"), 0);
+        shoppingList.getRecipes().put(new Recipe("Kekkuchen"), 10);
+        shoppingList.getRecipes().put(new Recipe("Fookuchen"), 15);
+        assertEquals(new HashSet<>(Arrays.asList("Lebkuchen", "Kekkuchen", "Fookuchen")), new HashSet<>(service.getRecipeStrings()));
+    }
+
+    @Test
+    public void getAddedRecipeStringsEmpty() {
+        assertEquals(0, service.getAddedRecipeStrings().size());
+    }
+
+    @Test
+    public void getGetAddedRecipeStrings() {
+        shoppingList.getRecipes().put(new Recipe("Lebkuchen"), 0);
+        shoppingList.getRecipes().put(new Recipe("Kekkuchen"), 10);
+        shoppingList.getRecipes().put(new Recipe("Fookuchen"), 15);
+        assertEquals(new HashSet<>(Arrays.asList("Kekkuchen", "Fookuchen")), new HashSet<>(service.getAddedRecipeStrings()));
+    }
+
+    @Test
+    public void getAddedRecipesWithAmountEmpty() {
+        assertEquals(0, service.getAddedRecipesWithAmount().size());
+    }
+
+    @Test
+    public void getGetAddedRecipesWithAmount() {
+        shoppingList.getRecipes().put(new Recipe("Lebkuchen"), 0);
+        shoppingList.getRecipes().put(new Recipe("Kekkuchen"), 10);
+        shoppingList.getRecipes().put(new Recipe("Fookuchen"), 15);
+        assertEquals(new HashSet<>(Arrays.asList(
+                new AbstractMap.SimpleEntry<>("Kekkuchen", 10),
+                new AbstractMap.SimpleEntry<>("Fookuchen", 15))), new HashSet<>(service.getAddedRecipesWithAmount()));
+    }
+
+
 }

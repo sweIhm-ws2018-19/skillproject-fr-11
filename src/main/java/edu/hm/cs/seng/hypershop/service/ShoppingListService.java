@@ -124,7 +124,7 @@ public class ShoppingListService {
     }
 
     public void addIngredient(String name, int amount, String unitName) {
-        boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
+        boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
@@ -136,7 +136,7 @@ public class ShoppingListService {
     }
 
     public Recipe getRecipe(String nameSearchString) {
-        List<Recipe> recipes = shoppingList.getRecipes().keySet().stream().filter(recipe -> recipe.getName().equals(nameSearchString))
+        List<Recipe> recipes = shoppingList.getRecipes().keySet().stream().filter(recipe -> recipe.getName().equalsIgnoreCase(nameSearchString))
                 .collect(Collectors.toList());
         return recipes.size() == 1 ? recipes.get(0) : null;
     }
@@ -147,7 +147,7 @@ public class ShoppingListService {
         if (recipe == null) {
             return false;
         }
-        boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equals(name))
+        boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
