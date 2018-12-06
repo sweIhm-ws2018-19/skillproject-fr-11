@@ -177,6 +177,18 @@
             "lösche einkaufsliste",
             "lösche liste"
           ]
+        },
+        {
+          "name": "DeleteRecipeIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            }
+          ],
+          "samples": [
+            "Lösche Rezept {recipe}"
+          ]
         }
       ],
       "types": [
@@ -322,6 +334,22 @@
             "confirmation": "Confirm.Intent.606327160346"
           },
           "slots": []
+        },
+        {
+          "name": "DeleteRecipeIntent",
+          "confirmationRequired": true,
+          "prompts": {
+            "confirmation": "Confirm.Intent.813153882943"
+          },
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food",
+              "confirmationRequired": false,
+              "elicitationRequired": false,
+              "prompts": {}
+            }
+          ]
         }
       ]
     },
@@ -377,6 +405,15 @@
           {
             "type": "PlainText",
             "value": "Willst du die Einkaufsliste wirklich leeren?"
+          }
+        ]
+      },
+      {
+        "id": "Confirm.Intent.813153882943",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Willst du das Rezept {recipe} wirklich löschen?"
           }
         ]
       }

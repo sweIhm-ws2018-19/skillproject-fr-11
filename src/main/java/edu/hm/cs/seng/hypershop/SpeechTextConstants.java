@@ -67,6 +67,10 @@ public class SpeechTextConstants {
     public static final String RECIPE_REMOVE_REPROMPT = "Welches Rezept möchtest du entfernen?";
     public static final String RECIPE_REMOVE_SUCCESS = "%s wurde von deiner Einkaufsliste entfernt.";
 
+    public static final String RECIPE_DELETE_NOT_FOUND = RECIPE_REMOVE_NOT_FOUND;
+    public static final String RECIPE_DELETE_REPROMPT = "Welches Rezept möchtest du löschen?";
+    public static final String RECIPE_DELETE_SUCCESS = "%s wurde gelöscht.";
+
     public static final String LIST_CLEAR_SUCCESS = "Deine Einkaufsliste wurde geleert.";
 
     public static final String BACK_OK = "Ok.";
