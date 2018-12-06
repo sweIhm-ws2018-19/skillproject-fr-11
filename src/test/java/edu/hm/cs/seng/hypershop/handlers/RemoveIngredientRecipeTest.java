@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_REMOVE_ERROR;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_REMOVE_RECIPE_SUCCESS;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.INGREDIENTS_REMOVE_SUCCESS;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class RemoveIngredientRecipeTest {
@@ -30,6 +29,7 @@ public class RemoveIngredientRecipeTest {
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
         HandlerTestHelper.compareSSML(INGREDIENTS_REMOVE_ERROR, responseString);
     }
+
     @Test
     public void testIngredientHandler_WithoutIngredients_ErrorMessage() {
         final ModelService modelService = new ModelService(input);

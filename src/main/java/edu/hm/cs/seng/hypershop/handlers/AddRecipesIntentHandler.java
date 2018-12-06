@@ -30,11 +30,11 @@ import java.util.Optional;
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
-public class AddRecipeIntentHandler implements RequestHandler {
+public class AddRecipesIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_ADD_RECIPE)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_ADD_RECIPES)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
@@ -43,6 +43,7 @@ public class AddRecipeIntentHandler implements RequestHandler {
         final Map<String, Slot> slots = intentRequest.getIntent().getSlots();
 
         final Slot recipeSlot = slots.get(Constants.SLOT_RECIPE);
+        final Slot amountSlot = slots.get(Constants.SLOT_AMOUNT);
 
         final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
@@ -50,18 +51,34 @@ public class AddRecipeIntentHandler implements RequestHandler {
             return responseBuilder.withSpeech(RECIPE_ADD_ERROR).withReprompt(RECIPE_ADD_REPROMPT).build();
         }
 
+        final String recipeName = recipeSlot.getValue();
+
+        int recipeAmount = 1;
+        if (amountSlot.getValue() != null) {
+            final String amount = amountSlot.getValue();
+            try {
+                recipeAmount = Integer.parseInt(amount);
+            } catch (NumberFormatException e) {
+                return responseBuilder.withSpeech(RECIPE_ADD_ERROR_AMOUNT).build();
+            }
+        }
+
         final ModelService modelService = new ModelService(input);
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        final boolean isInserted = shoppingListService.addRecipes(recipeSlot.getValue(), 1);
+        final boolean recipeFound = shoppingListService.addRecipes(recipeName, recipeAmount);
+        if (!recipeFound) {
+            return responseBuilder.withSpeech(String.format(RECIPE_ADD_NOT_FOUND, recipeName)).build();
+        }
+        shoppingListService.save(modelService);
 
-        if(!isInserted) {
-            final String formatted = String.format(RECIPE_ADD_NOT_FOUND, recipeSlot.getValue());
-            return responseBuilder.withSpeech(formatted).withReprompt(RECIPE_ADD_REPROMPT).build();
+        if (recipeAmount > 1) {
+            responseBuilder.withSpeech(String.format(RECIPE_ADD_MULTI_SUCCESS, recipeAmount, recipeName));
+        } else {
+            responseBuilder.withSpeech(String.format(RECIPE_ADD_SUCCESS, recipeName));
         }
 
-        final String formatted = String.format(RECIPE_ADD_SUCCESS, recipeSlot.getValue());
-        return responseBuilder.withSpeech(formatted).build();
+        return responseBuilder.build();
     }
 
 }

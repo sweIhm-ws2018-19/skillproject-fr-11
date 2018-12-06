@@ -18,18 +18,14 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
-import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.service.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
 import static edu.hm.cs.seng.hypershop.Constants.CONTEXT_RECIPE;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_INGREDIENTS;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_RECIPE_INGREDIENTS;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_EDIT_NOT_FOUND;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.*;
 
 public class ListIngredientsIntentHandler implements RequestHandler {
 

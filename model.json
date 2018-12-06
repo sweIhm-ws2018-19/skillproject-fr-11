@@ -148,6 +148,27 @@
           ]
         },
         {
+          "name": "AddRecipesIntent",
+          "slots": [
+            {
+              "name": "recipe",
+              "type": "AMAZON.Food"
+            },
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "füge rezept {recipe} dazu",
+            "füge rezept {recipe} {amount} mal dazu",
+            "füge {amount} portionen {recipe} dazu",
+            "füge {amount} portionen {recipe} hinzu",
+            "füge rezept {recipe} {amount} mal hinzu",
+            "füge rezept {recipe} hinzu"
+          ]
+        },
+        {
           "name": "ClearListIntent",
           "slots": [],
           "samples": [
@@ -346,7 +367,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "Welches Rezept möchtest du bearbeiten?"
+            "value": "Welches Rezept möchtest du löschen?"
           }
         ]
       },

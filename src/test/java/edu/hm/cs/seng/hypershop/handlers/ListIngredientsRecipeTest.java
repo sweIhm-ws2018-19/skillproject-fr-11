@@ -3,7 +3,6 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -12,7 +11,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import static edu.hm.cs.seng.hypershop.Constants.CONTEXT_RECIPE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class ListIngredientsRecipeTest {
     private HandlerInput input = Mockito.mock(HandlerInput.class);
