@@ -2,10 +2,7 @@ package edu.hm.cs.seng.hypershop.service;
 
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
-import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,15 +13,15 @@ public class IngredientAmountService {
         return null;
     }
 
-    public StringBuilder getIngredientStringsRecipe(final Recipe recipe, StringBuilder sb){
-        return getIngredientsString(recipe.getIngredients(),sb);
+    public StringBuilder getIngredientStringsRecipe(final Recipe recipe, StringBuilder sb) {
+        return getIngredientsString(recipe.getIngredients(), sb);
     }
 
     public StringBuilder getIngredientsString(ShoppingListService service, StringBuilder sb) {
-        return getIngredientsString(service.getIngredients(),sb);
+        return getIngredientsString(service.getIngredients(), sb);
     }
 
-    private StringBuilder getIngredientsString(Set<IngredientAmount> ingredientAmountSet, StringBuilder sb){
+    private StringBuilder getIngredientsString(Set<IngredientAmount> ingredientAmountSet, StringBuilder sb) {
         for (IngredientAmount ie : ingredientAmountSet) {
             Optional<IngredientAmount> firstIngredient = ingredientAmountSet.stream().findFirst();
             if (firstIngredient.isPresent() && ie != firstIngredient.get()) {
@@ -34,6 +31,7 @@ public class IngredientAmountService {
         }
         return sb;
     }
+
     private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
         sb.append("<say-as interpret-as=\"number\">");
         sb.append(fmt(ia.getAmount()));
@@ -46,12 +44,11 @@ public class IngredientAmountService {
         sb.append(ia.getName());
     }
 
-    private static String fmt(double d)
-    {
-        if(d == (long) d)
-            return String.format("%d",(long)d);
+    private static String fmt(double d) {
+        if (d == (long) d)
+            return String.format("%d", (long) d);
         else
-            return String.format("%s",d);
+            return String.format("%s", d);
     }
 
 

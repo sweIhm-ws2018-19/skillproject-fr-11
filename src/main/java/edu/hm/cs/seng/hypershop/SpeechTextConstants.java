@@ -11,7 +11,7 @@ public class SpeechTextConstants {
     public static final String INGREDIENTS_ADD_SUCCESS = "%s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String INGREDIENTS_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
     public static final String INGREDIENTS_ADD_NUMBER_ERROR = "Tut mir leid, ich habe die angegebene Zutatenmenge nicht verstanden, kannst du sie wiederholen?";
-    public static String INGREDIENTS_ADD_UNIT_ERROR = "Tut mir leid, die angegebene Einheit konnte nicht gefunden werden, kannst du sie wiederholen?";
+    public static final String INGREDIENTS_ADD_UNIT_ERROR = "Tut mir leid, die angegebene Einheit konnte nicht gefunden werden, kannst du sie wiederholen?";
 
     public static final String INGREDIENTS_ADD_REPROMPT = "Was willst du hinzufügen?";
 
@@ -40,7 +40,9 @@ public class SpeechTextConstants {
     public static final String RECIPE_CREATE_INVALID_INTENT = "Tut mir leid, das kannst du hier nicht machen, du bearbeitest gerade ein Rezept.";
 
     public static final String RECIPE_ADD_SUCCESS = "Das Rezept %s wurde zu deiner Einkaufsliste hinzugefügt.";
+    public static final String RECIPE_ADD_MULTI_SUCCESS = "%d Portionen %s wurden zu deiner Einkaufsliste hinzugefügt.";
     public static final String RECIPE_ADD_ERROR = "Tut mir leid, ich konnte den Rezeptnamen nicht verstehen.";
+    public static final String RECIPE_ADD_ERROR_AMOUNT = "Tut mir leid, ich konnte die Anzahl der Portionen nicht verstehen.";
     public static final String RECIPE_ADD_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     public static final String RECIPE_ADD_REPROMPT = "Wie lautet der Rezeptnamen?";
 
@@ -55,12 +57,15 @@ public class SpeechTextConstants {
     public static final String LIST_INGREDIENTS = "Du hast %d Zutaten in deiner Einkaufsliste";
 
     public static final String INGREDIENTS_ADD_RECIPE_SUCCESS = "%s wurde zu deinem Rezept hinzugefügt.";
-    public static final String INGREDIENTS_ADD_RECIPE_NUMBER_ERROR="Tut mir leid, ich habe die angegebene Zutatenmenge nicht verstanden, kannst du sie wiederholen?";
+    public static final String INGREDIENTS_RECIPE_ADD_REPROMPT ="Was willst du hinzufügen?";
+    public static final String INGREDIENTS_ADD_RECIPE_NUMBER_ERROR = "Tut mir leid, ich habe die angegebene Zutatenmenge nicht verstanden, kannst du sie wiederholen?";
+    public static final String INGREDIENTS_ADD_RECIPE_UNIT_ERROR = "Tut mir leid, die angegebene Einheit konnte nicht gefunden werden, kannst du sie wiederholen?";
+    public static final String INGREDIENTS_RECIPE_ADD_ERROR = "Tut mir leid, ich habe die Zutat nicht verstanden, kannst du sie wiederholen?";
+    ;
 
     public static final String RECIPE_REMOVE_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     public static final String RECIPE_REMOVE_REPROMPT = "Welches Rezept möchtest du löschen?";
     public static final String RECIPE_REMOVE_SUCCESS = "%s wurde gelöscht.";
-
 
     public static final String BACK_OK = "Ok.";
 }
