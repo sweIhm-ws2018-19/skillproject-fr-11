@@ -18,6 +18,7 @@ public class SpeechTextConstants {
     public static final String INGREDIENTS_REMOVE_REPROMPT = "Tut mir leid, ich habe die angegebene Zutat nicht verstanden, kannst du sie wiederholen?";
     public static final String INGREDIENTS_REMOVE_ERROR = "Tut mir leid, ich konnte die Zutat nicht finden.";
     public static final String INGREDIENTS_REMOVE_SUCCESS = "%s wurde aus deiner Einkaufsliste gelöscht.";
+    public static final String INGREDIENTS_REMOVE_RECIPE_SUCCESS = "%s wurde von deinem Rezept gelöscht.";
 
     public static final String STOP_TEXT = "Bis bald.";
 

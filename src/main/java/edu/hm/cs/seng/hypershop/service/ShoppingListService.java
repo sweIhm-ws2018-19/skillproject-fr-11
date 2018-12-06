@@ -35,6 +35,14 @@ public class ShoppingListService {
         return shoppingList.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
     }
 
+    public boolean removeIngredientRecipe(String ingredient, String recipeName) {
+        final Recipe recipe = getRecipe(recipeName);
+        if (recipe == null) {
+            return false;
+        }
+        return recipe.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
+    }
+
     private Stream<Map.Entry<Recipe, Integer>> getFilteredRecipeStream(String recipeName) {
         return shoppingList.getRecipes().entrySet().stream().filter(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
