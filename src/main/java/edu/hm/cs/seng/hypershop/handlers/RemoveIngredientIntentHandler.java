@@ -20,6 +20,7 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Map;
@@ -32,7 +33,9 @@ public class RemoveIngredientIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_REMOVE_INGREDIENT)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_REMOVE_INGREDIENT))
+                && (ContextStackService.isCurrentContext(input, null)
+                || ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE));
     }
 
     @Override
@@ -53,13 +56,19 @@ public class RemoveIngredientIntentHandler implements RequestHandler {
             final String ingredient = ingredientSlot.getValue();
             final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-            final boolean result = shoppingListService.removeIngredient(ingredient);
-            if(result) {
-                speechText = String.format(INGREDIENTS_REMOVE_SUCCESS, ingredient);
-                shoppingListService.save(modelService);
+            final boolean result;
+            if (ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE)) {
+                final String recipeString = SessionStorageService.getCurrentRecipe(input);
+                result = shoppingListService.removeIngredientRecipe(ingredient, recipeString);
+                speechText = result ? String.format(INGREDIENTS_REMOVE_RECIPE_SUCCESS, ingredient) : INGREDIENTS_REMOVE_ERROR;
             } else {
-                speechText = INGREDIENTS_REMOVE_ERROR;
+                result = shoppingListService.removeIngredient(ingredient);
+                speechText = result ? String.format(INGREDIENTS_REMOVE_SUCCESS, ingredient) : INGREDIENTS_REMOVE_ERROR;
             }
+            if(result) {
+                shoppingListService.save(modelService);
+            }
+
         } else {
             speechText = INGREDIENTS_REMOVE_REPROMPT;
             responseBuilder.withReprompt(INGREDIENTS_REMOVE_REPROMPT);

@@ -11,7 +11,7 @@ public class Constants {
     static final String DYNAMO_TABLE_NAME = "hypershopData";
 
     public static final String INTENT_ADD_INGREDIENT = "AddIngredientIntent";
-    public static final String INTENT_ADD_RECIPE = "AddRecipeIntent";
+    public static final String INTENT_ADD_RECIPES = "AddRecipesIntent";
     public static final String INTENT_CREATE_RECIPE = "CreateRecipeIntent";
     public static final String INTENT_REMOVE_INGREDIENT = "RemoveIngredientIntent";
     public static final String INTENT_LIST_INGREDIENTS = "ListIngredientsIntent";

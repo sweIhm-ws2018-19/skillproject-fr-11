@@ -1,0 +1,71 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.4f266fd7-8ebb-4bbc-83f0-3ca4b1359941",
+    "application": {
+      "applicationId": "amzn1.ask.skill.3ef06788-143f-4959-b0b1-7e4ae8a4759b"
+    },
+    "attributes": {
+      "stack_pointer": 0,
+      "SPTR_0": "context_recipe",
+      "current_recipe": "tomatensuppe"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AG4EGA3SDEI3N7QGPANWRHJKFGJZBM42WCWUWRCRVNIXKS2VDTQRJS4WM3DEUIMPSXYUL7UJ6SRQ3DBJR7TT626C3QNRU6NHVLXUSLM6JQRPUL5ULNM557ASSZ2TIW6K6Q4EAED4Z3GOACQVT2TKI6VDCX4QT42AW5Y3JV6FIXVMNIISJ5K6PBKZBXXA6TXH5VUT4VSGW3TB2WA"
+    }
+  },
+  "context": {
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.3ef06788-143f-4959-b0b1-7e4ae8a4759b"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AG4EGA3SDEI3N7QGPANWRHJKFGJZBM42WCWUWRCRVNIXKS2VDTQRJS4WM3DEUIMPSXYUL7UJ6SRQ3DBJR7TT626C3QNRU6NHVLXUSLM6JQRPUL5ULNM557ASSZ2TIW6K6Q4EAED4Z3GOACQVT2TKI6VDCX4QT42AW5Y3JV6FIXVMNIISJ5K6PBKZBXXA6TXH5VUT4VSGW3TB2WA"
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AFGLJQ2T54KUFHEH6CT725Y4HIQ3ZRHCN7N4I4W77724QXNPS6QSSZ4RYLEZIACUGWSJ5YAMHQVLAUWFYEUOFNPQ35XFGGGDFJ6RSEHP6N5ZGAKKIMWFOOUKNNWA5JVABDXUDM6V7XTT45OP4QGGPFQN2TSV5ITC7L562LYRIBJWON5B3YZAO",
+        "supportedInterfaces": {}
+      },
+      "apiEndpoint": "https://api.amazonalexa.com",
+      "apiAccessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLjNlZjA2Nzg4LTE0M2YtNDk1OS1iMGIxLTdlNGFlOGE0NzU5YiIsImV4cCI6MTU0NDA0NjU4NiwiaWF0IjoxNTQ0MDQyOTg2LCJuYmYiOjE1NDQwNDI5ODYsInByaXZhdGVDbGFpbXMiOnsiY29uc2VudFRva2VuIjpudWxsLCJkZXZpY2VJZCI6ImFtem4xLmFzay5kZXZpY2UuQUZHTEpRMlQ1NEtVRkhFSDZDVDcyNVk0SElRM1pSSENON040STRXNzc3MjRRWE5QUzZRU1NaNFJZTEVaSUFDVUdXU0o1WUFNSFFWTEFVV0ZZRVVPRk5QUTM1WEZHR0dERko2UlNFSFA2TjVaR0FLS0lNV0ZPT1VLTk5XQTVKVkFCRFhVRE02VjdYVFQ0NU9QNFFHR1BGUU4yVFNWNUlUQzdMNTYyTFlSSUJKV09ONUIzWVpBTyIsInVzZXJJZCI6ImFtem4xLmFzay5hY2NvdW50LkFHNEVHQTNTREVJM043UUdQQU5XUkhKS0ZHSlpCTTQyV0NXVVdSQ1JWTklYS1MyVkRUUVJKUzRXTTNERVVJTVBTWFlVTDdVSjZTUlEzREJKUjdUVDYyNkMzUU5SVTZOSFZMWFVTTE02SlFSUFVMNVVMTk01NTdBU1NaMlRJVzZLNlE0RUFFRDRaM0dPQUNRVlQyVEtJNlZEQ1g0UVQ0MkFXNVkzSlY2RklYVk1OSUlTSjVLNlBCS1pCWFhBNlRYSDVWVVQ0VlNHVzNUQjJXQSJ9fQ.Bwk-aWYYj3C__gZV6_1CsbwdoNxFy7hCUw5XyTQYBWYSC5yOsLJOuGdctXaUo89Y537pfeBcXV8PWSB7o0K5-R8z10Y_k5yMYgJFHi4OF70N0H-PtDMx_9xmDMAY0huVjtYZSsTaSh3Tf_gmPmhpUNcyM-o1ePJz1zS2T4fBt2L3057znqeaSNudMsXlwijdQ3nGAxFZkoqx6uifB2cLXAN0ZK2KttYCzYPRM7JOK_CUyaCVcH30NXcvofjTLIOo6Og2J2pFJZLaRt0dUbPppPSabq_t8GYDg_GfwoazAxOHKU_KS0yHwEcWxsMUqx2KEJjxE3AsRNyZsb4leQx-nQ"
+    },
+    "Viewport": {
+      "experiences": [
+        {
+          "arcMinuteWidth": 246,
+          "arcMinuteHeight": 144,
+          "canRotate": false,
+          "canResize": false
+        }
+      ],
+      "shape": "RECTANGLE",
+      "pixelWidth": 1024,
+      "pixelHeight": 600,
+      "dpi": 160,
+      "currentPixelWidth": 1024,
+      "currentPixelHeight": 600,
+      "touch": [
+        "SINGLE"
+      ]
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.1eb3af16-a2ce-4a59-af6e-34045241b4bf",
+    "locale": "de-DE",
+    "intent": {
+      "name": "RemoveIngredientIntent",
+      "confirmationStatus": "NONE",
+      "slots": {
+        "ingredient": {
+          "name": "ingredient",
+          "value": "tomaten",
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        }
+      }
+    },
+    "dialogState": "STARTED"
+  }
+}

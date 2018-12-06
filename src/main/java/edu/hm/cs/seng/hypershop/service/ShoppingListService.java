@@ -25,7 +25,6 @@ public class ShoppingListService {
 
     public void addIngredient(IngredientAmount ingredientAmount) {
         throw new UnsupportedOperationException("not implemented");
-
     }
 
     private Set<IngredientAmount> summarizeIngredients() {
@@ -34,6 +33,14 @@ public class ShoppingListService {
 
     public boolean removeIngredient(String ingredient) {
         return shoppingList.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
+    }
+
+    public boolean removeIngredientRecipe(String ingredient, String recipeName) {
+        final Recipe recipe = getRecipe(recipeName);
+        if (recipe == null) {
+            return false;
+        }
+        return recipe.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
     }
 
     private Stream<Map.Entry<Recipe, Integer>> getFilteredRecipeStream(String recipeName) {
@@ -181,4 +188,5 @@ public class ShoppingListService {
     public void save(ModelService modelService) {
         modelService.save(shoppingList);
     }
+
 }
