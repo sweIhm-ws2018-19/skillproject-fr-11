@@ -19,19 +19,23 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
-import edu.hm.cs.seng.hypershop.service.ContextStackService;
-import edu.hm.cs.seng.hypershop.service.ModelService;
-import edu.hm.cs.seng.hypershop.service.ShoppingListService;
+import edu.hm.cs.seng.hypershop.model.Recipe;
+import edu.hm.cs.seng.hypershop.service.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.Constants.CONTEXT_RECIPE;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_INGREDIENTS;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_RECIPE_INGREDIENTS;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.RECIPE_EDIT_NOT_FOUND;
 
 public class ListIngredientsIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_LIST_INGREDIENTS)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName(Constants.INTENT_LIST_INGREDIENTS));
     }
 
     @Override
@@ -40,24 +44,30 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         final ModelService modelService = new ModelService(input);
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        final int listSize = shoppingListService.getIngredients().size();
-        final StringBuilder sb = new StringBuilder(String.format("Du hast %d Zutaten in deiner Einkaufsliste", listSize));
-        if (listSize == 0) {
-            sb.append(".");
-        } else {
-            sb.append(": ");
-        }
-        for (IngredientAmount ie : shoppingListService.getIngredients()) {
-            Optional<IngredientAmount> firstIngredient = shoppingListService.getIngredients().stream().findFirst();
-            if (firstIngredient.isPresent() && ie != firstIngredient.get()) {
-                sb.append(", ");
+        ResponseBuilder responseBuilder = input.getResponseBuilder();
+        final int listSize;
+        final StringBuilder sb;
+        final IngredientAmountService ingredientAmountService = new IngredientAmountService();
+        if (ContextStackService.isCurrentContext(input, CONTEXT_RECIPE)) {
+            String recipeName = SessionStorageService.getCurrentRecipe(input);
+            if (!shoppingListService.containsRecipe(recipeName)) {
+                return responseBuilder.withSpeech(String.format(RECIPE_EDIT_NOT_FOUND, recipeName)).build();
             }
-            addIngredientToStringBuilder(sb, ie);
+
+            Recipe recipe = shoppingListService.getRecipe(recipeName);
+            listSize = recipe.getIngredients().size();
+            sb = new StringBuilder(String.format(LIST_RECIPE_INGREDIENTS, listSize));
+            finalizeHeader(listSize, sb);
+            ingredientAmountService.getIngredientStringsRecipe(recipe, sb);
+
+        } else {
+            listSize = shoppingListService.getIngredients().size();
+            sb = new StringBuilder(String.format(LIST_INGREDIENTS, listSize));
+            finalizeHeader(listSize, sb);
+            ingredientAmountService.getIngredientsString(shoppingListService, sb);
         }
 
         final String speechText = sb.toString();
-
-        ResponseBuilder responseBuilder = input.getResponseBuilder();
 
         responseBuilder.withSimpleCard("HypershopSession", speechText)
                 .withSpeech(speechText)
@@ -66,22 +76,11 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         return responseBuilder.build();
     }
 
-    private void addIngredientToStringBuilder(final StringBuilder sb, IngredientAmount ia) {
-        sb.append("<say-as interpret-as=\"number\">");
-        sb.append(fmt(ia.getAmount()));
-        sb.append("</say-as>");
-        sb.append(" ");
-        sb.append("<say-as interpret-as=\"unit\">");
-        sb.append(ia.getUnit());
-        sb.append("</say-as>");
-        sb.append(" ");
-        sb.append(ia.getName());
-    }
-
-    private static String fmt(double d) {
-        if (d == (long) d)
-            return String.format("%d", (long) d);
-        else
-            return String.format("%s", d);
+    private void finalizeHeader(final int listSize, StringBuilder sb) {
+        if (listSize == 0) {
+            sb.append(".");
+        } else {
+            sb.append(": ");
+        }
     }
 }

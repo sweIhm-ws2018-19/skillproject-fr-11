@@ -25,7 +25,6 @@ public class ShoppingListService {
 
     public void addIngredient(IngredientAmount ingredientAmount) {
         throw new UnsupportedOperationException("not implemented");
-
     }
 
     private Set<IngredientAmount> summarizeIngredients() {
@@ -182,4 +181,5 @@ public class ShoppingListService {
     public void save(ModelService modelService) {
         modelService.save(shoppingList);
     }
+
 }
