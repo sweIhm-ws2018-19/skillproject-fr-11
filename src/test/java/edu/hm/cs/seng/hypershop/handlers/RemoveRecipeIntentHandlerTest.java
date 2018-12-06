@@ -54,7 +54,7 @@ public class RemoveRecipeIntentHandlerTest {
         Assert.assertEquals(1, listService.getRecipeStrings().size());
         Assert.assertEquals(1, listService.getAddedRecipeStrings().size());
 
-        listService.removeRecipes("Currywurst", 1);
+        listService.removeRecipes("Currywurst");
         Assert.assertEquals(1, listService.getRecipeStrings().size());
         Assert.assertEquals(0, listService.getAddedRecipeStrings().size());
 

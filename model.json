@@ -143,8 +143,8 @@
             }
           ],
           "samples": [
-            "Lösche das rezept {recipe}",
-            "Lösche rezept {recipe}"
+            "Entferne das rezept {recipe}",
+            "Entferne rezept {recipe}"
           ]
         },
         {
@@ -367,7 +367,7 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "Welches Rezept möchtest du löschen?"
+            "value": "Welches Rezept möchtest du von der Einkaufsliste entfernen?"
           }
         ]
       },

@@ -42,13 +42,11 @@ public class RemoveRecipeIntentHandler implements RequestHandler {
 
         final String recipeName = recipeSlot.getValue();
         String speechText;
-        try {
-            if (!shoppingListService.removeRecipes(recipeName, 1)) {
-                throw new IllegalArgumentException("recipe does not exist");
-            }
+        if (shoppingListService.removeRecipes(recipeName)) {
             shoppingListService.save(modelService);
             speechText = String.format(RECIPE_REMOVE_SUCCESS, recipeName);
-        } catch (IllegalArgumentException ex) {
+        }
+        else {
             speechText = String.format(RECIPE_REMOVE_NOT_FOUND, recipeName);
         }
 
