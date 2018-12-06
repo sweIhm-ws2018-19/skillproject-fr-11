@@ -35,7 +35,7 @@ public class ShoppingListService {
         return shoppingList.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
     }
 
-    public boolean removeIngredientRecipe(String ingredient, String recipeName) {
+    public boolean removeIngredientFromRecipe(String ingredient, String recipeName) {
         final Recipe recipe = getRecipe(recipeName);
         if (recipe == null) {
             return false;

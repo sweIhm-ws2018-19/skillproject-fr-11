@@ -59,7 +59,7 @@ public class RemoveIngredientIntentHandler implements RequestHandler {
             final boolean result;
             if (ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE)) {
                 final String recipeString = SessionStorageService.getCurrentRecipe(input);
-                result = shoppingListService.removeIngredientRecipe(ingredient, recipeString);
+                result = shoppingListService.removeIngredientFromRecipe(ingredient, recipeString);
                 speechText = result ? String.format(INGREDIENTS_REMOVE_RECIPE_SUCCESS, ingredient) : INGREDIENTS_REMOVE_ERROR;
             } else {
                 result = shoppingListService.removeIngredient(ingredient);

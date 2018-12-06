@@ -1,14 +1,20 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
+import java.util.AbstractMap;
+import java.util.Collections;
+
+import static org.junit.Assert.*;
 
 public class ShoppingListServiceTest {
 
-    private final ShoppingListService service = new ShoppingListService(new ShoppingList());
+    private final ShoppingList shoppingList = new ShoppingList();
+    private final ShoppingListService service = new ShoppingListService(shoppingList);
 
     @Test
     public void noExistingRecipes() {
@@ -32,5 +38,253 @@ public class ShoppingListServiceTest {
 
         final Recipe recipe = service.getRecipe("test");
         assertEquals(10, recipe.getIngredients().size());
+    }
+
+    @Test
+    public void constructorLoadsPersistentData() {
+        final ModelService modelService = Mockito.mock(ModelService.class);
+        new ShoppingListService(modelService);
+        Mockito.verify(modelService, Mockito.times(1)).get(Mockito.anyString(), Mockito.any());
+    }
+
+    @Test
+    public void shouldRemoveIngredients() {
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.addIngredient(ingredientAmount);
+
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients());
+
+        final boolean found = service.removeIngredient("Kekse");
+        assertTrue(found);
+
+        assertEquals(Collections.emptySet(), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.emptySet(), shoppingList.getIngredients());
+    }
+
+    @Test
+    public void shouldRemoveIngredientsCase() {
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.addIngredient(ingredientAmount);
+
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients());
+
+        final boolean found = service.removeIngredient("kekse");
+        assertTrue(found);
+
+        assertEquals(Collections.emptySet(), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.emptySet(), shoppingList.getIngredients());
+    }
+
+    @Test
+    public void shouldNotRemoveNotExistingIngredients() {
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.addIngredient(ingredientAmount);
+
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients());
+
+        final boolean found = service.removeIngredient("Blumen");
+        assertFalse(found);
+
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients("Kekse"));
+        assertEquals(Collections.singleton(ingredientAmount), shoppingList.getIngredients());
+    }
+
+    @Test
+    public void removeIngredientFromNotExistingRecipe() {
+        assertFalse(service.removeIngredientFromRecipe("Kekse", "Lebkuchen"));
+    }
+
+    @Test
+    public void removeIngredientFromRecipe() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        final IngredientAmount ingredientAmount2 = new IngredientAmount();
+        ingredientAmount2.setName("Bockwurst");
+        ingredientAmount2.setAmount(10);
+        ingredientAmount2.setUnit("liter");
+
+        lebkuchen.addIngredient(ingredientAmount);
+        lebkuchen.addIngredient(ingredientAmount2);
+
+        shoppingList.getRecipes().put(lebkuchen, 0);
+
+        assertEquals(Collections.singletonMap(lebkuchen, 0), shoppingList.getRecipes());
+
+        final boolean success = service.removeIngredientFromRecipe("Kekse", "Lebkuchen");
+        assertTrue(success);
+
+        assertEquals(Collections.singleton(new AbstractMap.SimpleEntry<>(lebkuchen, 0)), shoppingList.getRecipes().entrySet());
+
+        final Recipe recipe = shoppingList.getRecipes().entrySet().iterator().next().getKey();
+        assertEquals(Collections.singleton(ingredientAmount2), recipe.getIngredients());
+    }
+
+    @Test
+    public void removeNonExistingIngredientFromRecipe() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+
+        lebkuchen.addIngredient(ingredientAmount);
+
+        shoppingList.getRecipes().put(lebkuchen, 0);
+
+        assertEquals(Collections.singletonMap(lebkuchen, 0), shoppingList.getRecipes());
+
+        final boolean success = service.removeIngredientFromRecipe("Bockwurst", "Lebkuchen");
+        assertFalse(success);
+
+        assertEquals(Collections.singletonMap(lebkuchen, 0), shoppingList.getRecipes());
+
+        final Recipe recipe = shoppingList.getRecipes().entrySet().iterator().next().getKey();
+        assertEquals(Collections.singleton(ingredientAmount), recipe.getIngredients());
+    }
+
+    @Test
+    public void containsRecipe() {
+        shoppingList.getRecipes().put(new Recipe("Lebkuchen"), 0);
+
+        assertTrue(service.containsRecipe("Lebkuchen"));
+        assertTrue(service.containsRecipe("lebkucHen"));
+
+        assertFalse(service.containsRecipe("Schokolade"));
+    }
+
+    private void deleteRecipeImpl(String deleteString) {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+
+        lebkuchen.addIngredient(ingredientAmount);
+
+        shoppingList.getRecipes().put(lebkuchen, 0);
+
+        assertEquals(Collections.singletonMap(lebkuchen, 0), shoppingList.getRecipes());
+
+        final boolean success = service.deleteRecipe(deleteString);
+        assertTrue(success);
+
+        assertEquals(Collections.emptySet(), shoppingList.getRecipes().entrySet());
+    }
+
+    @Test
+    public void deleteRecipe() {
+        deleteRecipeImpl("Lebkuchen");
+    }
+
+    @Test
+    public void deleteRecipeCase() {
+        deleteRecipeImpl("lebKucheN");
+    }
+
+    @Test
+    public void deleteNonExistingRecipe() {
+        assertFalse(service.deleteRecipe("Lebkuchen"));
+    }
+
+    private void addRecipesImpl(int amount) {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.getRecipes().put(lebkuchen, 0);
+
+        assertEquals(Collections.singletonMap(lebkuchen, 0), shoppingList.getRecipes());
+
+        final boolean success = service.addRecipes("Lebkuchen", amount);
+        assertTrue(success);
+
+        assertEquals(Collections.singletonMap(lebkuchen, amount), shoppingList.getRecipes());
+    }
+
+    @Test
+    public void add1Recipes() {
+        addRecipesImpl(1);
+    }
+
+    @Test
+    public void add99Recipes() {
+        addRecipesImpl(99);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void add0Recipes() {
+        addRecipesImpl(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addNegativeRecipes() {
+        service.addRecipes("Lebkuchen", -1);
+    }
+
+    @Test
+    public void addNonExistingRecipe() {
+        assertFalse(service.addRecipes("Lebkuchen", 1));
+    }
+
+    private void removeRecipesImpl(int initial, int remove, int remaining) {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.getRecipes().put(lebkuchen, initial);
+
+        assertEquals(Collections.singletonMap(lebkuchen, initial), shoppingList.getRecipes());
+
+        final boolean success = service.removeRecipes("Lebkuchen", remove);
+        assertTrue(success);
+
+        assertEquals(Collections.singletonMap(lebkuchen, remaining), shoppingList.getRecipes());
+    }
+
+    @Test
+    public void remove1Recipe() {
+        removeRecipesImpl(1, 1, 0);
+    }
+
+    @Test
+    public void remove10Recipes() {
+        removeRecipesImpl(1, 10, 0);
+    }
+
+    @Test
+    public void remove11Recipes() {
+        removeRecipesImpl(100, 11, 89);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void removeNegativeRecipes() {
+        removeRecipesImpl(100, -1, 89);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void remove0Recipes() {
+        removeRecipesImpl(100, 0, 89);
+    }
+
+    @Test
+    public void removeNonexistingRecipe() {
+        assertFalse(service.removeRecipes("Lebkuchen", 12));
     }
 }
