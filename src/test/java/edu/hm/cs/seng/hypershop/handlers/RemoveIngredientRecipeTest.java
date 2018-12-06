@@ -49,7 +49,7 @@ public class RemoveIngredientRecipeTest {
         shoppingListService.createRecipe("tomatensuppe");
 
         shoppingListService.addIngredientRecipe("tomaten", 50, "g", "tomatensuppe");
-        shoppingListService.addIngredientRecipe("suppe", 50, "g", "tomatensuppe");
+        shoppingListService.addIngredientRecipe("suppe", 150, "ml", "tomatensuppe");
 
         shoppingListService.save(modelService);
 
@@ -58,6 +58,6 @@ public class RemoveIngredientRecipeTest {
         HandlerTestHelper.compareSSML(String.format(INGREDIENTS_REMOVE_RECIPE_SUCCESS, "tomaten"), responseString);
 
         shoppingListService.load(modelService);
-        //Assert.assertEquals(1, shoppingListService.getIngredientsRecipe("tomatensuppe").size());
+        Assert.assertEquals(1, shoppingListService.getRecipe("tomatensuppe").getIngredients().size());
     }
 }
