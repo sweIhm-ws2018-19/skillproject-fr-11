@@ -182,4 +182,8 @@ public class ShoppingListService {
         modelService.save(shoppingList);
     }
 
+    public void clearList() {
+        shoppingList.getIngredients().clear();
+        shoppingList.getRecipes().entrySet().forEach(es -> es.setValue(0));
+    }
 }

@@ -146,6 +146,16 @@
             "Lösche das rezept {recipe}",
             "Lösche rezept {recipe}"
           ]
+        },
+        {
+          "name": "ClearListIntent",
+          "slots": [],
+          "samples": [
+            "leere einkaufsliste",
+            "leere liste",
+            "lösche einkaufsliste",
+            "lösche liste"
+          ]
         }
       ],
       "types": [
@@ -283,6 +293,14 @@
               }
             }
           ]
+        },
+        {
+          "name": "ClearListIntent",
+          "confirmationRequired": true,
+          "prompts": {
+            "confirmation": "Confirm.Intent.606327160346"
+          },
+          "slots": []
         }
       ]
     },
@@ -329,6 +347,15 @@
           {
             "type": "PlainText",
             "value": "Welches Rezept möchtest du bearbeiten?"
+          }
+        ]
+      },
+      {
+        "id": "Confirm.Intent.606327160346",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Willst du die Einkaufsliste wirklich leeren?"
           }
         ]
       }
