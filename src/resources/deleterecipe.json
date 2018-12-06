@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": false,
+    "sessionId": "amzn1.echo-api.session.9b158996-6365-409f-926a-daeda9062371",
+    "application": {
+      "applicationId": "amzn1.ask.skill.3ef06788-143f-4959-b0b1-7e4ae8a4759b"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AG4EGA3SDEI3N7QGPANWRHJKFGJZBM42WCWUWRCRVNIXKS2VDTQRJS4WM3DEUIMPSXYUL7UJ6SRQ3DBJR7TT626C3QNRU6NHVLXUSLM6JQRPUL5ULNM557ASSZ2TIW6K6Q4EAED4Z3GOACQVT2TKI6VDCX4QT42AW5Y3JV6FIXVMNIISJ5K6PBKZBXXA6TXH5VUT4VSGW3TB2WA"
+    }
+  },
+  "context": {
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.3ef06788-143f-4959-b0b1-7e4ae8a4759b"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AG4EGA3SDEI3N7QGPANWRHJKFGJZBM42WCWUWRCRVNIXKS2VDTQRJS4WM3DEUIMPSXYUL7UJ6SRQ3DBJR7TT626C3QNRU6NHVLXUSLM6JQRPUL5ULNM557ASSZ2TIW6K6Q4EAED4Z3GOACQVT2TKI6VDCX4QT42AW5Y3JV6FIXVMNIISJ5K6PBKZBXXA6TXH5VUT4VSGW3TB2WA"
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AFGLJQ2T54KUFHEH6CT725Y4HIQ3ZRHCN7N4I4W77724QXNPS6QSSZ4RYLEZIACUGWSJ5YAMHQVLAUWFYEUOFNPQ35XFGGGDFJ6RSEHP6N5ZGAKKIMWFOOUKNNWA5JVABDXUDM6V7XTT45OP4QGGPFQN2TSV5ITC7L562LYRIBJWON5B3YZAO",
+        "supportedInterfaces": {}
+      },
+      "apiEndpoint": "https://api.amazonalexa.com",
+      "apiAccessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLjNlZjA2Nzg4LTE0M2YtNDk1OS1iMGIxLTdlNGFlOGE0NzU5YiIsImV4cCI6MTU0NDE0MDY1MywiaWF0IjoxNTQ0MTM3MDUzLCJuYmYiOjE1NDQxMzcwNTMsInByaXZhdGVDbGFpbXMiOnsiY29uc2VudFRva2VuIjpudWxsLCJkZXZpY2VJZCI6ImFtem4xLmFzay5kZXZpY2UuQUZHTEpRMlQ1NEtVRkhFSDZDVDcyNVk0SElRM1pSSENON040STRXNzc3MjRRWE5QUzZRU1NaNFJZTEVaSUFDVUdXU0o1WUFNSFFWTEFVV0ZZRVVPRk5QUTM1WEZHR0dERko2UlNFSFA2TjVaR0FLS0lNV0ZPT1VLTk5XQTVKVkFCRFhVRE02VjdYVFQ0NU9QNFFHR1BGUU4yVFNWNUlUQzdMNTYyTFlSSUJKV09ONUIzWVpBTyIsInVzZXJJZCI6ImFtem4xLmFzay5hY2NvdW50LkFHNEVHQTNTREVJM043UUdQQU5XUkhKS0ZHSlpCTTQyV0NXVVdSQ1JWTklYS1MyVkRUUVJKUzRXTTNERVVJTVBTWFlVTDdVSjZTUlEzREJKUjdUVDYyNkMzUU5SVTZOSFZMWFVTTE02SlFSUFVMNVVMTk01NTdBU1NaMlRJVzZLNlE0RUFFRDRaM0dPQUNRVlQyVEtJNlZEQ1g0UVQ0MkFXNVkzSlY2RklYVk1OSUlTSjVLNlBCS1pCWFhBNlRYSDVWVVQ0VlNHVzNUQjJXQSJ9fQ.XkVv3QUSYRCEuDSWyo2FrjBqC9DvD4jBwgy3VD0x53pFMhev1Zz64ptvzN9iRfHytxjLiVZvd8lc73FWAAzENKiiEiORuRrx1gNrtanQo7DmPg_oc385yS0HfhvZKCqfDF9NDEQTbMOgbB-PXiiJejjORzbUQYU-x0-Rye5HfNd2fNfU052a_TmNzfxxE7sZQnRDYncEbj7BtIiNCjeimjwl-gQnGN2glZUMq85RI3w0_UwDnTQWZMB6LDJUZ1jHvOyBxBqc8aTeqV5MdFTXxFZeM82lN3VuugnGBteUWUg4LlU4mYmT4NhuDuG2NlQ5sDmDQAWC3JNskz5zHMsefg"
+    },
+    "Viewport": {
+      "experiences": [
+        {
+          "arcMinuteWidth": 246,
+          "arcMinuteHeight": 144,
+          "canRotate": false,
+          "canResize": false
+        }
+      ],
+      "shape": "RECTANGLE",
+      "pixelWidth": 1024,
+      "pixelHeight": 600,
+      "dpi": 160,
+      "currentPixelWidth": 1024,
+      "currentPixelHeight": 600,
+      "touch": [
+        "SINGLE"
+      ]
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.698dd459-a310-4841-b57b-e2b09bd5a09b",
+    "locale": "de-DE",
+    "intent": {
+      "name": "DeleteRecipeIntent",
+      "confirmationStatus": "NONE",
+      "slots": {
+        "recipe": {
+          "name": "recipe",
+          "value": "tomatensuppe",
+          "confirmationStatus": "NONE",
+          "source": "USER"
+        }
+      }
+    },
+    "dialogState": "STARTED"
+  }
+}
