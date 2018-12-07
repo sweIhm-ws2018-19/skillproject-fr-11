@@ -259,7 +259,7 @@ public class ShoppingListServiceTest {
         assertFalse(service.addRecipes("Lebkuchen", 1));
     }
 
-    private void removeRecipesImpl(int initial, int remove, int remaining) {
+    private void removeRecipesImpl(int initial, int remaining) {
         final Recipe lebkuchen = new Recipe("Lebkuchen");
         final IngredientAmount ingredientAmount = new IngredientAmount();
         ingredientAmount.setName("Kekse");
@@ -269,7 +269,7 @@ public class ShoppingListServiceTest {
 
         assertEquals(Collections.singletonMap(lebkuchen, initial), shoppingList.getRecipes());
 
-        final boolean success = service.removeRecipes("Lebkuchen", remove);
+        final boolean success = service.removeRecipes("Lebkuchen");
         assertTrue(success);
 
         assertEquals(Collections.singletonMap(lebkuchen, remaining), shoppingList.getRecipes());
@@ -277,32 +277,18 @@ public class ShoppingListServiceTest {
 
     @Test
     public void remove1Recipe() {
-        removeRecipesImpl(1, 1, 0);
+        removeRecipesImpl(1, 0);
     }
+
 
     @Test
-    public void remove10Recipes() {
-        removeRecipesImpl(1, 10, 0);
-    }
-
-    @Test
-    public void remove11Recipes() {
-        removeRecipesImpl(100, 11, 89);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void removeNegativeRecipes() {
-        removeRecipesImpl(100, -1, 89);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void remove0Recipes() {
-        removeRecipesImpl(100, 0, 89);
+    public void remove100Recipes() {
+        removeRecipesImpl(100, 0);
     }
 
     @Test
     public void removeNonexistingRecipe() {
-        assertFalse(service.removeRecipes("Lebkuchen", 12));
+        assertFalse(service.removeRecipes("Lebkuchen"));
     }
 
     @Test
