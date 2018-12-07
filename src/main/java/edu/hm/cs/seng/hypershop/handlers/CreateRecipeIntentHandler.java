@@ -52,7 +52,7 @@ public class CreateRecipeIntentHandler implements RequestHandler {
 
         final Slot recipeSlot = slots.get(Constants.SLOT_RECIPE);
 
-        final ResponseBuilder responseBuilder = input.getResponseBuilder();
+        final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
         if (ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE)
                 && contextualIntents.stream().noneMatch(s -> input.matches(intentName(s)))) {
@@ -68,14 +68,16 @@ public class CreateRecipeIntentHandler implements RequestHandler {
 
         final String recipeName = recipeSlot.getValue();
 
-        shoppingListService.createRecipe(recipeName);
+        if (!shoppingListService.createRecipe(recipeName)) {
+            return responseBuilder.withSpeech(String.format(RECIPE_CREATE_DUPLICATE, recipeName)).build();
+        }
         shoppingListService.save(modelService);
 
         ContextStackService.pushContext(input, Constants.CONTEXT_RECIPE);
         SessionStorageService.setCurrentRecipe(input, recipeName);
 
         final String speechText = String.format(RECIPE_CREATE_SUCCESS, recipeName);
-        responseBuilder.withSimpleCard("HypershopSession", speechText).withSpeech(speechText).withShouldEndSession(false);
+        responseBuilder.withSpeech(speechText);
 
         return responseBuilder.build();
     }

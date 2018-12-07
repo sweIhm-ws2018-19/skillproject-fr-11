@@ -38,6 +38,7 @@ public class SpeechTextConstants {
     public static final String RECIPE_CREATE_ERROR = "Tut mir leid, ich konnte den Rezeptnamen nicht verstehen.";
     public static final String RECIPE_CREATE_REPROMPT = "Wie lautet der Rezeptnamen?";
     public static final String RECIPE_CREATE_INVALID_INTENT = "Tut mir leid, das kannst du hier nicht machen, du bearbeitest gerade ein Rezept.";
+    public static final String RECIPE_CREATE_DUPLICATE = "Tut mir leid, das Rezept %s konnte nicht erstellt werden, es existiert bereits.";
 
     public static final String RECIPE_ADD_SUCCESS = "Das Rezept %s wurde zu deiner Einkaufsliste hinzugefügt.";
     public static final String RECIPE_ADD_MULTI_SUCCESS = "%d Portionen %s wurden zu deiner Einkaufsliste hinzugefügt.";

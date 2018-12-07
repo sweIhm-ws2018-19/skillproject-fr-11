@@ -51,13 +51,12 @@ public class ShoppingListService {
         return getFilteredRecipeStream(recipeName).findAny().isPresent();
     }
 
-    /**
-     * Creates a recipe and overrides it if it exists (create a map key with value 0)
-     *
-     * @param recipeName the name of the recipe to create
-     */
-    public void createRecipe(String recipeName) {
+    public boolean createRecipe(String recipeName) {
+        if (shoppingList.getRecipes().keySet().stream().anyMatch(r -> r.getName().equalsIgnoreCase(recipeName))) {
+            return false;
+        }
         shoppingList.getRecipes().put(new Recipe(recipeName), 0);
+        return true;
     }
 
     /**
