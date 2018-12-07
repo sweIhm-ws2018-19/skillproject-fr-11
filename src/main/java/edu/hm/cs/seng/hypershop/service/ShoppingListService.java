@@ -104,11 +104,25 @@ public class ShoppingListService {
                 .collect(Collectors.toList());
     }
 
+    public String getAddedRecipesWithAmountString() {
+        final StringBuilder sb = new StringBuilder();
+        getAddedRecipesWithAmountStream().forEach(
+                recipe -> sb.append(recipe.getValue()).append(" Portionen ").append(recipe.getKey()).append(", ")
+        );
+        if(sb.length() > 0)
+            sb.deleteCharAt(sb.lastIndexOf(",")).deleteCharAt(sb.lastIndexOf(" "));
+        return sb.toString();
+    }
+
     public List<Map.Entry<String, Integer>> getAddedRecipesWithAmount() {
+        return getAddedRecipesWithAmountStream()
+                .collect(Collectors.toList());
+    }
+
+    private Stream<Map.Entry<String, Integer>> getAddedRecipesWithAmountStream() {
         return shoppingList.getRecipes().entrySet().stream()
                 .filter(es -> es.getValue() > 0)
-                .map(es -> new AbstractMap.SimpleEntry<>(es.getKey().getName(), es.getValue()))
-                .collect(Collectors.toList());
+                .map(es -> new AbstractMap.SimpleEntry<>(es.getKey().getName(), es.getValue()));
     }
 
     public void addIngredient(String name, int amount, String unitName) {
