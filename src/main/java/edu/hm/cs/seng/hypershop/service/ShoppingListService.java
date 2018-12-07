@@ -65,9 +65,8 @@ public class ShoppingListService {
      *
      * @param recipeName the recipe name to remove from the list
      * @return true if a recipe was deleted
-     * @throws IllegalArgumentException when an illegal amount is given
      */
-    public boolean deleteRecipe(String recipeName) throws IllegalArgumentException {
+    public boolean deleteRecipe(String recipeName) {
         return shoppingList.getRecipes().entrySet().removeIf(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
 
@@ -90,19 +89,9 @@ public class ShoppingListService {
 
     /**
      * Removes an existing recipe from the shoppingList, but not from the list of available recipes
-     *
-     * @param recipeName the name of the recipe to remove amount times
-     * @param amount     how many times to remove the recipe
-     * @return whether any recipes were removed
-     * @throws IllegalArgumentException when an illegal amount is given
      */
-    public boolean removeRecipes(String recipeName, int amount) throws IllegalArgumentException {
-        if (amount < 1) {
-            throw new IllegalArgumentException("illegal amount");
-        }
-        final long count = getFilteredRecipeStream(recipeName)
-                .peek(es -> es.setValue(es.getValue() - amount > 0 ? es.getValue() - amount : 0)).count();
-        return count > 0;
+    public boolean removeRecipes(String recipeName) {
+        return getFilteredRecipeStream(recipeName).peek(recipeIntegerEntry -> recipeIntegerEntry.setValue(0)).count() > 0;
     }
 
     public List<String> getRecipeStrings() {
