@@ -41,7 +41,7 @@ public class ListIngredientsIntentHandler implements RequestHandler {
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
-        final int listSize;
+        final int ingredientListSize;
         final StringBuilder sb;
         final IngredientAmountService ingredientAmountService = new IngredientAmountService();
         if (ContextStackService.isCurrentContext(input, CONTEXT_RECIPE)) {
@@ -51,16 +51,23 @@ public class ListIngredientsIntentHandler implements RequestHandler {
             }
 
             Recipe recipe = shoppingListService.getRecipe(recipeName);
-            listSize = recipe.getIngredients().size();
-            sb = new StringBuilder(String.format(LIST_RECIPE_INGREDIENTS, listSize));
-            finalizeHeader(listSize, sb);
+            ingredientListSize = recipe.getIngredients().size();
+            sb = new StringBuilder(String.format(LIST_RECIPE_INGREDIENTS, ingredientListSize));
+            finalizeHeader(ingredientListSize, sb);
             ingredientAmountService.getIngredientStringsRecipe(recipe, sb);
 
         } else {
-            listSize = shoppingListService.getIngredients().size();
-            sb = new StringBuilder(String.format(LIST_INGREDIENTS, listSize));
-            finalizeHeader(listSize, sb);
+            // ingredients
+            ingredientListSize = shoppingListService.getIngredients().size();
+            sb = new StringBuilder().append("<p>").append(String.format(LIST_INGREDIENTS, ingredientListSize));
+            finalizeHeader(ingredientListSize, sb);
             ingredientAmountService.getIngredientsString(shoppingListService, sb);
+            sb.append("</p>\n<p>");
+            // recipes
+            final int recipeListSize = shoppingListService.getAddedRecipeStrings().size();
+            sb.append(String.format(LIST_RECIPES, recipeListSize));
+            finalizeHeader(recipeListSize, sb);
+            sb.append(shoppingListService.getAddedRecipesWithAmountString()).append("</p>");
         }
 
         final String speechText = sb.toString();
