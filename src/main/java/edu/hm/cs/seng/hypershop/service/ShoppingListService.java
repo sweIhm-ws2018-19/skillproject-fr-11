@@ -108,7 +108,7 @@ public class ShoppingListService {
     public String getAddedRecipesWithAmountString() {
         final StringBuilder sb = new StringBuilder();
         getAddedRecipesWithAmountStream().forEach(
-                recipe -> sb.append(recipe.getValue()).append(" mal ").append(recipe.getKey()).append(", ")
+                recipe -> sb.append(recipe.getValue()).append(" Portionen ").append(recipe.getKey()).append(", ")
         );
         if(sb.length() > 0)
             sb.deleteCharAt(sb.lastIndexOf(",")).deleteCharAt(sb.lastIndexOf(" "));
