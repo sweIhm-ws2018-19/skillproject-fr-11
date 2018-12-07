@@ -12,12 +12,12 @@ import static org.junit.Assert.assertTrue;
 
 public class CreateRecipeIntentHandlerTest {
 
+    private final HandlerInput input = Mockito.mock(HandlerInput.class);
+    private final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
     @Test
     public void shouldHandleNewRecipe() {
-        final HandlerInput input = Mockito.mock(HandlerInput.class);
         HandlerTestHelper.buildInput("createrecipe-normal.json", input);
-        final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
@@ -29,10 +29,26 @@ public class CreateRecipeIntentHandlerTest {
     }
 
     @Test
+    public void shouldNotCreateExistingRecipe() {
+        HandlerTestHelper.buildInput("createrecipe-normal.json", input);
+
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+        shoppingListService.createRecipe("schnitzel");
+        shoppingListService.save(modelService);
+
+        assertTrue(handler.canHandle(input));
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        final String formatted = String.format(SpeechTextConstants.RECIPE_CREATE_DUPLICATE, "schnitzel");
+        HandlerTestHelper.compareSSML(formatted, responseString);
+
+        shoppingListService.load(modelService);
+        assertEquals(1, shoppingListService.getRecipeStrings().size());
+    }
+
+    @Test
     public void shouldWarnAboutInvalidAction() {
-        final HandlerInput input = Mockito.mock(HandlerInput.class);
         HandlerTestHelper.buildInput("createrecipe-invalid-intent.json", input);
-        final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
@@ -44,7 +60,6 @@ public class CreateRecipeIntentHandlerTest {
 
     @Test
     public void shouldExitWithError() {
-        final HandlerInput input = Mockito.mock(HandlerInput.class);
         HandlerTestHelper.buildInput("createrecipe-empty.json", input);
         final CreateRecipeIntentHandler handler = new CreateRecipeIntentHandler();
 
