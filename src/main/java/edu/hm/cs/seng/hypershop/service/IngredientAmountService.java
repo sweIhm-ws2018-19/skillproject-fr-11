@@ -1,5 +1,6 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 
@@ -37,9 +38,11 @@ public class IngredientAmountService {
         sb.append(fmt(ia.getAmount()));
         sb.append("</say-as>");
         sb.append(" ");
-        sb.append("<say-as interpret-as=\"unit\">");
-        sb.append(ia.getUnit());
-        sb.append("</say-as>");
+        if (!ia.getUnit().equalsIgnoreCase(HypershopCustomUnits.PIECE.getSymbol())) {
+            sb.append("<say-as interpret-as=\"unit\">");
+            sb.append(ia.getUnit());
+            sb.append("</say-as>");
+        }
         sb.append(" ");
         sb.append(ia.getName());
     }
@@ -50,7 +53,6 @@ public class IngredientAmountService {
         else
             return String.format("%s", d);
     }
-
 
 
 }

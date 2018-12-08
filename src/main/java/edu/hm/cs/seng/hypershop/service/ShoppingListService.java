@@ -109,7 +109,7 @@ public class ShoppingListService {
         getAddedRecipesWithAmountStream().forEach(
                 recipe -> sb.append(recipe.getValue()).append(" Portionen ").append(recipe.getKey()).append(", ")
         );
-        if(sb.length() > 0)
+        if (sb.length() > 0)
             sb.deleteCharAt(sb.lastIndexOf(",")).deleteCharAt(sb.lastIndexOf(" "));
         return sb.toString();
     }
@@ -126,7 +126,8 @@ public class ShoppingListService {
     }
 
     public void addIngredient(String name, int amount, String unitName) {
-        boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name))
+        boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name)
+                && unitConversionService.canSummarize(ingredientAmount.getUnit(), unitName))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
@@ -149,7 +150,8 @@ public class ShoppingListService {
         if (recipe == null) {
             return false;
         }
-        boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name))
+        boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name)
+                && unitConversionService.canSummarize(ingredientAmount.getUnit(), unitName))
                 .map(ingredientAmount ->
                         unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
@@ -169,7 +171,7 @@ public class ShoppingListService {
         ingredientAmount.setUnit(unitName);
         return ingredientAmount;
     }
-    
+
     public List<String> getIngredientStrings() {
         return new ArrayList<>();
     }

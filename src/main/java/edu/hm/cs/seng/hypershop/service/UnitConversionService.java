@@ -8,39 +8,38 @@ import tec.units.ri.quantity.Quantities;
 import javax.measure.Quantity;
 import javax.measure.Unit;
 import javax.measure.format.ParserException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class UnitConversionService {
 
     HypershopCustomUnits customUnits = new HypershopCustomUnits();
 
-    public IngredientAmount convert(IngredientAmount ingredient, Unit unit) {
-        return null;
-    }
-
-    public IngredientAmount convert(String ingredientName, String unitName) {
-        return null;
-    }
-
-    public int convert(int amount, Unit unit) {
-        return 0;
-    }
-
-    public Unit getNormalUnit(Unit unit) {
-        return null;
-    }
-
 
     public IngredientAmount summmarizeIngredients(final IngredientAmount ingredient, int amount, String unitName) {
-        Unit baseUnit = getUnit(ingredient.getUnit());
-        Unit addUnit = getUnit(unitName);
 
+        if (canSummarize(ingredient.getUnit(), unitName)) {
+            Unit baseUnit = getUnit(ingredient.getUnit());
+            Unit addUnit = getUnit(unitName);
+            Quantity<?> baseQuantity = Quantities.getQuantity(ingredient.getAmount(), baseUnit);
+            Quantity addQuantity = Quantities.getQuantity(amount, addUnit);
 
-        Quantity<?> baseQuantity = Quantities.getQuantity(ingredient.getAmount(), baseUnit);
-        Quantity addQuantity = Quantities.getQuantity(amount, addUnit);
-
-        Quantity<?> sum = baseQuantity.add(addQuantity);
-        ingredient.setAmount(sum.getValue().doubleValue());
+            Quantity<?> sum = baseQuantity.add(addQuantity);
+            ingredient.setAmount(sum.getValue().doubleValue());
+        }
         return ingredient;
+    }
+
+    public boolean canSummarize(final String baseUnit, final String addUnit) {
+        boolean a = customUnits.getCustomUnits().stream().map(Unit::getSymbol)
+                .filter(unitName -> filterNames(unitName, baseUnit, addUnit)).collect(Collectors.toSet()).size() == 1;
+        boolean b = customUnits.getCustomUnits().stream().noneMatch(unit -> unit.getSymbol().equalsIgnoreCase(baseUnit) ||
+                unit.getSymbol().equalsIgnoreCase(addUnit));
+        return a || b;
+    }
+
+    private boolean filterNames(String unitName, String baseUnit, String addUnit) {
+        return unitName.equalsIgnoreCase(baseUnit) && unitName.equalsIgnoreCase(addUnit);
     }
 
     public Unit getUnit(String unitName) throws ParserException {
