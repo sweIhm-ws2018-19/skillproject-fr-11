@@ -5,6 +5,7 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Slot;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
+import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
@@ -141,6 +142,22 @@ public class AddIngredientToShoppingListTest {
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
         final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_SUCCESS, "marmelade");
         HandlerTestHelper.compareSSML(expected, responseString);
+    }
+
+    @Test
+    public void testEmptyUnitSlot() {
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+        Slot slot = Slot.builder().withName(SLOT_UNIT).build();
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_UNIT, slot);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(String.format(SpeechTextConstants.INGREDIENTS_ADD_SUCCESS, "Brot"), responseString);
+        shoppingListService.load(modelService);
+        final Set<IngredientAmount> ingredients = shoppingListService.getIngredients();
+        Assert.assertEquals(1, ingredients.size());
+        Assert.assertEquals(HypershopCustomUnits.PIECE.getSymbol(), ingredients.iterator().next().getUnit());
     }
 
 }

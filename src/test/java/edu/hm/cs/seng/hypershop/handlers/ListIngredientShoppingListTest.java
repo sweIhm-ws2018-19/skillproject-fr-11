@@ -72,4 +72,16 @@ public class ListIngredientShoppingListTest {
         Assert.assertTrue(listIngredientsIntentHandler.canHandle(input));
     }
 
+    @Test
+    public void testPiece(){
+        ModelService modelService = new ModelService(input);
+        ShoppingListService listService = new ShoppingListService(modelService);
+
+        listService.addIngredient("pizza", 1, "piece");
+        listService.save(modelService);
+        final String responseString = HandlerTestHelper.getResponseString(listIngredientsIntentHandler.handle(input));
+
+        Assert.assertFalse(responseString.contains("piece"));
+    }
+
 }

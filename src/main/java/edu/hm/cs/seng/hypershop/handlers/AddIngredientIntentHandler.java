@@ -17,7 +17,9 @@ import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.*;
 import com.amazon.ask.response.ResponseBuilder;
+import com.amazonaws.util.StringUtils;
 import edu.hm.cs.seng.hypershop.Constants;
+import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.SessionStorageService;
@@ -55,28 +57,18 @@ public class AddIngredientIntentHandler implements RequestHandler {
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
 
+
         if (ingredientSlot != null && unitSlot != null && amountSlot != null) {
             try {
-
+                String unit = getUnit(unitSlot);
                 final ModelService modelService = new ModelService(input);
                 final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
                 final String ingredient = ingredientSlot.getValue();
-                String unit;
-                Optional<List<String>> strings = Optional.empty();
-                if (unitSlot.getResolutions() != null) {
-                    strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
-                            resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
-                }
-                if (strings.isPresent()) {
-                    unit = strings.get().get(0);
-                } else {
-                    unit = unitSlot.getValue();
-                }
 
                 final String amount = amountSlot.getValue();
                 int amountNumber = Integer.parseInt(amount);
-                
+
                 if (ContextStackService.isCurrentContext(input, CONTEXT_RECIPE)) {
                     String recipeString = SessionStorageService.getCurrentRecipe(input);
                     final boolean added = shoppingListService.addIngredientRecipe(ingredient, amountNumber, unit, recipeString);
@@ -106,6 +98,25 @@ public class AddIngredientIntentHandler implements RequestHandler {
                 withShouldEndSession(false);
 
         return responseBuilder.build();
+    }
+
+    private String getUnit(Slot unitSlot) {
+        String unit;
+        if (StringUtils.isNullOrEmpty(unitSlot.getValue())) {
+            unit = HypershopCustomUnits.PIECE.getSymbol();
+        } else {
+            Optional<List<String>> strings = Optional.empty();
+            if (unitSlot.getResolutions() != null) {
+                strings = unitSlot.getResolutions().getResolutionsPerAuthority().stream().findFirst().map(
+                        resolution1 -> resolution1.getValues().stream().map(valueWrapper -> valueWrapper.getValue().getName()).collect(Collectors.toList()));
+            }
+            if (strings.isPresent()) {
+                unit = strings.get().get(0);
+            } else {
+                unit = unitSlot.getValue();
+            }
+        }
+        return unit;
     }
 
 }

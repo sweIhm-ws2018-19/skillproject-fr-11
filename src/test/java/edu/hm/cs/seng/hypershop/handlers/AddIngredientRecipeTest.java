@@ -5,12 +5,17 @@ import com.amazon.ask.model.IntentRequest;
 import com.amazon.ask.model.Slot;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
+import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
+import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Set;
 
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_AMOUNT;
 import static edu.hm.cs.seng.hypershop.Constants.SLOT_UNIT;
@@ -136,5 +141,29 @@ public class AddIngredientRecipeTest {
         final String expected = String.format(SpeechTextConstants.INGREDIENTS_ADD_RECIPE_SUCCESS, "marmelade");
 
         HandlerTestHelper.compareSSML(expected, responseString);
+    }
+
+    @Test
+    public void testEmptyUnitSlot() {
+        HandlerTestHelper.buildInput("addingredientsrecipe.json", input);
+
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService listService = new ShoppingListService(modelService);
+
+        listService.createRecipe("Auflauf");
+        listService.save(modelService);
+
+        Slot slot = Slot.builder().withName(SLOT_UNIT).build();
+        ((IntentRequest) input.getRequestEnvelope().getRequest()).getIntent().getSlots().put(SLOT_UNIT, slot);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(String.format(INGREDIENTS_ADD_RECIPE_SUCCESS, "Brot"), responseString);
+
+        listService.load(modelService);
+        Recipe recipe = listService.getRecipe("Auflauf");
+        Assert.assertNotNull(recipe);
+        Assert.assertEquals(1, recipe.getIngredients().size());
+        Assert.assertEquals(HypershopCustomUnits.PIECE.getSymbol(), recipe.getIngredients().iterator().next().getUnit());
     }
 }

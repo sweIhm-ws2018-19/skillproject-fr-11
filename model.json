@@ -59,7 +59,9 @@
           ],
           "samples": [
             "füge {amount} {unit} {ingredient} dazu",
-            "füge {amount} {unit} {ingredient} hinzu"
+            "füge {amount} {unit} {ingredient} hinzu",
+            "füge {amount} {ingredient} dazu",
+            "füge {amount} {ingredient} hinzu"
           ]
         },
         {

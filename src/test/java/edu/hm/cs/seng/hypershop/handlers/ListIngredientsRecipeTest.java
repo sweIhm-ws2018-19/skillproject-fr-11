@@ -6,6 +6,7 @@ import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -47,5 +48,20 @@ public class ListIngredientsRecipeTest {
         assertTrue(responseString.contains(String.format(SpeechTextConstants.LIST_RECIPE_INGREDIENTS, 0)));
 
         assertTrue(ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE));
+    }
+
+    @Test
+    public void testPiece() {
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+        shoppingListService.createRecipe("haus");
+        shoppingListService.addIngredientRecipe("pizza", 1, "piece", "haus");
+        shoppingListService.save(modelService);
+
+        final ListIngredientsIntentHandler handler = new ListIngredientsIntentHandler();
+        assertTrue(handler.canHandle(input));
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        Assert.assertFalse(responseString.contains("piece"));
     }
 }
