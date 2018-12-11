@@ -1,5 +1,6 @@
 package edu.hm.cs.seng.hypershop.model;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -23,10 +24,6 @@ public class Recipe {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

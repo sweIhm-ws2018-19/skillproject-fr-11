@@ -74,7 +74,7 @@ public class ModelService {
         return baos.toByteArray();
     }
 
-    static Kryo getCryo(Class clazz) {
+    private static Kryo getCryo(Class clazz) {
         Kryo kryo = new Kryo();
         kryo.register(IngredientAmount.class);
         kryo.register(Recipe.class);

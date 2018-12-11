@@ -3,6 +3,7 @@ package edu.hm.cs.seng.hypershop.service;
 import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +12,7 @@ public class IngredientAmountService {
 
     public IngredientAmount mergeIngredients(final IngredientAmount firstIngredient,
                                              final IngredientAmount secondIngredient) {
-        return null;
+        throw new NotImplementedException();
     }
 
     public StringBuilder getIngredientStringsRecipe(final Recipe recipe, StringBuilder sb) {
