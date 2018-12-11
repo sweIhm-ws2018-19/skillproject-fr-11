@@ -21,10 +21,6 @@ public class Recipe {
         return ingredients;
     }
 
-    public void setIngredients(Set<IngredientAmount> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public String getName() {
         return name;
     }

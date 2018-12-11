@@ -84,7 +84,7 @@ public class AddIngredientRecipeTest {
 
     @Test
     public void testAmountNoNumber() {
-        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_RECIPE_NUMBER_ERROR);
+        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_NUMBER_ERROR);
     }
 
     @Test
