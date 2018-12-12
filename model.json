@@ -191,6 +191,21 @@
           "samples": [
             "Lösche Rezept {recipe}"
           ]
+        },
+        {
+          "name": "HelpIngredientsIntent",
+          "slots": [],
+          "samples": [
+            "hilfe zutaten"
+          ]
+        },
+        {
+          "name": "HelpRecipesIntent",
+          "slots": [],
+          "samples": [
+            "hilfe rezept",
+            "hilfe rezepte"
+          ]
         }
       ],
       "types": [
