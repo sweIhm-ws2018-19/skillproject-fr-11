@@ -21,6 +21,8 @@ public class Constants {
     public static final String INTENT_DELETE_RECIPE = "DeleteRecipeIntent";
     public static final String INTENT_LIST_RECIPES = "ListRecipesIntent";
     public static final String INTENT_LIST_CLEAR = "ClearListIntent";
+    public static final String INTENT_HELP_RECIPES = "HelpRecipesIntent";
+    public static final String INTENT_HELP_INGREDIENTS = "HelpIngredientsIntent";
 
 
     public static final String SLOT_AMOUNT = "amount";
