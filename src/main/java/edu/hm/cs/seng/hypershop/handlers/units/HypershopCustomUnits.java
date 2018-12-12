@@ -37,6 +37,7 @@ public class HypershopCustomUnits extends Units {
         return Collections.unmodifiableSet(resultSet);
     }
 
+    @java.lang.SuppressWarnings("squid:S1452")
     public Set<Unit<?>> getCustomUnits() {
         return UNITS;
     }
