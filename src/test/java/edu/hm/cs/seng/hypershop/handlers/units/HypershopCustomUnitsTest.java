@@ -13,8 +13,8 @@ public class HypershopCustomUnitsTest {
     public void addUnitToInstances() {
         HypershopCustomUnits customUnits = new HypershopCustomUnits();
         Assert.assertTrue(customUnits.getUnits().size() > 1);
-        Assert.assertEquals(SimpleUnitFormat.getInstance().parse("glas"), GLASS);
-        Assert.assertEquals(SimpleUnitFormat.getInstance().parse("teelöffel"), TEASPOON);
+        Assert.assertEquals(GLASS, SimpleUnitFormat.getInstance().parse("glas"));
+        Assert.assertEquals(TEASPOON, SimpleUnitFormat.getInstance().parse("teelöffel"));
     }
 
 }

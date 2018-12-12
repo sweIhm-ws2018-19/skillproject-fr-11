@@ -27,10 +27,6 @@ public class ShoppingListService {
         throw new UnsupportedOperationException("not implemented");
     }
 
-    private Set<IngredientAmount> summarizeIngredients() {
-        return new HashSet<>();
-    }
-
     public boolean removeIngredient(String ingredient) {
         return shoppingList.getIngredients().removeIf(i -> i.getName().equalsIgnoreCase(ingredient));
     }
@@ -77,12 +73,15 @@ public class ShoppingListService {
      * @return whether any recipes were added to the shoppingList
      * @throws IllegalArgumentException when an illegal amount is given
      */
-    public boolean addRecipes(String recipeName, int amount) throws IllegalArgumentException {
+    public boolean addRecipes(String recipeName, int amount) {
         if (amount < 1) {
             throw new IllegalArgumentException("illegal amount");
         }
         final long count = getFilteredRecipeStream(recipeName)
-                .peek(es -> es.setValue(es.getValue() + amount)).count();
+                .filter(es -> {
+                    es.setValue(es.getValue() + amount);
+                    return true;
+                }).count();
         return count > 0;
     }
 
@@ -90,7 +89,10 @@ public class ShoppingListService {
      * Removes an existing recipe from the shoppingList, but not from the list of available recipes
      */
     public boolean removeRecipes(String recipeName) {
-        return getFilteredRecipeStream(recipeName).peek(recipeIntegerEntry -> recipeIntegerEntry.setValue(0)).count() > 0;
+        return getFilteredRecipeStream(recipeName).anyMatch(recipeIntegerEntry -> {
+            recipeIntegerEntry.setValue(0);
+            return true;
+        });
     }
 
     public List<String> getRecipeStrings() {
@@ -175,11 +177,11 @@ public class ShoppingListService {
     }
 
     public void load(ModelService modelService) {
-        final ShoppingList shoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
-        if (shoppingList == null) {
-            this.shoppingList = new ShoppingList();
+        final ShoppingList newShoppingList = (ShoppingList) modelService.get(Constants.KEY_SHOPPING_LIST, ShoppingList.class);
+        if (newShoppingList == null) {
+            shoppingList = new ShoppingList();
         } else {
-            this.shoppingList = shoppingList;
+            shoppingList = newShoppingList;
         }
     }
 

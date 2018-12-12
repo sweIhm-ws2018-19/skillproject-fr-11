@@ -6,7 +6,7 @@ import tec.units.ri.unit.BaseUnit;
 import tec.units.ri.unit.TransformedUnit;
 import tec.units.ri.unit.Units;
 
-import javax.measure.*;
+import javax.measure.Unit;
 import javax.measure.quantity.Mass;
 import javax.measure.quantity.Volume;
 import java.util.Collections;
@@ -29,6 +29,7 @@ public class HypershopCustomUnits extends Units {
     }
 
     @Override
+    @java.lang.SuppressWarnings("squid:S1452")
     public Set<Unit<?>> getUnits() {
         Set<Unit<?>> resultSet = new HashSet<>();
         resultSet.addAll(UNITS);

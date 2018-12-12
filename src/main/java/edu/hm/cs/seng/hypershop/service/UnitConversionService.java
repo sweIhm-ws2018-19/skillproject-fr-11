@@ -7,7 +7,6 @@ import tec.units.ri.quantity.Quantities;
 
 import javax.measure.Quantity;
 import javax.measure.Unit;
-import javax.measure.format.ParserException;
 import java.util.stream.Collectors;
 
 public class UnitConversionService {
@@ -44,7 +43,7 @@ public class UnitConversionService {
         return unitName.equalsIgnoreCase(baseUnit) && unitName.equalsIgnoreCase(addUnit);
     }
 
-    Unit getUnit(String unitName) throws ParserException {
+    Unit getUnit(String unitName) {
         return SimpleUnitFormat.getInstance().parse(unitName);
     }
 

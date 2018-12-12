@@ -31,7 +31,7 @@ public class UnitConversionServiceTest {
             String unitName = "kg";
             listService.addIngredient(ingredientName, amount, unitName);
         }
-        Assert.assertEquals(listService.getIngredients().size(), 1);
+        Assert.assertEquals(1, listService.getIngredients().size());
         Assert.assertEquals(100.0, listService.getIngredients().iterator().next().getAmount(), 0.001);
         Assert.assertEquals("kg", listService.getIngredients().iterator().next().getUnit());
     }
@@ -51,7 +51,7 @@ public class UnitConversionServiceTest {
         amount = 10;
         unitName = "g";
         listService.addIngredient(ingredientName, amount, unitName);
-        Assert.assertEquals(listService.getIngredients().size(), 1);
+        Assert.assertEquals(1, listService.getIngredients().size());
         Assert.assertEquals(20.01, listService.getIngredients().iterator().next().getAmount(), 0.001);
         Assert.assertEquals("kg", listService.getIngredients().iterator().next().getUnit());
     }
