@@ -157,7 +157,7 @@ public class AddIngredientToShoppingListTest {
         shoppingListService.load(modelService);
         final Set<IngredientAmount> ingredients = shoppingListService.getIngredients();
         Assert.assertEquals(1, ingredients.size());
-        Assert.assertEquals(HypershopCustomUnits.PIECE.getSymbol(), ingredients.iterator().next().getUnit());
+        Assert.assertEquals(HypershopCustomUnits.PIECE.getName(), ingredients.iterator().next().getUnit());
     }
 
 }

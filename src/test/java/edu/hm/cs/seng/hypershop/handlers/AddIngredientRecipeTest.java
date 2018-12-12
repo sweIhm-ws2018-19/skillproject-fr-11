@@ -164,6 +164,6 @@ public class AddIngredientRecipeTest {
         Recipe recipe = listService.getRecipe("Auflauf");
         Assert.assertNotNull(recipe);
         Assert.assertEquals(1, recipe.getIngredients().size());
-        Assert.assertEquals(HypershopCustomUnits.PIECE.getSymbol(), recipe.getIngredients().iterator().next().getUnit());
+        Assert.assertEquals(HypershopCustomUnits.PIECE.getName(), recipe.getIngredients().iterator().next().getUnit());
     }
 }

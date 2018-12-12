@@ -104,14 +104,12 @@ public class ShoppingListService {
                 .collect(Collectors.toList());
     }
 
-    public String getAddedRecipesWithAmountString() {
-        final StringBuilder sb = new StringBuilder();
+    public List<String> getAddedRecipeWithAmountStrings() {
+        final List<String> list = new ArrayList<>();
         getAddedRecipesWithAmountStream().forEach(
-                recipe -> sb.append(recipe.getValue()).append(" Portionen ").append(recipe.getKey()).append(", ")
+                recipe -> list.add(recipe.getValue() + " Portionen " + recipe.getKey())
         );
-        if (sb.length() > 0)
-            sb.deleteCharAt(sb.lastIndexOf(",")).deleteCharAt(sb.lastIndexOf(" "));
-        return sb.toString();
+        return list;
     }
 
     public List<Map.Entry<String, Integer>> getAddedRecipesWithAmount() {

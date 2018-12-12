@@ -5,9 +5,9 @@ public class SpeechTextConstants {
     private static final String RECIPE_NOT_FOUND = "Tut mir leid, ich konnte das Rezept %s nicht finden.";
     private static final String RECIPE_NAME_ERROR = "Tut mir leid, ich konnte den Rezeptnamen nicht verstehen.";
     private static final String RECIPE_NAME_REPROMPT = "Wie lautet der Rezeptnamen?";
-    private static final String INGREDIENT_ERROR = "Tut mir leid, ich konnte die angegebene Zutat nicht verstehen?";
-    private static final String INGREDIENT_NUMBER_ERROR = "Tut mir leid, ich konnte die angegebene Zutatenmenge nicht verstehen?";
-    private static final String INGREDIENT_UNIT_ERROR = "Tut mir leid, ich konnte die angegebene Einheit konnte nicht finden?";
+    private static final String INGREDIENT_ERROR = "Tut mir leid, ich konnte die angegebene Zutat nicht verstehen.";
+    private static final String INGREDIENT_NUMBER_ERROR = "Tut mir leid, ich konnte die angegebene Zutatenmenge nicht verstehen.";
+    private static final String INGREDIENT_UNIT_ERROR = "Tut mir leid, ich konnte die angegebene Einheit nicht finden.";
 
     private SpeechTextConstants() {
         // hide public ctor
@@ -20,7 +20,7 @@ public class SpeechTextConstants {
 
     public static final String INGREDIENTS_ADD_REPROMPT = "Was willst du hinzufügen?";
 
-    public static final String INGREDIENTS_REMOVE_REPROMPT = "Tut mir leid, ich habe die angegebene Zutat nicht verstanden, kannst du sie wiederholen?";
+    public static final String INGREDIENTS_REMOVE_REPROMPT = "Tut mir leid, ich konnte die angegebene Zutat nicht verstehen, kannst du sie wiederholen?";
     public static final String INGREDIENTS_REMOVE_ERROR = "Tut mir leid, ich konnte die Zutat nicht finden.";
     public static final String INGREDIENTS_REMOVE_SUCCESS = "%s wurde aus deiner Einkaufsliste gelöscht.";
     public static final String INGREDIENTS_REMOVE_RECIPE_SUCCESS = "%s wurde von deinem Rezept gelöscht.";

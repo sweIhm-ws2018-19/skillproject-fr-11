@@ -15,14 +15,6 @@ public class IngredientAmountService {
         throw new NotImplementedException();
     }
 
-    public StringBuilder getIngredientStringsRecipe(final Recipe recipe, StringBuilder sb) {
-        return getIngredientsString(recipe.getIngredients(), sb);
-    }
-
-    public StringBuilder getIngredientsString(ShoppingListService service, StringBuilder sb) {
-        return getIngredientsString(service.getIngredients(), sb);
-    }
-
     private StringBuilder getIngredientsString(Set<IngredientAmount> ingredientAmountSet, StringBuilder sb) {
         for (IngredientAmount ie : ingredientAmountSet) {
             Optional<IngredientAmount> firstIngredient = ingredientAmountSet.stream().findFirst();

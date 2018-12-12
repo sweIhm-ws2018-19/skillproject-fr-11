@@ -48,6 +48,10 @@ public class SsmlService {
         speechBuilder.append("</p>");
         return this;
     }
+    public SsmlService newLine() {
+        append("\n");
+        return this;
+    }
     public SsmlService beginSentence() {
         speechBuilder.append("<s>");
         return this;
