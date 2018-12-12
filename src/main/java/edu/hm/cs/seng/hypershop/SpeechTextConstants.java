@@ -28,8 +28,8 @@ public class SpeechTextConstants {
             "erstellen und dir wieder alles ausgeben lassen. Wenn du mehr zu den Zutaten oder den Rezepten erfahren willst, dann sage " +
             "<s>\"hilfe Zutaten\"</s> oder <s>\"hilfe Rezepte\".</s>";
     public static final String HELP_INGREDIENTS_TEXT = "Du kannst Zutaten zu deinem Einkaufszettel hinzufügen, " +
-            "indem du sagst: <s>\"Füge ein Kilogramm Kartoffeln hinzu\".</s> Um eine Zutat wieder zu entfernen kannst " +
-            "du <s>\"entferne Kartoffeln\"</s> sagen. Um die gesamte Einkaufsliste zu löschen sage einfach <s>\"leere liste\".</s>";
+            "indem du sagst: <s>\"Füge ein Kilogramm Kartoffeln hinzu\".</s> Um eine Zutat wieder zu entfernen, kannst " +
+            "du <s>\"entferne Kartoffeln\"</s> sagen. Um die gesamte Einkaufsliste zu löschen, sage einfach <s>\"leere liste\".</s>";
     public static final String HELP_RECIPES_TEXT = "Du kannst Rezepte erstellen und Zutaten darin abspeichern. Möchtest du " +
             "die vorhandenen Rezepte ausgeben, dann sage <s>\"liste rezepte\".</s> Wenn du ein Rezept zu deiner Einkaufsliste hinzufügen " +
             "möchtest, dann sage: <s>\"füge drei Portionen Wiener Schnitzel hinzu\".</s> Möchtest du das Rezept wieder von der Liste entfernen, " +
@@ -37,9 +37,9 @@ public class SpeechTextConstants {
             "so sage <s>\"lösche Rezept Wiener Schnitzel\".</s> Um ein Rezept zu erstellen oder zu bearbeiten, sage " +
             "<s>\"erstelle Rezept Wiener Schnitzel\"</s> beziehungsweise <s>\"bearbeite Rezept Wiener Schnitzel\".</s> " +
             "Nach dem Anlegen oder Bearbeiten kannst du weitere Hilfe erhalten.";
-    public static final String HELP_CONTEXT_RECIPE_TEXT = "Du bearbeitest gerade ein Rezept. Du kannst genau so wie " +
+    public static final String HELP_CONTEXT_RECIPE_TEXT = "Du bearbeitest gerade ein Rezept. Du kannst genau so, wie " +
             "auf deiner Einkaufsliste Zutaten hinzufügen, ausgeben und entfernen. Wenn du fertig bist das Rezept zu bearbeiten, " +
-            "dann sage <s>\"zurück\".</s> Jetzt kannst du das Rezept zu deiner Einkaufsliste hinzufügen.";
+            "dann sage <s>\"zurück\".</s> Anschließend kannst du das Rezept zu deiner Einkaufsliste hinzufügen.";
 
     public static final String LAUNCH_TEXT = "Willkommen bei <lang xml:lang=\"en-US\">Hypershop</lang>.";
     public static final String LAUNCH_REPROMPT = "Was willst du tun?";
