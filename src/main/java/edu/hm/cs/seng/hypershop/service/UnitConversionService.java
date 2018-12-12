@@ -2,7 +2,6 @@ package edu.hm.cs.seng.hypershop.service;
 
 import edu.hm.cs.seng.hypershop.handlers.units.HypershopCustomUnits;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import tec.units.ri.format.SimpleUnitFormat;
 import tec.units.ri.quantity.Quantities;
 
@@ -50,7 +49,7 @@ public class UnitConversionService {
     }
 
     public Unit getIntelligentUnit(Unit unit, int amount) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
 }

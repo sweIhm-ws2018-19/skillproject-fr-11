@@ -1,8 +1,6 @@
 package edu.hm.cs.seng.hypershop.service;
 
-import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
-import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import org.junit.Test;
 
@@ -62,7 +60,7 @@ public class SsmlServiceTest {
 
         final String expectedCard = "5";
         final String expectedSpeech = "<say-as interpret-as=\"number\">" + expectedCard + "</say-as>";
-        SsmlService sut = new SsmlService().sayAs(expectedCard, SsmlService.SayAsType.number);
+        SsmlService sut = new SsmlService().sayAs(expectedCard, SsmlService.SayAsType.NUMBER);
 
         assertEquals(expectedCard, sut.getCardString());
         assertEquals(expectedSpeech, sut.getSpeechString());

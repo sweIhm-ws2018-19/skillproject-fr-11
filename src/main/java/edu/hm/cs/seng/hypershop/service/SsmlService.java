@@ -1,9 +1,15 @@
 package edu.hm.cs.seng.hypershop.service;
 
 public class SsmlService {
-    private final StringBuilder cardBuilder, speechBuilder;
+    private final StringBuilder cardBuilder;
+    private final StringBuilder speechBuilder;
     enum SayAsType {
-        number, unit,
+        NUMBER, UNIT;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
     }
     public SsmlService() {
         cardBuilder = new StringBuilder();
