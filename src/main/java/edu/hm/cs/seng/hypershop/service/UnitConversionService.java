@@ -8,15 +8,17 @@ import tec.units.ri.quantity.Quantities;
 import javax.measure.Quantity;
 import javax.measure.Unit;
 import javax.measure.format.ParserException;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class UnitConversionService {
 
-    HypershopCustomUnits customUnits = new HypershopCustomUnits();
+    private final HypershopCustomUnits customUnits;
 
+    UnitConversionService() {
+        customUnits = new HypershopCustomUnits();
+    }
 
-    public IngredientAmount summmarizeIngredients(final IngredientAmount ingredient, int amount, String unitName) {
+    IngredientAmount summarizeIngredients(final IngredientAmount ingredient, int amount, String unitName) {
 
         if (canSummarize(ingredient.getUnit(), unitName)) {
             Unit baseUnit = getUnit(ingredient.getUnit());
@@ -30,7 +32,7 @@ public class UnitConversionService {
         return ingredient;
     }
 
-    public boolean canSummarize(final String baseUnit, final String addUnit) {
+    boolean canSummarize(final String baseUnit, final String addUnit) {
         boolean a = customUnits.getCustomUnits().stream().map(Unit::getSymbol)
                 .filter(unitName -> filterNames(unitName, baseUnit, addUnit)).collect(Collectors.toSet()).size() == 1;
         boolean b = customUnits.getCustomUnits().stream().noneMatch(unit -> unit.getSymbol().equalsIgnoreCase(baseUnit) ||
@@ -42,12 +44,12 @@ public class UnitConversionService {
         return unitName.equalsIgnoreCase(baseUnit) && unitName.equalsIgnoreCase(addUnit);
     }
 
-    public Unit getUnit(String unitName) throws ParserException {
+    Unit getUnit(String unitName) throws ParserException {
         return SimpleUnitFormat.getInstance().parse(unitName);
     }
 
     public Unit getIntelligentUnit(Unit unit, int amount) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }

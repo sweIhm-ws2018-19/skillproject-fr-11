@@ -4,6 +4,13 @@ import java.util.Objects;
 
 public class IngredientAmount {
 
+    public IngredientAmount() { }
+    public IngredientAmount(double amount, String unitName, String name) {
+        this.name = name;
+        this.unitName = unitName;
+        this.amount = amount;
+    }
+
     private String name;
     private String unitName;
     private double amount;
@@ -45,5 +52,11 @@ public class IngredientAmount {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getUnit(), getAmount());
+    }
+
+    @Override
+    public String toString() {
+        final String amountFormatted = amount == (long)amount? String.format("%d", (long)amount) : String.format("%s", amount);
+        return amountFormatted + " " + unitName + " " + name;
     }
 }

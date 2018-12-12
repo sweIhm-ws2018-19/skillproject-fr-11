@@ -104,14 +104,12 @@ public class ShoppingListService {
                 .collect(Collectors.toList());
     }
 
-    public String getAddedRecipesWithAmountString() {
-        final StringBuilder sb = new StringBuilder();
+    public List<String> getAddedRecipeWithAmountStrings() {
+        final List<String> list = new ArrayList<>();
         getAddedRecipesWithAmountStream().forEach(
-                recipe -> sb.append(recipe.getValue()).append(" Portionen ").append(recipe.getKey()).append(", ")
+                recipe -> list.add(recipe.getValue() + " Portionen " + recipe.getKey())
         );
-        if (sb.length() > 0)
-            sb.deleteCharAt(sb.lastIndexOf(",")).deleteCharAt(sb.lastIndexOf(" "));
-        return sb.toString();
+        return list;
     }
 
     public List<Map.Entry<String, Integer>> getAddedRecipesWithAmount() {
@@ -129,7 +127,7 @@ public class ShoppingListService {
         boolean matchingIngredient = (shoppingList.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name)
                 && unitConversionService.canSummarize(ingredientAmount.getUnit(), unitName))
                 .map(ingredientAmount ->
-                        unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
+                        unitConversionService.summarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
 
         if (!matchingIngredient) {
@@ -153,7 +151,7 @@ public class ShoppingListService {
         boolean matchingIngredient = (recipe.getIngredients().stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase(name)
                 && unitConversionService.canSummarize(ingredientAmount.getUnit(), unitName))
                 .map(ingredientAmount ->
-                        unitConversionService.summmarizeIngredients(ingredientAmount, amount, unitName))
+                        unitConversionService.summarizeIngredients(ingredientAmount, amount, unitName))
                 .count()) > 0;
         if (!matchingIngredient) {
             IngredientAmount ingredientAmount = createIngredient(name, amount, unitName);
@@ -162,7 +160,7 @@ public class ShoppingListService {
         return true;
     }
 
-    public IngredientAmount createIngredient(String name, int amount, String unitName) {
+    private IngredientAmount createIngredient(String name, int amount, String unitName) {
         final IngredientAmount ingredientAmount = new IngredientAmount();
         ingredientAmount.setName(name);
         ingredientAmount.setAmount(amount);
@@ -170,10 +168,6 @@ public class ShoppingListService {
         unitConversionService.getUnit(unitName);
         ingredientAmount.setUnit(unitName);
         return ingredientAmount;
-    }
-
-    public List<String> getIngredientStrings() {
-        return new ArrayList<>();
     }
 
     public Set<IngredientAmount> getIngredients() {

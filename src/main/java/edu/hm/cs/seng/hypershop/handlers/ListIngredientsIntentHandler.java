@@ -42,48 +42,31 @@ public class ListIngredientsIntentHandler implements RequestHandler {
 
         ResponseBuilder responseBuilder = input.getResponseBuilder();
         final int ingredientListSize;
-        final StringBuilder sb;
-        final IngredientAmountService ingredientAmountService = new IngredientAmountService();
+        final SsmlService ssmlService = new SsmlService();
         if (ContextStackService.isCurrentContext(input, CONTEXT_RECIPE)) {
+            // recipe ingredients
             String recipeName = SessionStorageService.getCurrentRecipe(input);
             if (!shoppingListService.containsRecipe(recipeName)) {
                 return responseBuilder.withSpeech(String.format(RECIPE_EDIT_NOT_FOUND, recipeName)).build();
             }
 
-            Recipe recipe = shoppingListService.getRecipe(recipeName);
+            final Recipe recipe = shoppingListService.getRecipe(recipeName);
             ingredientListSize = recipe.getIngredients().size();
-            sb = new StringBuilder(String.format(LIST_RECIPE_INGREDIENTS, ingredientListSize));
-            finalizeHeader(ingredientListSize, sb);
-            ingredientAmountService.getIngredientStringsRecipe(recipe, sb);
+            ssmlService.enumerate(String.format(LIST_RECIPE_INGREDIENTS, ingredientListSize), recipe.getIngredients());
 
         } else {
-            // ingredients
+            // shopping list
             ingredientListSize = shoppingListService.getIngredients().size();
-            sb = new StringBuilder().append("<p>").append(String.format(LIST_INGREDIENTS, ingredientListSize));
-            finalizeHeader(ingredientListSize, sb);
-            ingredientAmountService.getIngredientsString(shoppingListService, sb);
-            sb.append("</p>\n<p>");
-            // recipes
             final int recipeListSize = shoppingListService.getAddedRecipeStrings().size();
-            sb.append(String.format(LIST_RECIPES, recipeListSize));
-            finalizeHeader(recipeListSize, sb);
-            sb.append(shoppingListService.getAddedRecipesWithAmountString()).append("</p>");
+            ssmlService.beginParagraph()
+                    .enumerate(String.format(LIST_INGREDIENTS, ingredientListSize), shoppingListService.getIngredients())
+                    .endParagraph().newLine().beginParagraph()
+                    .enumerate(String.format(LIST_RECIPES, recipeListSize), shoppingListService.getAddedRecipeWithAmountStrings())
+                    .endParagraph();
         }
 
-        final String speechText = sb.toString();
-
-        responseBuilder.withSimpleCard("HypershopSession", speechText)
-                .withSpeech(speechText)
-                .withShouldEndSession(false);
-
-        return responseBuilder.build();
-    }
-
-    private void finalizeHeader(final int listSize, StringBuilder sb) {
-        if (listSize == 0) {
-            sb.append(".");
-        } else {
-            sb.append(": ");
-        }
+        return responseBuilder.withSimpleCard("HypershopSession", ssmlService.getCardString())
+                .withSpeech(ssmlService.getSpeechString())
+                .withShouldEndSession(false).build();
     }
 }

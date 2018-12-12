@@ -103,7 +103,7 @@ public class AddIngredientIntentHandler implements RequestHandler {
     private String getUnit(Slot unitSlot) {
         String unit;
         if (StringUtils.isNullOrEmpty(unitSlot.getValue())) {
-            unit = HypershopCustomUnits.PIECE.getSymbol();
+            unit = HypershopCustomUnits.PIECE.getName();
         } else {
             Optional<List<String>> strings = Optional.empty();
             if (unitSlot.getResolutions() != null) {

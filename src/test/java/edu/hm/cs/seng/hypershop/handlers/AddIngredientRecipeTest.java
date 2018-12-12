@@ -84,7 +84,7 @@ public class AddIngredientRecipeTest {
 
     @Test
     public void testAmountNoNumber() {
-        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_RECIPE_NUMBER_ERROR);
+        invalidInput(SLOT_AMOUNT, INGREDIENTS_ADD_NUMBER_ERROR);
     }
 
     @Test
@@ -164,6 +164,6 @@ public class AddIngredientRecipeTest {
         Recipe recipe = listService.getRecipe("Auflauf");
         Assert.assertNotNull(recipe);
         Assert.assertEquals(1, recipe.getIngredients().size());
-        Assert.assertEquals(HypershopCustomUnits.PIECE.getSymbol(), recipe.getIngredients().iterator().next().getUnit());
+        Assert.assertEquals(HypershopCustomUnits.PIECE.getName(), recipe.getIngredients().iterator().next().getUnit());
     }
 }

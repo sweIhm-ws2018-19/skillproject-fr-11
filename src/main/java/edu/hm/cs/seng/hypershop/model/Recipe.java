@@ -21,16 +21,8 @@ public class Recipe {
         return ingredients;
     }
 
-    public void setIngredients(Set<IngredientAmount> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override

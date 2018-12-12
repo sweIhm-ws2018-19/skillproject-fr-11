@@ -1,7 +1,6 @@
 package edu.hm.cs.seng.hypershop.service;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
-import com.amazonaws.util.CollectionUtils;
 import edu.hm.cs.seng.hypershop.handlers.HandlerTestHelper;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import org.junit.Assert;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UnitConversionServiceTest {
@@ -94,10 +92,10 @@ public class UnitConversionServiceTest {
         ingredientAmount1.setUnit(unitName);
 
         IngredientAmount newIngredientAmount =
-                unitConversionService.summmarizeIngredients(ingredientAmount1, amount, "kg");
+                unitConversionService.summarizeIngredients(ingredientAmount1, amount, "kg");
         Assert.assertEquals(amount, newIngredientAmount.getAmount(), 0.001);
         newIngredientAmount =
-                unitConversionService.summmarizeIngredients(ingredientAmount1, amount, unitName);
+                unitConversionService.summarizeIngredients(ingredientAmount1, amount, unitName);
         Assert.assertEquals(2.0, newIngredientAmount.getAmount(), 0.001);
     }
 

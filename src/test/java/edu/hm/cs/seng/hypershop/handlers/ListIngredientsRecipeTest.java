@@ -55,7 +55,7 @@ public class ListIngredientsRecipeTest {
         final ModelService modelService = new ModelService(input);
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
         shoppingListService.createRecipe("haus");
-        shoppingListService.addIngredientRecipe("pizza", 1, "piece", "haus");
+        shoppingListService.addIngredientRecipe("pizza", 1, "", "haus");
         shoppingListService.save(modelService);
 
         final ListIngredientsIntentHandler handler = new ListIngredientsIntentHandler();
