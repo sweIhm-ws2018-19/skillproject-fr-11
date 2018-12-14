@@ -23,12 +23,33 @@ public class ShoppingListService {
         load(modelService);
     }
 
-    public void addIngredient(IngredientAmount ingredientAmount) {
-        throw new UnsupportedOperationException("not implemented");
+    public Set<IngredientAmount> summarizeIngredients() {
+        Set<IngredientAmount> allIngredientAmounts = new HashSet<>(shoppingList.getIngredients());
+        Set<IngredientAmount> allRecipeIngredients = new HashSet<>();
+        shoppingList.getRecipes().forEach((k, v) -> addSeveralTimes(allRecipeIngredients, k.getIngredients(), v));
+
+        for (IngredientAmount ia : allRecipeIngredients) {
+            boolean matchingIngredient = (allIngredientAmounts.stream().filter(ingredientAmount ->
+                    ingredientAmount.getName().equalsIgnoreCase(ia.getName())
+                            && unitConversionService.canSummarize(ingredientAmount.getUnit(), ia.getUnit()))
+                    .map(ingredientAmount ->
+                            unitConversionService.summarizeIngredients(ingredientAmount, ia.getAmount(), ia.getUnit()))
+                    .count()) > 0;
+
+            if (!matchingIngredient) {
+                allIngredientAmounts.add(ia);
+            }
+        }
+
+        return allIngredientAmounts;
     }
 
-    private Set<IngredientAmount> summarizeIngredients() {
-        return new HashSet<>();
+
+    private void addSeveralTimes(final Set<IngredientAmount> allRecipeIngredients, Set<IngredientAmount> ingredientAmounts, int times) {
+        for (IngredientAmount ingredientAmount : ingredientAmounts) {
+            ingredientAmount.setAmount(ingredientAmount.getAmount() + times-1);
+            allRecipeIngredients.add(ingredientAmount);
+        }
     }
 
     public boolean removeIngredient(String ingredient) {

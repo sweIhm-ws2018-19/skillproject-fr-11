@@ -3,13 +3,12 @@ package edu.hm.cs.seng.hypershop.service;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -332,5 +331,94 @@ public class ShoppingListServiceTest {
                 new AbstractMap.SimpleEntry<>("Fookuchen", 15))), new HashSet<>(service.getAddedRecipesWithAmount()));
     }
 
+    @Test
+    public void summarizeIngredientsTest() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        shoppingList.getRecipes().put(lebkuchen, 1);
+        prepareLebkuchen();
+
+        service.addIngredient("Kekse", 1, "glas");
+        Set<IngredientAmount> allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(3, allIngredients.size());
+        Assert.assertEquals(1, allIngredients.iterator().next().getAmount(), 0.0001);
+
+        service.addIngredient("Kekse", 1, "glas");
+        final Recipe currywurst = new Recipe("Currywurst");
+        shoppingList.getRecipes().put(currywurst, 1);
+        prepareCurrywurst();
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(5, allIngredients.size());
+        Assert.assertEquals(1, allIngredients.iterator().next().getAmount(), 0.0001);
+
+        service.addIngredient("Kekse1", 1, "glas");
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(5, allIngredients.size());
+        List<IngredientAmount> kekse1 = allIngredients.stream().filter(ingredientAmount ->
+                ingredientAmount.getName().equalsIgnoreCase("Kekse1")).collect(Collectors.toList());
+
+        Assert.assertEquals(2, kekse1.get(0).getAmount(), 0.0001);
+    }
+
+    @Test
+    public void multipleRecipes() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        shoppingList.getRecipes().put(lebkuchen, 3);
+        prepareLebkuchen();
+
+        service.addIngredient("Kekse", 1, "glas");
+        Set<IngredientAmount> allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(3, allIngredients.size());
+        Assert.assertEquals(3, allIngredients.iterator().next().getAmount(), 0.0001);
+    }
+
+
+    @Test
+    public void summarizeIngredientsTest2() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        shoppingList.getRecipes().put(lebkuchen, 1);
+        prepareLebkuchen();
+
+        service.addIngredient("Kekse", 2, "glas");
+        Set<IngredientAmount> allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(3, allIngredients.size());
+        Assert.assertEquals(1, allIngredients.iterator().next().getAmount(), 0.0001);
+
+        service.addIngredient("Kekse1", 1, "glas");
+        final Recipe currywurst = new Recipe("Currywurst");
+        shoppingList.getRecipes().put(currywurst, 2);
+        prepareCurrywurst();
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(5, allIngredients.size());
+        Assert.assertEquals(1, allIngredients.iterator().next().getAmount(), 0.0001);
+
+        service.addIngredient("Kekse1", 1, "glas");
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(5, allIngredients.size());
+        List<IngredientAmount> kekse1 = allIngredients.stream().filter(ingredientAmount ->
+                ingredientAmount.getName().equalsIgnoreCase("Kekse1")).collect(Collectors.toList());
+        Assert.assertEquals(5, allIngredients.size());
+        Assert.assertEquals(4, kekse1.get(0).getAmount(), 0.0001);
+    }
+
+
+    private void prepareLebkuchen() {
+        for (int i = 1; i < 3; i++) {
+            final IngredientAmount ingredientAmount = new IngredientAmount();
+            ingredientAmount.setName("Kekse" + i);
+            ingredientAmount.setAmount(1);
+            ingredientAmount.setUnit("glas");
+            service.getRecipe("Lebkuchen").addIngredient(ingredientAmount);
+        }
+    }
+
+    private void prepareCurrywurst() {
+        for (int i = 1; i < 3; i++) {
+            final IngredientAmount ingredientAmount = new IngredientAmount();
+            ingredientAmount.setName("Wurst" + i);
+            ingredientAmount.setAmount(1);
+            ingredientAmount.setUnit("kg");
+            service.getRecipe("Currywurst").addIngredient(ingredientAmount);
+        }
+    }
 
 }
