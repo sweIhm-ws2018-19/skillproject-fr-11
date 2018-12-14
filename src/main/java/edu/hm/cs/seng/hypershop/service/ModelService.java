@@ -13,6 +13,8 @@ import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ModelService {
 
@@ -59,7 +61,7 @@ public class ModelService {
             try {
                 return clazz.newInstance();
             } catch (InstantiationException | IllegalAccessException e1) {
-                e1.printStackTrace();
+                Logger.getAnonymousLogger().log(Level.WARNING, "unable to load class from binary", e1);
             }
         }
         return null;

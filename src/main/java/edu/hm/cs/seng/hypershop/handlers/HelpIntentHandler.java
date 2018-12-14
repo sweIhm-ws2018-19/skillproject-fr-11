@@ -16,27 +16,40 @@ package edu.hm.cs.seng.hypershop.handlers;
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.Response;
+import com.amazon.ask.response.ResponseBuilder;
+import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
+import edu.hm.cs.seng.hypershop.service.ContextStackService;
 
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
-import static edu.hm.cs.seng.hypershop.SpeechTextConstants.HELP_TEXT;
 
 public class HelpIntentHandler implements RequestHandler {
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName("AMAZON.HelpIntent"));
+        return input.matches(intentName("AMAZON.HelpIntent"))
+                || input.matches(intentName(Constants.INTENT_HELP_RECIPES))
+                || input.matches(intentName(Constants.INTENT_HELP_INGREDIENTS));
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = HELP_TEXT;
-        String repromptText = SpeechTextConstants.HELP_REPROMPT;
-        return input.getResponseBuilder()
-                .withSimpleCard("HypershopSession", speechText)
-                .withSpeech(speechText)
-                .withReprompt(repromptText)
+        final ResponseBuilder responseBuilder = input.getResponseBuilder();
+
+        if (input.matches(intentName(Constants.INTENT_HELP_RECIPES))) {
+            responseBuilder.withSpeech(SpeechTextConstants.HELP_RECIPES_TEXT);
+        } else if (input.matches(intentName(Constants.INTENT_HELP_INGREDIENTS))) {
+            responseBuilder.withSpeech(SpeechTextConstants.HELP_INGREDIENTS_TEXT);
+        } else {
+            if (ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE)) {
+                responseBuilder.withSpeech(SpeechTextConstants.HELP_CONTEXT_RECIPE_TEXT);
+            } else {
+                responseBuilder.withSpeech(SpeechTextConstants.HELP_TEXT);
+            }
+        }
+
+        return responseBuilder
                 .withShouldEndSession(false)
                 .build();
     }

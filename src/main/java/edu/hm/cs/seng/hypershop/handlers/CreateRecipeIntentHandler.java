@@ -40,7 +40,8 @@ public class CreateRecipeIntentHandler implements RequestHandler {
         final boolean b = ContextStackService.isCurrentContext(input, null);
         final boolean c = ContextStackService.isCurrentContext(input, Constants.CONTEXT_RECIPE);
         final boolean a = input.matches(intentName(Constants.INTENT_CREATE_RECIPE));
-        return (a && b) || c;
+        final boolean d = input.matches(intentName("AMAZON.HelpIntent"));
+        return !d && ((a && b) || c);
     }
 
     @Override
