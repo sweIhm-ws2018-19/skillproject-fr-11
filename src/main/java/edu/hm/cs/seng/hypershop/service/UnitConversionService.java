@@ -17,7 +17,7 @@ public class UnitConversionService {
         customUnits = new HypershopCustomUnits();
     }
 
-    IngredientAmount summarizeIngredients(final IngredientAmount ingredient, int amount, String unitName) {
+    IngredientAmount summarizeIngredients(final IngredientAmount ingredient, double amount, String unitName) {
 
         if (canSummarize(ingredient.getUnit(), unitName)) {
             Unit baseUnit = getUnit(ingredient.getUnit());
