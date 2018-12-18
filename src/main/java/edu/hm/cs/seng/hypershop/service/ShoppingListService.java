@@ -229,7 +229,7 @@ public class ShoppingListService {
     public boolean goToNextIngredient(HandlerInput input) {
         final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
 
-        if (checkingList.size() <= 0) {
+        if (checkingList.isEmpty()) {
             return false;
         }
 
@@ -243,7 +243,7 @@ public class ShoppingListService {
         final List<Pair<IngredientAmount, Boolean>> filtered = checkingList.stream().filter(e -> !e.second).collect(Collectors.toList());
         final int filteredIndex = filtered.indexOf(current);
 
-        if (filtered.size() <= 0) {
+        if (filtered.isEmpty()) {
             return false;
         }
 
@@ -262,7 +262,7 @@ public class ShoppingListService {
     public String getCurrentIngredient(HandlerInput input) {
         final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
 
-        if (checkingList.size() <= 0) {
+        if (checkingList.isEmpty()) {
             return null;
         }
 
@@ -278,7 +278,7 @@ public class ShoppingListService {
     public boolean checkCurrentIngredient(HandlerInput input) {
         final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
 
-        if (checkingList.size() <= 0) {
+        if (checkingList.isEmpty()) {
             return false;
         }
 

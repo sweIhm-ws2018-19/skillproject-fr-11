@@ -62,6 +62,7 @@ public class SessionStorageService {
         return removeValue(input, KEY_LAST_CONFIRMATION_REQUEST);
     }
 
+    @java.lang.SuppressWarnings("squid:S1168")
     static List<Pair<IngredientAmount, Boolean>> getCheckingList(HandlerInput input) {
         final Object value = getRawValue(input, KEY_CHECKING_LIST);
 
