@@ -20,18 +20,21 @@ import com.amazon.ask.response.ResponseBuilder;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Optional;
 
 import static com.amazon.ask.request.Predicates.intentName;
+import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_CLEAR_CONFIRMATION;
 import static edu.hm.cs.seng.hypershop.SpeechTextConstants.LIST_CLEAR_SUCCESS;
 
 public class ClearListIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(intentName(Constants.INTENT_LIST_CLEAR)) && ContextStackService.isCurrentContext(input, null);
+        return input.matches(intentName("AMAZON.YesIntent")) && SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR)
+                || input.matches(intentName(Constants.INTENT_LIST_CLEAR)) && ContextStackService.isCurrentContext(input, null);
     }
 
     @Override
@@ -39,11 +42,18 @@ public class ClearListIntentHandler implements RequestHandler {
         final ModelService modelService = new ModelService(input);
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
-        final ResponseBuilder responseBuilder = input.getResponseBuilder();
+        final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
-        shoppingListService.clearList();
-        shoppingListService.save(modelService);
+        if (input.matches(intentName(Constants.INTENT_LIST_CLEAR))) {
+            SessionStorageService.requestConfirmation(input);
+            responseBuilder.withSpeech(LIST_CLEAR_CONFIRMATION);
+        } else {
+            SessionStorageService.clearConfirmationRequest(input);
+            shoppingListService.clearList();
+            shoppingListService.save(modelService);
+            responseBuilder.withSpeech(LIST_CLEAR_SUCCESS);
+        }
 
-        return responseBuilder.withShouldEndSession(false).withSpeech(LIST_CLEAR_SUCCESS).build();
+        return responseBuilder.build();
     }
 }

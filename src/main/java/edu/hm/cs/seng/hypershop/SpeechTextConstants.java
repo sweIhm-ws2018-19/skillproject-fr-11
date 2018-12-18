@@ -86,6 +86,11 @@ public class SpeechTextConstants {
     public static final String RECIPE_DELETE_SUCCESS = "Das Rezept %s wurde gelöscht.";
 
     public static final String LIST_CLEAR_SUCCESS = "Deine Einkaufsliste wurde geleert.";
+    public static final String LIST_CLEAR_CONFIRMATION = "Willst du deine Einkaufsliste wirklich leeren?";
 
     public static final String BACK_OK = "Ok.";
+
+    public static final String YES_FALLBACK = "Tut mir leid, ich habe den Zusammenhang nicht verstanden.";
+    public static final String NO_FALLBACK = YES_FALLBACK;
+    public static final String NO_OK = BACK_OK;
 }
