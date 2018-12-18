@@ -1,8 +1,10 @@
 package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -25,6 +27,8 @@ public class ClearListIntentHandlerTest {
     public void shouldKeepEmptyListEmpty() {
         HandlerTestHelper.buildInput("clearlist.json", input);
 
+        assertTrue(SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR));
+
         assertTrue(handler.canHandle(input));
         final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
 
@@ -34,11 +38,16 @@ public class ClearListIntentHandlerTest {
 
         assertEquals(0, shoppingListService.getIngredients().size());
         assertEquals(0, shoppingListService.getAddedRecipeStrings().size());
+
+        assertFalse(SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR));
     }
 
     @Test
     public void shouldClearList() {
         HandlerTestHelper.buildInput("clearlist.json", input);
+
+        assertTrue(SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR));
+
         final ModelService modelService = new ModelService(input);
         final ShoppingListService shoppingListService = new ShoppingListService(modelService);
 
@@ -57,5 +66,25 @@ public class ClearListIntentHandlerTest {
         assertEquals(0, shoppingListService.getIngredients().size());
         assertEquals(1, shoppingListService.getRecipeStrings().size());
         assertEquals(0, shoppingListService.getAddedRecipeStrings().size());
+
+        assertFalse(SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR));
+    }
+
+    @Test
+    public void requestClear() {
+        HandlerTestHelper.buildInput("requestclearlist.json", input);
+
+        assertTrue(handler.canHandle(input));
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+
+        HandlerTestHelper.compareSSML(SpeechTextConstants.LIST_CLEAR_CONFIRMATION, responseString);
+
+        final ModelService modelService = new ModelService(input);
+        final ShoppingListService shoppingListService = new ShoppingListService(modelService);
+
+        assertEquals(0, shoppingListService.getIngredients().size());
+        assertEquals(0, shoppingListService.getAddedRecipeStrings().size());
+
+        assertTrue(SessionStorageService.needsConfirmation(input, Constants.INTENT_LIST_CLEAR));
     }
 }

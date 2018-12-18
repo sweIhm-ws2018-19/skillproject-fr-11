@@ -217,6 +217,23 @@ public class ShoppingListServiceTest {
         assertFalse(service.deleteRecipe("Lebkuchen"));
     }
 
+    @Test
+    public void recipeDoesNotExist() {
+        assertFalse(service.recipeExists("Lebkuchen"));
+    }
+
+    @Test
+    public void recipeDoesExist() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        final IngredientAmount ingredientAmount = new IngredientAmount();
+        ingredientAmount.setName("Kekse");
+        ingredientAmount.setAmount(1);
+        ingredientAmount.setUnit("glas");
+        shoppingList.getRecipes().put(lebkuchen, 0);
+
+        assertTrue(service.recipeExists("Lebkuchen"));
+    }
+
     private void addRecipesImpl(int amount) {
         final Recipe lebkuchen = new Recipe("Lebkuchen");
         final IngredientAmount ingredientAmount = new IngredientAmount();
