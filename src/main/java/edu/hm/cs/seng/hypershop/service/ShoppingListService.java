@@ -217,7 +217,7 @@ public class ShoppingListService {
         return list;
     }
 
-    private List<Pair<IngredientAmount, Boolean>> getOrGenerateCheckingList(HandlerInput input) {
+    List<Pair<IngredientAmount, Boolean>> getOrGenerateCheckingList(HandlerInput input) {
         List<Pair<IngredientAmount, Boolean>> checkingList = SessionStorageService.getCheckingList(input);
         if (checkingList == null) {
             checkingList = generateCheckingList();
@@ -226,22 +226,26 @@ public class ShoppingListService {
         return checkingList;
     }
 
-    public String getNextIngredient(HandlerInput input) {
+    public boolean goToNextIngredient(HandlerInput input) {
         final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
 
         if (checkingList.size() <= 0) {
-            return null;
+            return false;
         }
 
         final int index = SessionStorageService.getIngredientOutputIndex(input);
         if (index > checkingList.size()) {
-            return null;
+            return false;
         }
 
         final Pair<IngredientAmount, Boolean> current = checkingList.get(index);
 
         final List<Pair<IngredientAmount, Boolean>> filtered = checkingList.stream().filter(e -> !e.second).collect(Collectors.toList());
         final int filteredIndex = filtered.indexOf(current);
+
+        if (filtered.size() <= 0) {
+            return false;
+        }
 
         final Pair<IngredientAmount, Boolean> next;
         if (filteredIndex + 1 < filtered.size()) {
@@ -252,10 +256,10 @@ public class ShoppingListService {
 
         SessionStorageService.setIngredientOutputIndex(input, checkingList.indexOf(next));
 
-        return next.first.toString();
+        return true;
     }
 
-    public String repeatIngredient(HandlerInput input) {
+    public String getCurrentIngredient(HandlerInput input) {
         final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
 
         if (checkingList.size() <= 0) {
@@ -269,5 +273,24 @@ public class ShoppingListService {
         } catch (IndexOutOfBoundsException e) {
             return null;
         }
+    }
+
+    public boolean checkCurrentIngredient(HandlerInput input) {
+        final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
+
+        if (checkingList.size() <= 0) {
+            return false;
+        }
+
+        final int index = SessionStorageService.getIngredientOutputIndex(input);
+        try {
+            final Pair<IngredientAmount, Boolean> pair = checkingList.get(index);
+            checkingList.set(index, new Pair<>(pair.first, true));
+            SessionStorageService.storeCheckingList(input, checkingList);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+
+        return true;
     }
 }
