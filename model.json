@@ -214,6 +214,30 @@
         {
           "name": "AMAZON.NoIntent",
           "samples": []
+        },
+        {
+          "name": "NextIngredientIntent",
+          "slots": [],
+          "samples": [
+            "nächster",
+            "weiter"
+          ]
+        },
+        {
+          "name": "AbortIntentHandler",
+          "slots": [],
+          "samples": [
+            "abbruch",
+            "abbrechen"
+          ]
+        },
+        {
+          "name": "RepeatIntent",
+          "slots": [],
+          "samples": [
+            "wie bitte",
+            "wiederhole"
+          ]
         }
       ],
       "types": [

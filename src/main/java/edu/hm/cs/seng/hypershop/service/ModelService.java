@@ -7,6 +7,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Pair;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
@@ -82,6 +83,8 @@ public class ModelService {
         kryo.register(Recipe.class);
         kryo.register(HashSet.class);
         kryo.register(HashMap.class);
+        kryo.register(ArrayList.class);
+        kryo.register(Pair.class);
         kryo.register(clazz);
         return kryo;
     }

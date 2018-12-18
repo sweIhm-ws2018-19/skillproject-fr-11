@@ -1,7 +1,9 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Pair;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 
@@ -43,11 +45,11 @@ public class ShoppingListService {
 
         return allIngredientAmounts;
     }
-    
+
 
     private void addSeveralTimes(final Set<IngredientAmount> allRecipeIngredients, Set<IngredientAmount> ingredientAmounts, int times) {
         for (IngredientAmount ingredientAmount : ingredientAmounts) {
-            ingredientAmount.setAmount(ingredientAmount.getAmount() + times-1);
+            ingredientAmount.setAmount(ingredientAmount.getAmount() + times - 1);
             allRecipeIngredients.add(ingredientAmount);
         }
     }
@@ -80,12 +82,6 @@ public class ShoppingListService {
         return true;
     }
 
-    /**
-     * Removes the recipe from the list of available recipes (drops the map key)
-     *
-     * @param recipeName the recipe name to remove from the list
-     * @return true if a recipe was deleted
-     */
     public boolean deleteRecipe(String recipeName) {
         return shoppingList.getRecipes().entrySet().removeIf(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
@@ -94,14 +90,6 @@ public class ShoppingListService {
         return shoppingList.getRecipes().entrySet().stream().anyMatch(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
 
-    /**
-     * Adds a existing recipe to the shoppingList amount times
-     *
-     * @param recipeName an existing recipe name
-     * @param amount     how many times to add the recipe to the shoppingList
-     * @return whether any recipes were added to the shoppingList
-     * @throws IllegalArgumentException when an illegal amount is given
-     */
     public boolean addRecipes(String recipeName, int amount) {
         if (amount < 1) {
             throw new IllegalArgumentException("illegal amount");
@@ -114,9 +102,6 @@ public class ShoppingListService {
         return count > 0;
     }
 
-    /**
-     * Removes an existing recipe from the shoppingList, but not from the list of available recipes
-     */
     public boolean removeRecipes(String recipeName) {
         return getFilteredRecipeStream(recipeName).anyMatch(recipeIntegerEntry -> {
             recipeIntegerEntry.setValue(0);
@@ -221,5 +206,68 @@ public class ShoppingListService {
     public void clearList() {
         shoppingList.getIngredients().clear();
         shoppingList.getRecipes().entrySet().forEach(es -> es.setValue(0));
+    }
+
+    private List<Pair<IngredientAmount, Boolean>> generateCheckingList() {
+        final ArrayList<Pair<IngredientAmount, Boolean>> list = new ArrayList<>();
+        final Set<IngredientAmount> ingredientAmounts = summarizeIngredients();
+        for (IngredientAmount ia : ingredientAmounts) {
+            list.add(new Pair<>(ia, false));
+        }
+        return list;
+    }
+
+    private List<Pair<IngredientAmount, Boolean>> getOrGenerateCheckingList(HandlerInput input) {
+        List<Pair<IngredientAmount, Boolean>> checkingList = SessionStorageService.getCheckingList(input);
+        if (checkingList == null) {
+            checkingList = generateCheckingList();
+            SessionStorageService.storeCheckingList(input, checkingList);
+        }
+        return checkingList;
+    }
+
+    public String getNextIngredient(HandlerInput input) {
+        final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
+
+        if (checkingList.size() <= 0) {
+            return null;
+        }
+
+        final int index = SessionStorageService.getIngredientOutputIndex(input);
+        if (index > checkingList.size()) {
+            return null;
+        }
+
+        final Pair<IngredientAmount, Boolean> current = checkingList.get(index);
+
+        final List<Pair<IngredientAmount, Boolean>> filtered = checkingList.stream().filter(e -> !e.second).collect(Collectors.toList());
+        final int filteredIndex = filtered.indexOf(current);
+
+        final Pair<IngredientAmount, Boolean> next;
+        if (filteredIndex + 1 < filtered.size()) {
+            next = filtered.get(filteredIndex + 1);
+        } else {
+            next = filtered.get(0);
+        }
+
+        SessionStorageService.setIngredientOutputIndex(input, checkingList.indexOf(next));
+
+        return next.first.toString();
+    }
+
+    public String repeatIngredient(HandlerInput input) {
+        final List<Pair<IngredientAmount, Boolean>> checkingList = getOrGenerateCheckingList(input);
+
+        if (checkingList.size() <= 0) {
+            return null;
+        }
+
+        final int index = SessionStorageService.getIngredientOutputIndex(input);
+        try {
+            final Pair<IngredientAmount, Boolean> pair = checkingList.get(index);
+            return pair.first.toString();
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 }

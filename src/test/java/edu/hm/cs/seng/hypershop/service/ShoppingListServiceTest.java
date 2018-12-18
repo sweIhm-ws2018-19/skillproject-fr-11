@@ -1,5 +1,7 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import edu.hm.cs.seng.hypershop.handlers.HandlerTestHelper;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
@@ -438,4 +440,50 @@ public class ShoppingListServiceTest {
         }
     }
 
+    @Test
+    public void getNextIngredientOfEmptyList() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+        final String nextIngredient = service.getNextIngredient(input);
+        assertNull(nextIngredient);
+    }
+
+    @Test
+    public void getNextIngredientOfN1List() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+    }
+
+    @Test
+    public void getNextIngredientOfN2List() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("5 kg Bananen", service.getNextIngredient(input));
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("5 kg Bananen", service.getNextIngredient(input));
+    }
+
+    @Test
+    public void repeatIngredientOfN2List() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("2 glas Kekse", service.repeatIngredient(input));
+        assertEquals("5 kg Bananen", service.getNextIngredient(input));
+        assertEquals("5 kg Bananen", service.repeatIngredient(input));
+        assertEquals("2 glas Kekse", service.getNextIngredient(input));
+        assertEquals("5 kg Bananen", service.getNextIngredient(input));
+    }
 }
