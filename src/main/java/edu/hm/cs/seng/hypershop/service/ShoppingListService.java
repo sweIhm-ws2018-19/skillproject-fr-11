@@ -90,6 +90,10 @@ public class ShoppingListService {
         return shoppingList.getRecipes().entrySet().removeIf(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
     }
 
+    public boolean recipeExists(String recipeName) {
+        return shoppingList.getRecipes().entrySet().stream().anyMatch(es -> es.getKey().getName().equalsIgnoreCase(recipeName));
+    }
+
     /**
      * Adds a existing recipe to the shoppingList amount times
      *
