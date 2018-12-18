@@ -21,9 +21,9 @@ public class SessionStorageService {
 
     private static boolean removeValue(HandlerInput input, String key) {
         final Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
-        final Object removed = sessionAttributes.put(key, null);
+        final Object removed = sessionAttributes.put(key, "none");
         input.getAttributesManager().setSessionAttributes(sessionAttributes);
-        return removed != null;
+        return removed != null && !"none".equals(removed);
     }
 
     private static String getValue(HandlerInput input, String key) {
