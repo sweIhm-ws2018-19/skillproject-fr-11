@@ -241,6 +241,13 @@
             "einkaufen",
             "liste im supermark"
           ]
+        },
+        {
+          "name": "CheckIngredientIntent",
+          "slots": [],
+          "samples": [
+            "abhaken"
+          ]
         }
       ],
       "types": [

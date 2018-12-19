@@ -79,6 +79,9 @@ public class SpeechTextConstants {
 
     public static final String REPEAT_EMPTY = LIST_STEP_INGREDIENTS_EMPTY;
 
+    public static final String CHECK_EMPTY = LIST_STEP_INGREDIENTS_EMPTY;
+    public static final String CHECK_OK = "Ok.";
+
     public static final String NEXT_EMPTY = "Du hast alle Zutaten abgehakt.";
 
     public static final String INGREDIENTS_ADD_RECIPE_SUCCESS = "%s wurde zu deinem Rezept hinzugefügt.";
