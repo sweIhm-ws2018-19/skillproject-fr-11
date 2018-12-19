@@ -15,6 +15,7 @@ public class Constants {
     public static final String INTENT_CREATE_RECIPE = "CreateRecipeIntent";
     public static final String INTENT_REMOVE_INGREDIENT = "RemoveIngredientIntent";
     public static final String INTENT_LIST_INGREDIENTS = "ListIngredientsIntent";
+    public static final String INTENT_LIST_STEP_INGREDIENTS = "ListStepIngredientsIntent";
     public static final String INTENT_BACK = "BackIntent";
     public static final String INTENT_EDIT_RECIPE = "EditRecipeIntent";
     public static final String INTENT_REMOVE_RECIPE = "RemoveRecipeIntent";
@@ -23,6 +24,8 @@ public class Constants {
     public static final String INTENT_LIST_CLEAR = "ClearListIntent";
     public static final String INTENT_HELP_RECIPES = "HelpRecipesIntent";
     public static final String INTENT_HELP_INGREDIENTS = "HelpIngredientsIntent";
+    public static final String INTENT_REPEAT = "RepeatIntent";
+    public static final String INTENT_NEXT_INGREDIENT = "NextIngredientIntent";
 
 
     public static final String SLOT_AMOUNT = "amount";
@@ -36,4 +39,5 @@ public class Constants {
     public static final String STACK_BASE_POINTER_PREFIX = "SPTR_";
 
     public static final String CONTEXT_RECIPE = "context_recipe";
+    public static final String CONTEXT_STEPS = "context_steps";
 }

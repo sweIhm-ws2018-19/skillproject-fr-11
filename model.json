@@ -108,6 +108,8 @@
           "name": "BackIntent",
           "slots": [],
           "samples": [
+            "abbrechen",
+            "abbruch",
             "zurück"
           ]
         },
@@ -224,19 +226,20 @@
           ]
         },
         {
-          "name": "AbortIntentHandler",
-          "slots": [],
-          "samples": [
-            "abbruch",
-            "abbrechen"
-          ]
-        },
-        {
           "name": "RepeatIntent",
           "slots": [],
           "samples": [
             "wie bitte",
             "wiederhole"
+          ]
+        },
+        {
+          "name": "ListStepIngredientsIntent",
+          "slots": [],
+          "samples": [
+            "muss los",
+            "einkaufen",
+            "liste im supermark"
           ]
         }
       ],
