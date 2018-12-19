@@ -2,6 +2,7 @@ package edu.hm.cs.seng.hypershop.handlers;
 
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import edu.hm.cs.seng.hypershop.Constants;
+import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Pair;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
@@ -139,5 +140,25 @@ public class NextIngredientIntentHandlerTest {
         assertEquals(0, sessionAttributes.get("ingredient_output_index"));
 
         assertEquals(checkingList, ModelServiceTest.fromBinary(sessionAttributes.get("checking_list"), ArrayList.class));
+    }
+
+    @Test
+    public void shouldExitOnN0List() {
+        HandlerTestHelper.buildInput("nextingredient.json", input);
+        ContextStackService.pushContext(input, Constants.CONTEXT_STEPS);
+
+        final Map<String, Object> sessionMap = input.getAttributesManager().getSessionAttributes();
+        final ArrayList<Pair<IngredientAmount, Boolean>> checkingList = new ArrayList<>();
+        checkingList.add(new Pair<>(new IngredientAmount(3, "kg", "Lebkuchen"), true));
+        sessionMap.put("checking_list", ModelServiceTest.toBinary(checkingList));
+        input.getAttributesManager().setSessionAttributes(sessionMap);
+
+        final String responseString = HandlerTestHelper.getResponseString(handler.handle(input));
+        HandlerTestHelper.compareSSML(SpeechTextConstants.NEXT_EMPTY, responseString);
+
+        final Map<String, Object> sessionAttributes = input.getAttributesManager().getSessionAttributes();
+
+        assertEquals(checkingList, ModelServiceTest.fromBinary(sessionAttributes.get("checking_list"), ArrayList.class));
+        assertTrue(ContextStackService.isCurrentContext(input, null));
     }
 }

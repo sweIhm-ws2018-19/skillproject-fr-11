@@ -34,6 +34,7 @@ public class NextIngredientIntentHandler implements RequestHandler {
             final String currentIngredient = shoppingListService.getCurrentIngredient(input);
             responseBuilder.withSpeech(currentIngredient);
         } else {
+            ContextStackService.popContext(input);
             responseBuilder.withSpeech(SpeechTextConstants.NEXT_EMPTY);
         }
 
