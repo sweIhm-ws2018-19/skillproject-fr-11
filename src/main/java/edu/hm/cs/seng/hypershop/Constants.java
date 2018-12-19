@@ -26,6 +26,7 @@ public class Constants {
     public static final String INTENT_HELP_INGREDIENTS = "HelpIngredientsIntent";
     public static final String INTENT_REPEAT = "RepeatIntent";
     public static final String INTENT_NEXT_INGREDIENT = "NextIngredientIntent";
+    public static final String INTENT_CHECK_INGREDIENT = "CheckIngredientIntent";
 
 
     public static final String SLOT_AMOUNT = "amount";
