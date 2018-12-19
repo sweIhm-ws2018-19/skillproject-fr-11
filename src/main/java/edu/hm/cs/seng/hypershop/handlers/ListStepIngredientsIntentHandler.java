@@ -8,6 +8,7 @@ import edu.hm.cs.seng.hypershop.Constants;
 import edu.hm.cs.seng.hypershop.SpeechTextConstants;
 import edu.hm.cs.seng.hypershop.service.ContextStackService;
 import edu.hm.cs.seng.hypershop.service.ModelService;
+import edu.hm.cs.seng.hypershop.service.SessionStorageService;
 import edu.hm.cs.seng.hypershop.service.ShoppingListService;
 
 import java.util.Optional;
@@ -29,6 +30,7 @@ public class ListStepIngredientsIntentHandler implements RequestHandler {
 
         final ResponseBuilder responseBuilder = input.getResponseBuilder().withShouldEndSession(false);
 
+        SessionStorageService.resetIngredientOutput(input);
         final String currentIngredient = shoppingListService.getCurrentIngredient(input);
 
         if (currentIngredient == null) {

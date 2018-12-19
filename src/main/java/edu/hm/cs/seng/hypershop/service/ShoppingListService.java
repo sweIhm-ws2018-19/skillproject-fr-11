@@ -233,9 +233,9 @@ public class ShoppingListService {
             return false;
         }
 
-        final int index = SessionStorageService.getIngredientOutputIndex(input);
-        if (index > checkingList.size()) {
-            return false;
+        int index = SessionStorageService.getIngredientOutputIndex(input);
+        if (index >= checkingList.size()) {
+            index = 0;
         }
 
         final Pair<IngredientAmount, Boolean> current = checkingList.get(index);

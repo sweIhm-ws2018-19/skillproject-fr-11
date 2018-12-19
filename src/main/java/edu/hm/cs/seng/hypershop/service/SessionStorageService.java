@@ -6,6 +6,7 @@ import edu.hm.cs.seng.hypershop.model.IngredientAmount;
 import edu.hm.cs.seng.hypershop.model.Pair;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -64,14 +65,23 @@ public class SessionStorageService {
 
     @java.lang.SuppressWarnings("squid:S1168")
     static List<Pair<IngredientAmount, Boolean>> getCheckingList(HandlerInput input) {
-        final Object value = getRawValue(input, KEY_CHECKING_LIST);
+        Object value = getRawValue(input, KEY_CHECKING_LIST);
 
-        if (value == null) {
+        if (value == null || value.equals("none")) {
             return null;
         }
 
-        final Object o = ModelService.fromBinary(value, ArrayList.class);
+        if (value instanceof String) {
+            final String base64String = (String) value;
+            try {
+                value = Base64.getDecoder().decode(base64String);
+            } catch (Exception e) {
+                // will be null
+            }
+        }
+
         try {
+            final Object o = ModelService.fromBinary(value, ArrayList.class);
             return (List<Pair<IngredientAmount, Boolean>>) o;
         } catch (Exception e) {
             return null;
@@ -99,5 +109,10 @@ public class SessionStorageService {
         } catch (ClassCastException e) {
             return 0;
         }
+    }
+
+    public static void resetIngredientOutput(HandlerInput input) {
+        setIngredientOutputIndex(input, 0);
+        removeValue(input, KEY_CHECKING_LIST);
     }
 }

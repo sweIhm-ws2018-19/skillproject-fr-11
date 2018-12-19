@@ -68,4 +68,12 @@ public class ModelServiceTest {
 
         assertEquals(strings, actual);
     }
+
+    public static byte[] toBinary(Object o) {
+        return ModelService.toBinary(o);
+    }
+
+    public static Object fromBinary(Object o, Class clazz) {
+        return ModelService.fromBinary(o, clazz);
+    }
 }
