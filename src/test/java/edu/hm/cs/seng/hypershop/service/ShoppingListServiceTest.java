@@ -1,6 +1,9 @@
 package edu.hm.cs.seng.hypershop.service;
 
+import com.amazon.ask.dispatcher.request.handler.HandlerInput;
+import edu.hm.cs.seng.hypershop.handlers.HandlerTestHelper;
 import edu.hm.cs.seng.hypershop.model.IngredientAmount;
+import edu.hm.cs.seng.hypershop.model.Pair;
 import edu.hm.cs.seng.hypershop.model.Recipe;
 import edu.hm.cs.seng.hypershop.model.ShoppingList;
 import org.junit.Assert;
@@ -438,4 +441,123 @@ public class ShoppingListServiceTest {
         }
     }
 
+    @Test
+    public void getCurrentIngredientOfEmptyList() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+        final String nextIngredient = service.getCurrentIngredient(input);
+        assertNull(nextIngredient);
+    }
+
+    @Test
+    public void getCurrentIngredientOfN1List() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        assertEquals("2 glas Kekse", service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals("2 glas Kekse", service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals("2 glas Kekse", service.getCurrentIngredient(input));
+    }
+
+    @Test
+    public void getNextCurrentN2List() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+
+        final List<Pair<IngredientAmount, Boolean>> checkingList = service.getOrGenerateCheckingList(input);
+
+        assertEquals(checkingList.get(0).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(0).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+    }
+
+    @Test
+    public void getNextCurrentN2ListMulti() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+
+        final List<Pair<IngredientAmount, Boolean>> checkingList = service.getOrGenerateCheckingList(input);
+
+        assertEquals(checkingList.get(0).first.toString(), service.getCurrentIngredient(input));
+        assertEquals(checkingList.get(0).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(0).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+    }
+
+    @Test
+    public void shouldNotCheckN0Ingredients() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        assertFalse(service.checkCurrentIngredient(input));
+    }
+
+    @Test
+    public void shouldCheckN1Ingredient() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        assertTrue(service.checkCurrentIngredient(input));
+    }
+
+    @Test
+    public void shouldCheckN1IngredientAndNotOutputN0() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        assertTrue(service.checkCurrentIngredient(input));
+        assertFalse(service.goToNextIngredient(input));
+    }
+
+    @Test
+    public void shouldCheckN1IngredientAndNotOutputN1() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+
+        final List<Pair<IngredientAmount, Boolean>> checkingList = service.getOrGenerateCheckingList(input);
+
+        assertTrue(service.checkCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+    }
+
+    @Test
+    public void shouldCheckN2IngredientAndNotOutputN0() {
+        final HandlerInput input = Mockito.mock(HandlerInput.class);
+        HandlerTestHelper.buildInput("hypershopopen.json", input);
+
+        service.addIngredient("Kekse", 2, "glas");
+        service.addIngredient("Bananen", 5, "kg");
+
+        final List<Pair<IngredientAmount, Boolean>> checkingList = service.getOrGenerateCheckingList(input);
+
+        assertTrue(service.checkCurrentIngredient(input));
+        assertTrue(service.goToNextIngredient(input));
+        assertEquals(checkingList.get(1).first.toString(), service.getCurrentIngredient(input));
+        assertTrue(service.checkCurrentIngredient(input));
+        assertFalse(service.goToNextIngredient(input));
+    }
 }

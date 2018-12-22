@@ -108,6 +108,8 @@
           "name": "BackIntent",
           "slots": [],
           "samples": [
+            "abbrechen",
+            "abbruch",
             "zurück"
           ]
         },
@@ -214,6 +216,38 @@
         {
           "name": "AMAZON.NoIntent",
           "samples": []
+        },
+        {
+          "name": "NextIngredientIntent",
+          "slots": [],
+          "samples": [
+            "nächster",
+            "weiter"
+          ]
+        },
+        {
+          "name": "RepeatIntent",
+          "slots": [],
+          "samples": [
+            "wie bitte",
+            "wiederhole"
+          ]
+        },
+        {
+          "name": "ListStepIngredientsIntent",
+          "slots": [],
+          "samples": [
+            "muss los",
+            "einkaufen",
+            "liste im supermark"
+          ]
+        },
+        {
+          "name": "CheckIngredientIntent",
+          "slots": [],
+          "samples": [
+            "abhaken"
+          ]
         }
       ],
       "types": [

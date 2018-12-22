@@ -75,6 +75,15 @@ public class SpeechTextConstants {
     public static final String LIST_INGREDIENTS = "Du hast %d Zutaten in deiner Einkaufsliste";
     public static final String LIST_RECIPES = "Du hast %d Rezepte in deiner Einkaufsliste";
 
+    public static final String LIST_STEP_INGREDIENTS_EMPTY = "Du hast keine Zutaten in deiner Einkaufsliste.";
+
+    public static final String REPEAT_EMPTY = LIST_STEP_INGREDIENTS_EMPTY;
+
+    public static final String CHECK_EMPTY = LIST_STEP_INGREDIENTS_EMPTY;
+    public static final String CHECK_OK = "Ok.";
+
+    public static final String NEXT_EMPTY = "Du hast alle Zutaten abgehakt.";
+
     public static final String INGREDIENTS_ADD_RECIPE_SUCCESS = "%s wurde zu deinem Rezept hinzugefügt.";
 
     public static final String RECIPE_REMOVE_NOT_FOUND = RECIPE_NOT_FOUND;
