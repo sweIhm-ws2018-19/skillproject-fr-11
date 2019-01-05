@@ -48,9 +48,11 @@ public class ShoppingListService {
 
 
     private void addSeveralTimes(final Set<IngredientAmount> allRecipeIngredients, Set<IngredientAmount> ingredientAmounts, int times) {
-        for (IngredientAmount ingredientAmount : ingredientAmounts) {
-            ingredientAmount.setAmount(ingredientAmount.getAmount() + times - 1);
-            allRecipeIngredients.add(ingredientAmount);
+        if (times > 0) {
+            for (IngredientAmount ingredientAmount : ingredientAmounts) {
+                ingredientAmount.setAmount(ingredientAmount.getAmount() + times - 1);
+                allRecipeIngredients.add(ingredientAmount);
+            }
         }
     }
 

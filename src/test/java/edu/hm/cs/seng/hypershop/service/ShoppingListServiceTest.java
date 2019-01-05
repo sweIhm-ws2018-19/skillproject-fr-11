@@ -421,6 +421,19 @@ public class ShoppingListServiceTest {
     }
 
 
+    @Test
+    public void justRecipesOnShoppingList() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        shoppingList.getRecipes().put(lebkuchen, 0);
+        prepareLebkuchen();
+        Set<IngredientAmount> allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(0, allIngredients.size());
+        service.addIngredient("Kekse", 2, "glas");
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(1, allIngredients.size());
+
+    }
+
     private void prepareLebkuchen() {
         for (int i = 1; i < 3; i++) {
             final IngredientAmount ingredientAmount = new IngredientAmount();
