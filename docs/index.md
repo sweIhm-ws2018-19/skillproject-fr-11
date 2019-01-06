@@ -2,15 +2,15 @@
 [![Build Status](https://travis-ci.org/sweIhm-ws2018-19/skillproject-fr-11.svg?branch=master)](https://travis-ci.org/sweIhm-ws2018-19/skillproject-fr-11)
 [![Sonarqube](https://sonarcloud.io/api/project_badges/measure?project=edu.hm.cs.seng%3Ahypershop&metric=alert_status)](https://sonarcloud.io/dashboard?id=edu.hm.cs.seng%3Ahypershop)
 
-Diese Alexa Skill Applikation erlaubt es Zutaten für Ihre Gerichte einer Einkaufsliste hinzuzufügen.
+Dieser Alexa Skill Applikation ermöglicht, Zutaten für Ihre Gerichte einer Einkaufsliste hinzuzufügen.
 Um Ihnen die Pflege zu erleichtern, können Sie ihre Lieblingsrezepte abspeichern und diese mit den benötigten Zutaten direkt in den Warenkorb legen.
-Während dem Einkauf können Sie sich Ihre Einkaufsliste ausgeben lassen und die Zutaten abhaken.
+Während des Einkaufs können Sie Ihre Einkaufsliste ausgeben lassen und die Zutaten abhaken.
 
 Eine Übersicht der Funktionen finden Sie hier:
 https://github.com/sweIhm-ws2018-19/skillproject-fr-11/wiki/Anwendungsfallbeschreibungen
 
 ## Systemidee
-Der Alexa Skill "Hypershop" soll eine Einkaufsliste speziell für Lebensmittel bereitstellen. In diese Einkaufsliste sollen Einträge mit Namen und Mengenangabe eingegeben werden können. Außerdem sollen Rezepte hinzugefügt werden können, die wiederum mehrere Zutaten mit Mengenangaben enthalten. Rezepte sollen gespeichert werden können und mit dem Rezeptnamen wieder auf die Einkaufsliste gesetzt werden können. Bei einem Einkauf soll die Einkaufsliste mit den Einträgen (Name + Menge) ausgegben werden können.
+Der Alexa Skill "Hypershop" stellt eine Einkaufsliste speziell für Lebensmittel bereit. In diese Einkaufsliste können Einträge mit Namen und Mengenangabe eingegeben werden. Außerdem können Rezepte hinzugefügt werden, die wiederum mehrere Zutaten mit Mengenangaben enthalten. Es ist möglich, Rezepte zu speicher und mit dem Rezeptnamen wieder auf die Einkaufsliste zu setzen. Bei einem Einkauf kann die Einkaufsliste mit den Einträgen (Name + Menge) ausgegben werden.
 
 ## Beispiel Interaktion
 ![image](https://user-images.githubusercontent.com/43847839/49254042-7692c700-f428-11e8-9b97-908eef5ab7da.png)
