@@ -25,7 +25,7 @@ public class ShoppingListService {
         load(modelService);
     }
 
-    public Set<IngredientAmount> summarizeIngredients() {
+    Set<IngredientAmount> summarizeIngredients() {
         Set<IngredientAmount> allIngredientAmounts = new HashSet<>(shoppingList.getIngredients());
         Set<IngredientAmount> allRecipeIngredients = new HashSet<>();
         shoppingList.getRecipes().forEach((k, v) -> addSeveralTimes(allRecipeIngredients, k.getIngredients(), v));
