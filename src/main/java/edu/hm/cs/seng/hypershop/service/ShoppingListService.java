@@ -50,7 +50,7 @@ public class ShoppingListService {
     private void addSeveralTimes(final Set<IngredientAmount> allRecipeIngredients, Set<IngredientAmount> ingredientAmounts, int times) {
         if (times > 0) {
             for (IngredientAmount ingredientAmount : ingredientAmounts) {
-                ingredientAmount.setAmount(ingredientAmount.getAmount() + times - 1);
+                ingredientAmount.setAmount(ingredientAmount.getAmount() * times);
                 allRecipeIngredients.add(ingredientAmount);
             }
         }
