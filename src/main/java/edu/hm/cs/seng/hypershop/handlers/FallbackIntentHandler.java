@@ -26,6 +26,7 @@ public class FallbackIntentHandler implements RequestHandler {
                 .withSpeech(speechText)
                 .withSimpleCard("HypershopSession", speechText)
                 .withReprompt(speechText)
+                .withShouldEndSession(false)
                 .build();
     }
 
