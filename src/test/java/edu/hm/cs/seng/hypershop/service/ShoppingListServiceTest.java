@@ -388,7 +388,8 @@ public class ShoppingListServiceTest {
         service.addIngredient("Kekse", 1, "glas");
         Set<IngredientAmount> allIngredients = service.summarizeIngredients();
         Assert.assertEquals(3, allIngredients.size());
-        Assert.assertEquals(3, allIngredients.iterator().next().getAmount(), 0.0001);
+        Assert.assertTrue(allIngredients.stream().filter(ingredientAmount -> !ingredientAmount.getName().equalsIgnoreCase("Kekse"))
+                .allMatch(ingredientAmount -> ingredientAmount.getAmount() == 3));
     }
 
 
@@ -409,17 +410,25 @@ public class ShoppingListServiceTest {
         prepareCurrywurst();
         allIngredients = service.summarizeIngredients();
         Assert.assertEquals(5, allIngredients.size());
-        Assert.assertEquals(1, allIngredients.iterator().next().getAmount(), 0.0001);
+        Assert.assertTrue(allIngredients.stream().filter(ingredientAmount -> !ingredientAmount.getName().equalsIgnoreCase("Kekse2"))
+        .allMatch(ingredientAmount -> ingredientAmount.getAmount()==2));
+        Assert.assertTrue(allIngredients.stream().filter(ingredientAmount -> ingredientAmount.getName().equalsIgnoreCase("Kekse2"))
+                .allMatch(ingredientAmount -> ingredientAmount.getAmount()==1));
 
-        service.addIngredient("Kekse1", 1, "glas");
-        allIngredients = service.summarizeIngredients();
-        Assert.assertEquals(5, allIngredients.size());
-        List<IngredientAmount> kekse1 = allIngredients.stream().filter(ingredientAmount ->
-                ingredientAmount.getName().equalsIgnoreCase("Kekse1")).collect(Collectors.toList());
-        Assert.assertEquals(5, allIngredients.size());
-        Assert.assertEquals(4, kekse1.get(0).getAmount(), 0.0001);
     }
 
+    @Test
+    public void justRecipesOnShoppingList() {
+        final Recipe lebkuchen = new Recipe("Lebkuchen");
+        shoppingList.getRecipes().put(lebkuchen, 0);
+        prepareLebkuchen();
+        Set<IngredientAmount> allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(0, allIngredients.size());
+        service.addIngredient("Kekse", 2, "glas");
+        allIngredients = service.summarizeIngredients();
+        Assert.assertEquals(1, allIngredients.size());
+
+    }
 
     private void prepareLebkuchen() {
         for (int i = 1; i < 3; i++) {
