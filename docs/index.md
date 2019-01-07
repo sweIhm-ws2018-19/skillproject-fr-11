@@ -6,8 +6,7 @@ Dieser Alexa Skill Applikation ermöglicht, Zutaten für Ihre Gerichte einer Ein
 Um Ihnen die Pflege zu erleichtern, können Sie ihre Lieblingsrezepte abspeichern und diese mit den benötigten Zutaten direkt in den Warenkorb legen.
 Während des Einkaufs können Sie Ihre Einkaufsliste ausgeben lassen und die Zutaten abhaken.
 
-Eine Übersicht der Funktionen finden Sie hier:
-https://github.com/sweIhm-ws2018-19/skillproject-fr-11/wiki/Anwendungsfallbeschreibungen
+Eine Übersicht der Funktionen finden Sie [hier](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/wiki/Anwendungsfallbeschreibungen)
 
 ## Systemidee
 Der Alexa Skill "Hypershop" stellt eine Einkaufsliste speziell für Lebensmittel bereit. In diese Einkaufsliste können Einträge mit Namen und Mengenangabe eingegeben werden. Außerdem können Rezepte hinzugefügt werden, die wiederum mehrere Zutaten mit Mengenangaben enthalten. Es ist möglich, Rezepte zu speicher und mit dem Rezeptnamen wieder auf die Einkaufsliste zu setzen. Bei einem Einkauf kann die Einkaufsliste mit den Einträgen (Name + Menge) ausgegben werden.
