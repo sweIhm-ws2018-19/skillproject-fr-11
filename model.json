@@ -248,6 +248,10 @@
           "samples": [
             "abhaken"
           ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
         }
       ],
       "types": [
