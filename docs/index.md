@@ -28,10 +28,19 @@ Der Alexa Skill "Hypershop" stellt eine Einkaufsliste speziell für Lebensmittel
 ## Sequenzdiagramm Add Ingredient to ShoppingList
 ![addingredient2shoppinglist-2-4](https://user-images.githubusercontent.com/43875688/49247707-33305c80-f418-11e8-83f5-902d41aaae08.png)
 
+## Highlight Userstory- Rezept bearbeiten
+
+- Über Befehl "bearbeite Rezept {Recipe}" wird der Name des Rezepts in den Session Context geladen
+- Implementierung des Session Context über Stack (pushContext)
+- Abhängig von Inhalt im Stack reagieren Handler unterschiedlich z.B.: AddIngredientIntentHandler fügt Zutaten der Einkaufsliste hinzu, wenn Stack leer, ansonsten dem Rezept hinzu das sich im Stack befindet
+- Über Befehl "Zurück" wird der Stack geleert und damit die Ebene "Rezept bearbeiten" verlassen (popContext)
+
 ## Lessons Learned
 - Verwendung von GitHub Issues und des Project Boards in Verbindung mit Scrum
 - Relevanz von automatisierten Tests bei Pull Requests
 - Relevanz von (Unit-)Tests für die Softwareentwicklung
 - Vorteil von Mocks bei der Entwicklung von Tests
 - Gruppenplanung und Teamarbeit
-- Steuerung einer Applikaiton mit Spracheingabe
+- Steuerung einer Applikation mit Spracheingabe
+- Arbeiten mit Microservices
+- Arbeiten mit maven 
