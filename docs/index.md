@@ -18,12 +18,20 @@ Der Alexa Skill "Hypershop" stellt eine Einkaufsliste speziell für Lebensmittel
 ![swe sprint 3](https://user-images.githubusercontent.com/43847839/50737379-c6537380-11c8-11e9-911f-cd98f8698407.png)
 
 ## Fachklassendiagramm
-![classes](https://raw.githubusercontent.com/sweIhm-ws2018-19/skillproject-fr-11/b34f33509f16b56f7c14fa30c1e1f9d9a2e4e4c0/05-Sprint3/class-diagram.png)
+### Überblick
+![class-overview](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-overview.png)
+### Detailiert
+![classes](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-diagram.png)
+### ShoppingListService - Klasse
+![shoppinglist](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-shoppinglist.png)
 
 ## Sequenzdiagramm Add Ingredient to ShoppingList
 ![addingredient2shoppinglist-2-4](https://user-images.githubusercontent.com/43875688/49247707-33305c80-f418-11e8-83f5-902d41aaae08.png)
 
 ## Lessons Learned
-- Verwendung von GitHub Issues in Verbindung mit Scrum
-- Relevanz von Tests bei Pull Requests
-- Gruppenplanung
+- Verwendung von GitHub Issues und des Project Boards in Verbindung mit Scrum
+- Relevanz von automatisierten Tests bei Pull Requests
+- Relevanz von (Unit-)Tests für die Softwareentwicklung
+- Vorteil von Mocks bei der Entwicklung von Tests
+- Gruppenplanung und Teamarbeit
+- Steuerung einer Applikaiton mit Spracheingabe
