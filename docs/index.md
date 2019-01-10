@@ -19,11 +19,11 @@ Der Alexa Skill "Hypershop" stellt eine Einkaufsliste speziell für Lebensmittel
 
 ## Fachklassendiagramm
 ### Überblick
-![class-overview](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-overview.png)
+![class-overview](https://raw.githubusercontent.com/sweIhm-ws2018-19/skillproject-fr-11/master/05-Sprint3/class-overview.png)
 ### Detailiert
-![classes](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-diagram.png)
+![classes](https://raw.githubusercontent.com/sweIhm-ws2018-19/skillproject-fr-11/master/05-Sprint3/class-diagram.png)
 ### ShoppingListService - Klasse
-![shoppinglist](https://github.com/sweIhm-ws2018-19/skillproject-fr-11/blob/master/05-Sprint3/class-shoppinglist.png)
+![shoppinglist](https://raw.githubusercontent.com/sweIhm-ws2018-19/skillproject-fr-11/master/05-Sprint3/class-shoppinglist.png)
 
 ## Sequenzdiagramm Add Ingredient to ShoppingList
 ![addingredient2shoppinglist-2-4](https://user-images.githubusercontent.com/43875688/49247707-33305c80-f418-11e8-83f5-902d41aaae08.png)
